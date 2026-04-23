@@ -690,80 +690,17 @@
 
         'time-mag-1950': {
             themeClass: 'lightbox--time',
-            html:
-                '<div class="lb-masthead">TIME</div>' +
-                '<div class="lb-date">Science · January 23, 1950</div>' +
-                '<h3>The Thinking Machine</h3>' +
-                '<blockquote class="lb-quote">' +
-                'On the second industrial revolution: artificial brains may ' +
-                'devalue the human mind as the first industrial revolution ' +
-                'devalued the human arm.' +
-                '</blockquote>' +
-                '<blockquote class="lb-quote">' +
-                'On the Harvard Mark I, nicknamed &ldquo;Bessie&rdquo;: a 760,000-part ' +
-                '&ldquo;mechanical Eve.&rdquo; A 290-page book of mathematical tables ' +
-                '— years of human calculation — the Mark I produced in twelve days.' +
-                '</blockquote>' +
-                '<blockquote class="lb-quote">' +
-                'On machine &ldquo;psychoses&rdquo;: unruly memories, curable by rest, ' +
-                'an electric shock, or a lobotomy — disconnecting parts.' +
-                '</blockquote>',
-            caption: 'Time magazine · January 23, 1950 · "Science: The Thinking Machine"'
+            
         },
 
         'nyt-perceptron-1958': {
             themeClass: 'lightbox--nyt',
-            html:
-                '<div class="lb-masthead">The New York Times</div>' +
-                '<h1 class="lb-headline">NEW NAVY DEVICE LEARNS BY DOING</h1>' +
-                '<div class="lb-byline">' +
-                'United Press International · Special to The New York Times · July 7, 1958' +
-                '</div>' +
-                '<div class="lb-body">' +
-                '<p>WASHINGTON, July 7 — The Navy revealed the embryo of an ' +
-                'electronic computer today that it expects will be able to ' +
-                'walk, talk, see, write, reproduce itself and be conscious ' +
-                'of its existence.</p>' +
-                '<p>The embryo — the Weather Bureau&rsquo;s $2,000,000 &ldquo;704&rdquo; ' +
-                'computer — learned to differentiate between right and left ' +
-                'after fifty attempts in the Navy&rsquo;s demonstration for newsmen.</p>' +
-                '<p>After fifty trials, the machine underwent a &ldquo;self-induced ' +
-                'change in the wiring diagram&rdquo; and registered a &ldquo;Q&rdquo; for ' +
-                'squares to the left and an &ldquo;O&rdquo; for squares to the right.</p>' +
-                '<p>The Navy&rsquo;s first Perceptron, its designer Dr. Frank Rosenblatt ' +
-                'said, will contain 1,000 electronic &ldquo;association cells.&rdquo; ' +
-                'Later models, he predicted, will translate languages, ' +
-                'reproduce themselves on an assembly line, and — eventually — ' +
-                'be fired to the planets as mechanical space explorers.</p>' +
-                '</div>',
-            caption: 'The New York Times · July 7, 1958 · "New Navy Device Learns By Doing"'
+            
         },
 
         'dartmouth-proposal': {
             themeClass: 'lightbox--dartmouth',
-            html:
-                '<div class="lb-masthead">A PROPOSAL FOR THE DARTMOUTH SUMMER RESEARCH ' +
-                'PROJECT ON ARTIFICIAL INTELLIGENCE</div>' +
-                '<div class="lb-date">August 31, 1955</div>' +
-                '<div class="lb-body">' +
-                '<p>We propose that a 2 month, 10 man study of artificial ' +
-                'intelligence be carried out during the summer of 1956 at ' +
-                'Dartmouth College in Hanover, New Hampshire.</p>' +
-                '<p>The study is to proceed on the basis of the conjecture ' +
-                'that every aspect of learning or any other feature of ' +
-                'intelligence can in principle be so precisely described ' +
-                'that a machine can be made to simulate it.</p>' +
-                '<p>An attempt will be made to find how to make machines use ' +
-                'language, form abstractions and concepts, solve kinds of ' +
-                'problems now reserved for humans, and improve themselves.</p>' +
-                '<p>We think that a significant advance can be made in one or ' +
-                'more of these problems if a carefully selected group of ' +
-                'scientists work on it together for a summer.</p>' +
-                '<p style="margin-top: 1.4em;">' +
-                '&mdash; J. McCarthy &nbsp; M. L. Minsky &nbsp; ' +
-                'N. Rochester &nbsp; C. E. Shannon</p>' +
-                '</div>',
-            caption: 'McCarthy, Minsky, Rochester &amp; Shannon · Dartmouth Proposal · August 1955'
+            
         }
     };
 

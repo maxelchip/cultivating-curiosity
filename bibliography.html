@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Archives &mdash; Annotated Bibliography | The Divergence of Early AI</title>
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700;900&family=Courier+Prime:wght@400;700&family=Special+Elite&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- Share the design tokens from the main site so colors/type are consistent -->
+    <link rel="stylesheet" href="css/main.css" />
+
+    <!-- Page-specific styles -->
+    <style>
+        /* ===============================================================
+           Archives page
+           A standalone scholarly bibliography view. Uses main.css for
+           design tokens but layers its own page structure on top.
+           =============================================================== */
+
+        body.archives-body {
+            background:
+                radial-gradient(ellipse at 20% 10%, rgba(111, 168, 255, 0.08), transparent 55%),
+                radial-gradient(ellipse at 80% 100%, rgba(79, 227, 193, 0.05), transparent 50%),
+                linear-gradient(180deg, #05070b 0%, #0a0e16 60%, #040609 100%);
+            color: #d8dee9;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Faint "classified" grain over the whole page */
+        body.archives-body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(111, 168, 255, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(111, 168, 255, 0.035) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Top navigation */
+        .archives-nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            padding: var(--space-md) var(--space-lg);
+            background: rgba(5, 7, 11, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(111, 168, 255, 0.18);
+        }
+        .archives-nav .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            font-family: var(--font-mono);
+            font-size: var(--fs-xs);
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--color-accent-blue);
+            text-decoration: none;
+            padding: 0.4em 0.8em;
+            border: 1px solid rgba(111, 168, 255, 0.35);
+            border-radius: var(--radius-sm);
+            transition: all var(--dur-fast) var(--ease-out);
+        }
+        .archives-nav .back-link:hover {
+            background: var(--color-accent-blue);
+            color: #040609;
+        }
+
+        /* Main container */
+        .archives-main {
+            position: relative;
+            z-index: 1;
+            max-width: 820px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
+        }
+
+        /* Header — library dossier masthead */
+        .archives-header {
+            position: relative;
+            padding: var(--space-xl) 0 var(--space-lg);
+            margin-bottom: var(--space-xl);
+            border-bottom: 1px solid rgba(111, 168, 255, 0.25);
+        }
+        .archives-classification {
+            display: inline-block;
+            padding: 0.3em 0.8em;
+            margin-bottom: var(--space-md);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--color-accent-hot);
+            background: rgba(255, 91, 58, 0.08);
+            border: 1px solid rgba(255, 91, 58, 0.45);
+            transform: rotate(-1.5deg);
+        }
+        .archives-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(3rem, 8vw, 5rem);
+            letter-spacing: -0.02em;
+            line-height: 1;
+            margin-bottom: var(--space-xs);
+            background: linear-gradient(135deg, #ffffff 0%, #6fa8ff 60%, #4fe3c1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+        .archives-subtitle {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: var(--fs-xl);
+            color: #a9b4c6;
+            margin-bottom: var(--space-sm);
+        }
+        .archives-meta {
+            font-family: var(--font-mono);
+            font-size: var(--fs-xs);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--color-accent-blue);
+        }
+        .archives-meta span {
+            color: #a9b4c6;
+        }
+
+        /* Opening summary */
+        .archives-intro {
+            max-width: 64ch;
+            margin: 0 0 var(--space-2xl);
+            padding: var(--space-lg) 0;
+            font-family: var(--font-serif);
+            font-size: var(--fs-lg);
+            line-height: 1.7;
+            color: #d8dee9;
+        }
+        .archives-intro p + p {
+            margin-top: var(--space-sm);
+        }
+        .archives-intro em {
+            color: #a9b4c6;
+        }
+
+        /* Entries list */
+        .archives-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .archives-entry {
+            position: relative;
+            padding: var(--space-xl) 0;
+            border-top: 1px dashed rgba(111, 168, 255, 0.22);
+        }
+        .archives-entry:last-child {
+            border-bottom: 1px dashed rgba(111, 168, 255, 0.22);
+        }
+
+        /* File tag — number stamp in the top corner */
+        .entry-file {
+            display: inline-block;
+            margin-bottom: var(--space-sm);
+            padding: 0.25em 0.7em;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--color-accent-blue);
+            background: rgba(111, 168, 255, 0.08);
+            border: 1px solid rgba(111, 168, 255, 0.4);
+            border-radius: var(--radius-sm);
+        }
+        .entry-type {
+            display: inline-block;
+            margin-left: var(--space-2xs);
+            padding: 0.25em 0.7em;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 400;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: #a9b4c6;
+            background: transparent;
+            border: 1px dashed rgba(169, 180, 198, 0.3);
+            border-radius: var(--radius-sm);
+        }
+        .entry-type--primary {
+            color: var(--color-accent-amber);
+            border-color: rgba(233, 180, 76, 0.4);
+        }
+        .entry-type--secondary {
+            color: var(--color-accent-cyber);
+            border-color: rgba(79, 227, 193, 0.4);
+        }
+
+        /* Citation — academic hanging indent */
+        .entry-citation {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e8ecf2;
+            padding-left: 2em;
+            text-indent: -2em;
+            margin-bottom: var(--space-md);
+        }
+        .entry-citation em,
+        .entry-citation i {
+            font-style: italic;
+            color: #ffffff;
+        }
+        .entry-citation a {
+            color: var(--color-accent-blue);
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(111, 168, 255, 0.5);
+            word-break: break-all;
+            transition: all var(--dur-fast) var(--ease-out);
+        }
+        .entry-citation a:hover {
+            color: #4fe3c1;
+            border-bottom-color: var(--color-accent-cyber);
+        }
+
+        /* Annotation — left-rule quote style */
+        .entry-annotation-label {
+            display: block;
+            margin-bottom: var(--space-xs);
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--color-accent-blue);
+            opacity: 0.7;
+        }
+        .entry-annotation {
+            padding: var(--space-md) var(--space-md) var(--space-md) var(--space-lg);
+            background:
+                linear-gradient(135deg, rgba(111, 168, 255, 0.035), rgba(79, 227, 193, 0.025)),
+                rgba(10, 14, 22, 0.6);
+            border-left: 3px solid var(--color-accent-blue);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #c8d1e0;
+        }
+        .entry-annotation p {
+            margin: 0;
+        }
+        .entry-annotation p + p {
+            margin-top: var(--space-sm);
+        }
+
+        /* Footer */
+        .archives-footer {
+            margin-top: var(--space-3xl);
+            padding: var(--space-xl) 0 var(--space-md);
+            border-top: 1px solid rgba(111, 168, 255, 0.22);
+            text-align: center;
+        }
+        .archives-footer .back-link-footer {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            padding: 0.6em 1.4em;
+            font-family: var(--font-mono);
+            font-size: var(--fs-xs);
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--color-accent-blue);
+            text-decoration: none;
+            border: 1px solid var(--color-accent-blue);
+            border-radius: var(--radius-sm);
+            transition: all var(--dur-fast) var(--ease-out);
+        }
+        .archives-footer .back-link-footer:hover {
+            background: var(--color-accent-blue);
+            color: #040609;
+        }
+        .archives-credit {
+            margin-top: var(--space-md);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #6a7382;
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 720px) {
+            .archives-main { padding: var(--space-xl) var(--space-md) var(--space-2xl); }
+            .entry-citation { padding-left: 1.4em; text-indent: -1.4em; }
+            .entry-annotation { padding: var(--space-md); }
+        }
+    </style>
+</head>
+
+<body class="archives-body" data-current-theme="modern-obsidian">
+
+    <!-- Top nav -->
+    <nav class="archives-nav" aria-label="Site navigation">
+        <a href="index.html" class="back-link">
+            <span aria-hidden="true">&larr;</span>
+            Return
+        </a>
+    </nav>
+
+    <main class="archives-main">
+
+        <!-- Masthead -->
+        <header class="archives-header">
+            <span class="archives-classification">File &middot; 1940&ndash;1973 &middot; Declassified</span>
+            <h1 class="archives-title">The Archives</h1>
+            <p class="archives-subtitle">Annotated Bibliography</p>
+            <p class="archives-meta">
+                <span>Entries:</span> 17
+                &nbsp; &middot; &nbsp;
+                <span>Format:</span> Chicago &middot; Annotated
+            </p>
+        </header>
+
+        <!-- Entries -->
+        <ol class="archives-list">
+
+            <!-- 01 — Ad Hoc Committee on the Triple Revolution (NEW) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 01</span>
+                <span class="entry-type entry-type--primary">Primary</span>
+                <p class="entry-citation">
+                    Ad Hoc Committee on the Triple Revolution. <em>The Triple Revolution</em>. Santa Barbara, CA: Ad Hoc Committee on the Triple Revolution, 1964. <a href="https://www.marxists.org/history/etol/newspape/isr/vol25/no03/adhoc.html" target="_blank" rel="noopener noreferrer">https://www.marxists.org/history/etol/newspape/isr/vol25/no03/adhoc.html</a>.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This 1964 memorandum was written by the Ad Hoc Committee on the Triple Revolution, a group of thirty-five scientists, intellectuals, and activists who sent the document to President Lyndon Johnson out of a &ldquo;feeling of foreboding&rdquo; about the nation&rsquo;s economic and social trajectory. The committee argued that American society was undergoing three mutually reinforcing revolutions: the Cybernation Revolution (the combination of the computer and the automated, self-regulating machine), the Weaponry Revolution (nuclear arms), and the Human Rights Revolution. The memorandum&rsquo;s central argument is that automation was creating a system of almost unlimited productive capacity that required increasingly less human labor, and that this transition was happening far faster than the agricultural and industrial revolutions. The authors warned that conventional economic analysis failed to address this rapid change because it incorrectly assumed that new jobs would naturally absorb displaced workers, and they proposed that the government legally guarantee an adequate income to every individual and family as a human right. For my research, this source was important as an alternative perspective to the optimism of AI researchers like Herbert Simon, who argued in <em>The Shape of Automation</em> (published one year later) that mass unemployment was unlikely and that automation would free humans for more creative work.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 02 — Dreyfus (CITATION FIXED: italicize title, add publisher) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 02</span>
+                <span class="entry-type entry-type--primary">Primary</span>
+                <p class="entry-citation">
+                    Dreyfus, Hubert. <em>Alchemy and Artificial Intelligence</em>. Santa Monica, CA: RAND Corporation, 1965. <a href="https://www.rand.org/content/dam/rand/pubs/papers/2006/P3244.pdf" target="_blank" rel="noopener noreferrer">https://www.rand.org/content/dam/rand/pubs/papers/2006/P3244.pdf</a>.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This is a paper from philosopher Hubert Dreyfus, and is an early critique of the symbolic, rule-based approach to AI prevalent after the Dartmouth Conference (often called GOFAI, or &ldquo;Good Old-Fashioned AI&rdquo;). Dreyfus argues that the early successes of AI led to the mistaken assumption that all intelligence activities can be &ldquo;formulated in a program&rdquo; and simulated on a digital computer. He examines the difficulties AI ran into with problems like pattern recognition and complex decision-making, concluding that the attempt to formalize intelligence &ldquo;systematically excludes three fundamental human forms of information processing&rdquo;: fringe consciousness, essence/accident discrimination, and ambiguity tolerance. His conclusion rejects the idea that digital, symbolic systems can achieve human intelligence, and argues that significant progress requires new types of hardware, the only existing prototype of which is the human brain. This article helped me understand another perspective on how philosophically, the approach of the researchers at the Dartmouth Conference and other early AI endeavors could have been overly optimistic.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 03 — Edwards (no citation changes) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 03</span>
+                <span class="entry-type entry-type--secondary">Secondary</span>
+                <p class="entry-citation">
+                    Edwards, Paul N. &ldquo;Constructing Artificial Intelligence.&rdquo; In <em>The Closed World: Computers and the Politics of Discourse in Cold War America</em>, 239&ndash;73. Cambridge, MA: MIT Press, 1996.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        In this book, science historian Paul Edwards challenges the standard narrative regarding the birth of AI (the history of the ideas that developed), arguing that AI was fundamentally shaped by the &ldquo;closed world&rdquo; political discourse of the Cold War and the practical needs of military command-and-control systems. Edwards details the shift from the hardware-focused models of cybernetics to the software-focused, symbolic processing of AI (embodied vs. disembodied minds). He argues that the development of high-level programming languages helped create the illusion of the computer as a logical &ldquo;symbol system&rdquo; independent of its machinery. Furthermore, Edwards describes how the field was sustained almost entirely by the Advanced Research Projects Agency (ARPA), specifically the IPTO under J.C.R. Licklider. The military needed &ldquo;decision support&rdquo; for rapid battlefield management, which aligned with researchers&rsquo; desires for time-sharing and interactive computing. Edwards concludes that AI represents a &ldquo;cyborg discourse,&rdquo; where the integration of human logic and machine processing was intended to solve the chaotic problems of global political containment. This source helped me understand how the development of AI was fundamentally tied to the context of the Cold War (there was more to it than just researchers exploring the field), how military ideas and the AI researchers&rsquo; ideas were connected, and how this research was practically achieved (funding).
+                    </p>
+                </div>
+            </li>
+
+            <!-- 04 — Hodges (no citation changes) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 04</span>
+                <span class="entry-type entry-type--secondary">Secondary</span>
+                <p class="entry-citation">
+                    Hodges, Andrew. &ldquo;Alan Turing (Stanford Encyclopedia of Philosophy).&rdquo; Stanford Encyclopedia of Philosophy, 2013. <a href="https://plato.stanford.edu/entries/turing/" target="_blank" rel="noopener noreferrer">https://plato.stanford.edu/entries/turing/</a>.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This entry in the Stanford Encyclopedia of Philosophy provides a detailed overview of Turing&rsquo;s life and work. It covers his papers, essays, mathematics, work in cryptography, and other contributions to many fields. This source also provides a useful bibliography and other resources. The article is informative and detailed, and was helpful for me to understand Turing&rsquo;s work in the context of machine learning.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 05 — Lighthill (no citation changes) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 05</span>
+                <span class="entry-type entry-type--primary">Primary</span>
+                <p class="entry-citation">
+                    Lighthill, James. &ldquo;Part I: Artificial Intelligence: A General Survey.&rdquo; In <em>Artificial Intelligence: A Paper Symposium</em>, 1&ndash;22. London: Science Research Council, 1972.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This document, widely known as &ldquo;The Lighthill Report,&rdquo; was commissioned by the British Science Research Council to evaluate the state of AI research after its first two decades. Sir James Lighthill, a distinguished hydro-dynamicist and applied mathematician, offers a highly critical assessment of the field. He categorizes AI research into three areas: Advanced Automation (A), Computer-based CNS studies (C), and a &ldquo;bridge&rdquo; category of Building Robots (B). Lighthill argues that while categories A and C have valid, distinct scientific goals, category B &ndash; the pursuit of general-purpose robots and systems &ndash; has been a profound disappointment. His central argument rests on the &ldquo;combinatorial explosion,&rdquo; the phenomenon where the increase in complexity of a problem domain causes the computational power required to solve it to grow exponentially, making general intelligent behavior in real-world environments intractable for the computers of the time. He also discusses the psychological motivations of researchers, suggesting that the drive to create &ldquo;human-like&rdquo; robots is often rooted in emotion rather than scientific logic. This report is historically significant because it effectively dismantled the justification for funding &ldquo;general&rdquo; AI research in the UK, leading to a massive reduction in support for the field and ultimately causing the first AI Winter. For my research, this was useful as a significant historical document as well as describing the state of AI after two decades of its development. It also serves as a primary counter-argument to the enthusiasm of Newell and Simon, demonstrating the disconnect between theory and engineering reality.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 06 — Lucas (CITATION FIXED: Last, First name order) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 06</span>
+                <span class="entry-type entry-type--secondary">Secondary</span>
+                <p class="entry-citation">
+                    Lucas, J.R. &ldquo;Comment on Turing&rsquo;s Computing Machinery.&rdquo; Jamesrmeyer.com. Accessed October 28, 2025. <a href="https://jamesrmeyer.com/ffgit/lucas-comment-turing" target="_blank" rel="noopener noreferrer">https://jamesrmeyer.com/ffgit/lucas-comment-turing</a>.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This is a commentary written by philosopher J.R. Lucas addressing Turing&rsquo;s Computing Machinery essay, including a list of arguments and comments that, in my view, provide an interesting analysis and second point-of-view on Turing&rsquo;s essay. Lucas connects Turing&rsquo;s work with his work on Godel&rsquo;s Theorem and its implications, and he explains how these ideas influenced his book &ldquo;Minds, Machines and Godel.&rdquo; This commentary helped me further understand the context and significance of Turing&rsquo;s essay.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 07 — McCarthy et al. (CITATION FIXED: date relocated to publication info) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 07</span>
+                <span class="entry-type entry-type--primary">Primary</span>
+                <p class="entry-citation">
+                    McCarthy, John, Marvin L. Minsky, Nathaniel Rochester, and Claude E. Shannon. &ldquo;A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence, August 31, 1955.&rdquo; <em>AI Magazine</em> 27, no. 4 (2006): 12. <a href="https://doi.org/10.1609/aimag.v27i4.1904" target="_blank" rel="noopener noreferrer">https://doi.org/10.1609/aimag.v27i4.1904</a>.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This is the official proposal for the Dartmouth Summer Research Project on Artificial Intelligence. It includes the proposal itself, in addition to a series of questions and topics to be studied. Additionally, the proposal includes short biographies of the proposers. This source conveys the state of the field at the time, and being written by its pioneers, illustrates their objectives. I found this useful in understanding the context of the conference.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 08 — Mindell (CITATION FIXED: chapter reference removed) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 08</span>
+                <span class="entry-type entry-type--secondary">Secondary</span>
+                <p class="entry-citation">
+                    Mindell, David A. <em>Between Human and Machine: Feedback, Control, and Computing before Cybernetics</em>. Baltimore: The Johns Hopkins University Press, 2002.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        In this book, historian David Mindell explores the convergence of control engineering, communication theory, and computing during World War II, arguing that the field of cybernetics and the concept of digital computing emerged from specific military problems regarding anti-aircraft fire control. Mindell details the work of Norbert Wiener at MIT and George Stibitz at Bell Labs. He argues that Wiener&rsquo;s formulation of cybernetics was in part a reaction to the failure of his &ldquo;AA predictor&rdquo; project. Alienated by the military&rsquo;s secrecy, Wiener reframed his engineering work as a universal, civilian philosophy connecting biological and mechanical systems. Conversely, the book details Stibitz&rsquo;s practical application of telephone relays to create digital computers, noting how Stibitz introduced the term &ldquo;digital&rdquo; to distinguish his discrete, pulse-based methods from continuous analog ones. Mindell concludes that the digital revolution was not just a shift in hardware, but a conceptual shift in how engineers represented the world: from physical analogies (modeling motion with motion) to mathematical abstraction (software). For my research, this source provided more historical context, going back in time to the 40s. Describing the technology from before AI was established as a field of research, this source gave me a better idea of how the theory and engineering prior to Turing&rsquo;s paper and the Dartmouth conference led up to those events, and how it was influenced by the war.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 09 — Newell & Simon (CITATION FIXED: full first names) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 09</span>
+                <span class="entry-type entry-type--primary">Primary</span>
+                <p class="entry-citation">
+                    Newell, Allen, and Herbert A. Simon. &ldquo;The Logic Theory Machine&mdash;A Complex Information Processing System.&rdquo; <em>IRE Transactions on Information Theory</em> 2, no. 3 (September 1956): 61&ndash;79. <a href="https://doi.org/10.1109/tit.1956.1056797" target="_blank" rel="noopener noreferrer">https://doi.org/10.1109/tit.1956.1056797</a>. Accessed at <a href="https://www.rand.org/content/dam/rand/pubs/papers/2024/P868.pdf" target="_blank" rel="noopener noreferrer">https://www.rand.org/content/dam/rand/pubs/papers/2024/P868.pdf</a>.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This is a 1956 paper by Allen Newell and Herbert A. Simon (first presented at the Dartmouth Conference), which describes the Logic Theorist, the first computer program to simulate human-like problem-solving processes by proving theorems in symbolic logic (known as the first AI program). The Logic Theorist is presented as a model for &ldquo;heuristic methods,&rdquo; which are contrasted with systematic algorithms &ndash; heuristics sacrifice completeness (guaranteed solution) for efficiency and human-like problem-solving. LT&rsquo;s success in proving theorems from Principia Mathematica established the Information Processing System paradigm as a viable approach to studying human cognition. This paper provided a different viewpoint from the other two &ndash; rather than contemplating the philosophical aspect of AI (and thus its claimed impossibility), it informed on a real feat of engineering that demonstrated the progress made at the Dartmouth Conference. It was very interesting for me to see how concrete concepts in symbolic logic were designed to represent human cognitive processes.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 10 — Peter (no citation changes) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 10</span>
+                <span class="entry-type entry-type--secondary">Secondary</span>
+                <p class="entry-citation">
+                    Peter, Sandra. &ldquo;AI Was Born at a US Summer Camp 68 Years Ago. Here&rsquo;s Why That Event Still Matters Today.&rdquo; Sydney Executive Plus, August 2024. <a href="https://plus.sydney.edu.au/ai-was-born-at-a-us-summer-camp-68-years-ago-heres-why-that-event-still-matters-today/" target="_blank" rel="noopener noreferrer">https://plus.sydney.edu.au/ai-was-born-at-a-us-summer-camp-68-years-ago-heres-why-that-event-still-matters-today/</a>.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This is an article written recently that provides an overview of the Dartmouth Conference and its relevance today. While not a primary source, it was nevertheless helpful in providing historical context and relevant quotes. As opposed to the original proposal, this article puts it into perspective after the fact and summarizes what significant achievements came from the conference.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 11 — "Science: The Thinking Machine" / Time (CITATION FIXED: removed Time as pseudo-author; REPOSITIONED: sorts under S) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 11</span>
+                <span class="entry-type entry-type--primary">Primary</span>
+                <p class="entry-citation">
+                    &ldquo;Science: The Thinking Machine.&rdquo; <em>Time</em>, January 23, 1950. <a href="https://time.com/archive/6796057/science-the-thinking-machine-2/" target="_blank" rel="noopener noreferrer">https://time.com/archive/6796057/science-the-thinking-machine-2/</a>.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This cover story from <em>Time</em> provides an overview of the state of computer science in 1950. It discusses the transition from mechanical calculators like the Harvard Mark I to electronic systems like the Mark III. The article explores the technical foundations of computing (binary arithmetic and vacuum tubes), and addresses the philosophical and societal implications of thinking machines. It shows the conflicting viewpoints of contemporary experts, contrasting the &ldquo;conservative&rdquo; views of Howard Aiken, who saw computers as just tools, with the more radical cybernetic theories of Norbert Wiener and Warren McCulloch, who drew parallels between electronic circuits and human brains. This source is historically significant, as it captures the early public anxiety and optimism regarding automation, predicting future applications in weather forecasting, economics, and automatic factories, while speculating on the potential for the human brain to become obsolete. This article was useful for me, as it was the source most accessible to the public I&rsquo;ve read so far (it&rsquo;s from <em>Time</em>), so I understood what the information the general public received on this issue was more.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 12 — Searle (no citation changes) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 12</span>
+                <span class="entry-type entry-type--primary">Primary</span>
+                <p class="entry-citation">
+                    Searle, John R. &ldquo;Minds, Brains, and Programs.&rdquo; <em>Behavioral and Brain Sciences</em> 3, no. 3 (September 1980): 417&ndash;57. <a href="https://doi.org/10.1017/s0140525x00005756" target="_blank" rel="noopener noreferrer">https://doi.org/10.1017/s0140525x00005756</a>.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        In this article, philosopher John Searle introduces the famous Chinese Room thought experiment. This article is a direct challenge to the claims of &ldquo;Strong AI,&rdquo; which Searle defines as the view that an appropriately programmed computer doesn&rsquo;t just simulate a mind but &ldquo;really is a mind.&rdquo; Searle uses his thought experiment, in which he follows a program to manipulate Chinese symbols and produce perfect answers without understanding them, to argue that a computer program is &ldquo;purely formal&rdquo; (syntactical) and can never be sufficient for &ldquo;semantics&rdquo; (genuine understanding). He concludes that intentionality (&ldquo;aboutness&rdquo;) is a biological product of the specific &ldquo;causal powers&rdquo; of the brain, not a feature of a formal program. This article is a widely cited critique in the philosophy of mind, directly addressing the claims of researchers like those at the Dartmouth conference, and was very useful for me in understanding the main arguments against the optimism demonstrated at Dartmouth in the early days of AI.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 13 — Simon (no citation changes) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 13</span>
+                <span class="entry-type entry-type--primary">Primary</span>
+                <p class="entry-citation">
+                    Simon, Herbert A. <em>The Shape of Automation for Men and Management</em>. New York: Harper &amp; Row, 1965.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        In this book, Nobel laureate Herbert Simon discusses the transition from operations research to what he calls &ldquo;heuristic problem solving&rdquo; (AI). Simon argues that early computing focused on numerical &ldquo;programmed&rdquo; decisions, while the &ldquo;second revolution&rdquo; in management involves automating &ldquo;nonprogrammed&rdquo; (based on judgement) decisions using computers as symbol manipulators. He describes the theory behind this with the &ldquo;Information Processing System&rdquo; hypothesis, claiming human thinking is a complex organization of simple symbolic processes. Simon provides concrete examples of this. He describes the &ldquo;General Problem Solver&rdquo; (GPS), which uses means-ends analysis to solve problems similarly to humans, in addition to programs for geometry, checkers, and chess. Simon also addresses the socioeconomic implications of automation. He argues that mass unemployment is unlikely due to capital constraints on the rate of adoption of new technologies, as well as the principle of comparative advantage. This source is important for my research, since it connects early AI (GPS) and economic predictions of the time, which counters some of what Dreyfus was saying about the limits of rule-based systems.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 14 — Solomonoff (CITATION FIXED: title cleaned, publication name corrected) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 14</span>
+                <span class="entry-type entry-type--secondary">Secondary</span>
+                <p class="entry-citation">
+                    Solomonoff, Grace. &ldquo;The Meeting of the Minds That Launched AI.&rdquo; <em>IEEE Spectrum</em>, May 6, 2023. <a href="https://spectrum.ieee.org/dartmouth-ai-workshop" target="_blank" rel="noopener noreferrer">https://spectrum.ieee.org/dartmouth-ai-workshop</a>.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This is an article written recently that focuses on the people who came to the conference themselves, analyzing a photo taken at the workshop. The article features more personal quotes and provides an overview of what happened after the conference. This article was useful for me to further understand the people at the conference and their thoughts.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 15 — The Thinking Machine (CBS) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 15</span>
+                <span class="entry-type entry-type--primary">Primary</span>
+                <p class="entry-citation">
+                    <em>The Thinking Machine</em>. Episode of <em>Tomorrow</em>. Produced by CBS News and Thomas Wolf, featuring David Wayne and Jerome B. Wiesner. 1961, United States broadcast documentary. 53:15. <a href="https://mitmuseum.mit.edu/collections/object/1990.058.003" target="_blank" rel="noopener noreferrer">https://mitmuseum.mit.edu/collections/object/1990.058.003</a>. (Link used: <a href="https://www.youtube.com/watch?v=cvOTKFXpvKA" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=cvOTKFXpvKA</a>)
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This television special, hosted by David Wayne, is a primary source documenting the state of AI research in the early 1960s. The episode features prominent figures including Jerome Wiesner, Claude Shannon, and Herbert Simon. It explores whether machines can truly think or only simulate thought. It provides visual demonstrations of early AI projects, including pattern recognition, logical problem solving, game playing, and creative writing. The program also explores cybernetics and neurophysiology, and it compares computer programming to biological instinct through experiments with frogs and child psychology. For my research, this source is useful in capturing the optimism of the era and giving a good idea of what a common American might think of the state of AI (this is a CBS episode, so relatively accessible) at the time. Someone watching this might come away believing that general-purpose intelligent robots were only 10 to 15 years away. This source contrasts with the skepticism in the Lighthill Report and Dreyfus&rsquo;s critiques (prior reading logs).
+                    </p>
+                </div>
+            </li>
+
+            <!-- 16 — Turing (no citation changes) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 16</span>
+                <span class="entry-type entry-type--primary">Primary</span>
+                <p class="entry-citation">
+                    Turing, Alan. &ldquo;Computing Machinery and Intelligence.&rdquo; <em>Mind</em> 59, no. 236 (October 1, 1950): 433&ndash;60. <a href="https://doi.org/10.1093/mind/LIX.236.433" target="_blank" rel="noopener noreferrer">https://doi.org/10.1093/mind/LIX.236.433</a>.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This is the landmark essay written by Turing in 1950, introducing the question of whether machines can think and proposing the imitation game (now Turing Test) as a practical way to evaluate machine intelligence. Turing argued that if a machine could convincingly imitate human responses in conversation, it should be considered intelligent. He discussed possible objections to machine intelligence, and rebutted them systematically. The paper was foundational in artificial intelligence and cognitive science, reframing intelligence as something testable. This essay helped me understand what the academic understanding of machine intelligence was at the time, and how Turing contributed to it.
+                    </p>
+                </div>
+            </li>
+
+            <!-- 17 — United Press International (no citation changes) -->
+            <li class="archives-entry">
+                <span class="entry-file">File 17</span>
+                <span class="entry-type entry-type--primary">Primary</span>
+                <p class="entry-citation">
+                    United Press International. &ldquo;New Navy Device Learns By Doing.&rdquo; <em>The New York Times</em>, July 7, 1958.
+                </p>
+                <span class="entry-annotation-label">&mdash; Annotation</span>
+                <div class="entry-annotation">
+                    <p>
+                        This 1958 newspaper article reports on the US Navy&rsquo;s unveiling of the &ldquo;Perceptron,&rdquo; an electronic device designed by Dr. Frank Rosenblatt to simulate the learning processes of the human brain. The article demonstrates the extreme optimism of the time regarding AI &ndash; it reports claims that the machine would eventually be able to walk, talk, reproduce itself, and be conscious. It describes a demonstration where a simulation of the Perceptron (running on an IBM 704 computer) learned to distinguish between left and right after fifty trials, which was described as a &ldquo;self-induced change in the wiring diagram.&rdquo; This source was important for my research, as it was a newspaper article from the time that reflects the general optimism about AI. This article was also before the field shifted more toward symbolic AI. It illustrates the difference between a specific engineering achievement (recognizing left and right squares) and the ambitious theoretical promises (consciousness, self-replication) that would later lead to the first AI winter, as described in the Lighthill Report (Reading Log 1).
+                    </p>
+                </div>
+            </li>
+
+        </ol>
+
+        <!-- Footer -->
+        <footer class="archives-footer">
+            <a href="index.html" class="back-link-footer">
+                <span aria-hidden="true">&larr;</span>
+                Return
+            </a>
+           
+        </footer>
+
+    </main>
+
+</body>
+</html>

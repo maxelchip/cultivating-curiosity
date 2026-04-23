@@ -411,6 +411,12 @@
     margin-bottom: var(--space-md);
     border-bottom: 1px dashed rgba(42, 35, 24, 0.4);
 }
+#section-2 .bulletin-header .sub-head {
+    /* The Dartmouth Conference header sits on a cream (#f7ead0)
+       bulletin background. Without this rule it inherits the modern-
+       obsidian white from the default heading styles and disappears. */
+    color: #1a1610;
+}
 #section-2 .bulletin-stamp {
     display: inline-block;
     padding: 0.2em 0.7em;
@@ -849,10 +855,8 @@
     filter: drop-shadow(0 0 3px rgba(125, 255, 154, 0.4));
 }
 #section-4 .funding-node {
-    cursor: pointer;
     font-family: var(--font-crt);
     font-size: 11px;
-    transition: transform var(--dur-fast) var(--ease-out);
 }
 #section-4 .funding-node text {
     fill: var(--color-accent-radar);
@@ -861,9 +865,6 @@
 #section-4 .funding-node circle {
     fill: var(--color-accent-radar);
     filter: drop-shadow(0 0 6px var(--color-accent-radar));
-}
-#section-4 .funding-node:hover {
-    transform: scale(1.15);
 }
 #section-4 .funding-node--hub circle {
     fill: var(--color-accent-hot);
@@ -1877,39 +1878,11 @@ body[data-current-theme="modern-obsidian"] {
     --color-global-accent: var(--color-accent-blue);
 }
 
-/* Radar menu re-tints based on current theme */
-body[data-current-theme="academic"]       .radar-ring,
-body[data-current-theme="living-room"]    .radar-ring {
-    border-color: #8a3b24;
-    box-shadow:
-        0 0 0 4px rgba(138, 59, 36, 0.08),
-        0 0 40px rgba(138, 59, 36, 0.2) inset,
-        0 8px 24px rgba(0, 0, 0, 0.5);
-}
-body[data-current-theme="academic"]       .radar-blip,
-body[data-current-theme="living-room"]    .radar-blip {
-    background: #8a3b24;
-    box-shadow: 0 0 10px #8a3b24;
-}
+/* Radar menu keeps its default green phosphor look across ALL themes.
+   Theme-reactive tints were removed per design: the radar reads as a
+   single, continuous navigation device throughout the entire site. */
 
-body[data-current-theme="winter-glitch"]  .radar-ring {
-    border-color: var(--color-accent-hot);
-}
-body[data-current-theme="winter-glitch"]  .radar-blip {
-    background: var(--color-accent-hot);
-    box-shadow: 0 0 10px var(--color-accent-hot);
-}
-
-body[data-current-theme="modern-obsidian"].radar-ring,
-body[data-current-theme="modern-obsidian"] .radar-ring {
-    border-color: var(--color-accent-blue);
-}
-body[data-current-theme="modern-obsidian"] .radar-blip {
-    background: var(--color-accent-blue);
-    box-shadow: 0 0 10px var(--color-accent-blue);
-}
-
-/* Timeline progress bar re-tints to match */
+/* Timeline progress bar re-tints to match theme */
 body[data-current-theme="academic"]      .timeline-progress,
 body[data-current-theme="living-room"]   .timeline-progress {
     background: linear-gradient(90deg, #8a3b24, var(--color-accent-amber));

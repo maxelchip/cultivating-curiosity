@@ -58,7 +58,6 @@
             </a>
         </div>
         <div class="radar-readout">
-            <span class="radar-label">NAV</span>
             <span id="radar-current-section">&mdash;</span>
         </div>
     </nav>
@@ -102,12 +101,6 @@
             <!-- Split-screen background: Cybernetic (left) vs Symbolic (right) -->
             <div class="split-backdrop" aria-hidden="true">
                 <div class="split-left">
-                    <!-- Placeholder for the looping neural-net GIF/video.
-                         MEDIA NEEDED: /assets/video/neural-net-loop.webm -->
-                    <div class="media-placeholder media-placeholder--left">
-                        <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
-                        <span class="placeholder-desc">Looping abstract neural-network / biological brain visual</span>
-                    </div>
                     <!-- Procedural fallback network -->
                     <svg class="proc-network" viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
                         <g class="net-nodes"></g>
@@ -115,11 +108,6 @@
                     </svg>
                 </div>
                 <div class="split-right">
-                    <!-- MEDIA NEEDED: /assets/video/flowcharts-binary-loop.webm -->
-                    <div class="media-placeholder media-placeholder--right">
-                        <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
-                        <span class="placeholder-desc">Looping flowchart / punch-card / binary cascade visual</span>
-                    </div>
                     <!-- Procedural fallback: cascading binary -->
                     <div class="binary-rain" aria-hidden="true"></div>
                 </div>
@@ -184,11 +172,6 @@
              ============================================================ -->
         <section id="section-2" class="narrative-section" data-theme="academic" data-year="1950" data-year-range="1950-1956" data-title="What Does It Mean to Think?">
             <div class="academic-backdrop" aria-hidden="true">
-                <!-- MEDIA NEEDED: /assets/images/vintage-desk.jpg (1950s academic desk) -->
-                <div class="media-placeholder media-placeholder--desk">
-                    <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
-                    <span class="placeholder-desc">1950s academic researcher's desk with vintage typewriter</span>
-                </div>
                 <div class="paper-texture"></div>
             </div>
 
@@ -236,21 +219,6 @@
                         </aside>
                     </article>
 
-                    <!-- Interactive: Turing Typewriter -->
-                    <div class="interactive-block interactive-block--typewriter" aria-label="Turing Test simulator">
-                        <div class="typewriter-frame">
-                            <div class="typewriter-header">
-                                <span class="type-label">THE IMITATION GAME &mdash; TYPE A MESSAGE BELOW</span>
-                            </div>
-                            <div class="typewriter-transcript" id="typewriter-transcript"></div>
-                            <form class="typewriter-input-row" onsubmit="return false;">
-                                <span class="prompt-glyph">&gt;</span>
-                                <input id="typewriter-input" type="text" autocomplete="off" placeholder="Ask the interrogator anything&hellip;" aria-label="Turing test input" />
-                                <button id="typewriter-send" type="button">SEND</button>
-                            </form>
-                        </div>
-                    </div>
-
                     <article class="text-box text-box--typed split-polaroids">
                         <h3 class="sub-head">&ldquo;Brain Modelers&rdquo; vs. &ldquo;Mind Modelers&rdquo;</h3>
                         <p>
@@ -259,8 +227,7 @@
                         <div class="polaroid-row">
                             <figure class="polaroid polaroid--left">
                                 <div class="polaroid-image">
-                                    <!-- MEDIA NEEDED: /assets/images/norbert-wiener.jpg -->
-                                    <span class="media-tag">[ Norbert Wiener &mdash; placeholder ]</span>
+                                    <img src="Norbert-Wiener.webp" alt="Norbert Wiener">
                                 </div>
                                 <figcaption class="polaroid-caption">
                                     <h4>The Cybernetic View</h4>
@@ -271,8 +238,7 @@
                             </figure>
                             <figure class="polaroid polaroid--right">
                                 <div class="polaroid-image">
-                                    <!-- MEDIA NEEDED: /assets/images/newell-simon.jpg -->
-                                    <span class="media-tag">[ Newell &amp; Simon &mdash; placeholder ]</span>
+                                    <img src="newell_simon.jpg" alt="Newell and Simon">
                                 </div>
                                 <figcaption class="polaroid-caption">
                                     <h4>The Symbolic View</h4>
@@ -324,11 +290,6 @@
              ============================================================ -->
         <section id="section-3" class="narrative-section" data-theme="wwii-blueprint" data-year="1942" data-year-range="1940-1945" data-title="The Engineering Reality">
             <div class="wwii-backdrop" aria-hidden="true">
-                <!-- MEDIA NEEDED: /assets/images/aa-blueprint.jpg -->
-                <div class="media-placeholder media-placeholder--blueprint">
-                    <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
-                    <span class="placeholder-desc">Sepia anti-aircraft artillery blueprint with radar-green grid overlay</span>
-                </div>
                 <div class="radar-grid-overlay"></div>
             </div>
 
@@ -344,35 +305,6 @@
 
                     <article class="text-box text-box--drafting">
                         <h3 class="sub-head sub-head--stencil">The Human as a Servo-Mechanism</h3>
-
-                        <!-- Gunner toggle: human vs cybernetic circuit diagram -->
-                        <div class="gunner-toggle" aria-label="Gunner visualization toggle">
-                            <div class="gunner-frame">
-                                <div class="gunner-view gunner-view--human is-active">
-                                    <!-- MEDIA NEEDED: /assets/images/aa-gunner.jpg -->
-                                    <span class="media-tag">[ AA Gunner &mdash; human view placeholder ]</span>
-                                </div>
-                                <div class="gunner-view gunner-view--cybernetic">
-                                    <svg viewBox="0 0 400 260" aria-hidden="true">
-                                        <g stroke="currentColor" fill="none" stroke-width="2">
-                                            <rect x="30" y="100" width="60" height="60" rx="4" />
-                                            <rect x="310" y="100" width="60" height="60" rx="4" />
-                                            <circle cx="200" cy="130" r="36" />
-                                            <path d="M90 130 L164 130" />
-                                            <path d="M236 130 L310 130" />
-                                            <path d="M90 120 C 140 60, 260 60, 310 120" stroke-dasharray="4 4" />
-                                            <path d="M90 140 C 140 200, 260 200, 310 140" stroke-dasharray="4 4" />
-                                            <text x="60" y="200" font-size="10" fill="currentColor" text-anchor="middle">INPUT</text>
-                                            <text x="200" y="180" font-size="10" fill="currentColor" text-anchor="middle">OPERATOR</text>
-                                            <text x="340" y="200" font-size="10" fill="currentColor" text-anchor="middle">OUTPUT</text>
-                                        </g>
-                                    </svg>
-                                </div>
-                            </div>
-                            <button class="gunner-switch" type="button">
-                                <span class="switch-label">TOGGLE: Human &harr; Cybernetic View</span>
-                            </button>
-                        </div>
 
                         <p>
                             The philosophical debate between cybernetics and symbolic AI was not born in a vacuum (specifically, not from purely theoretical research); a very real, life-or-death engineering problem during World War II led to the birth of cybernetics&mdash;anti-aircraft fire control. The National Defense Research Committee (NDRC) needed to understand how human operators tracked fast-moving enemy planes. In May 1941, MIT electrical engineer Harold Hazen wrote an important memo titled &ldquo;The human being as a fundamental link in automatic control systems.&rdquo;<sup class="cite" data-ref="s3-27" data-citation="Mindell, Between Human and Machine, 276.">27</sup>
@@ -426,8 +358,6 @@
 
                     <!-- Analog vs Digital slider interactive -->
                     <div class="interactive-block interactive-block--slider" aria-label="Analog versus Digital slider">
-                        <h4 class="interactive-title">Analog <span class="vs">&harr;</span> Digital</h4>
-                        <p class="interactive-sub">Drag the slider: watch continuous feedback collapse into discrete states.</p>
                         <div class="ad-slider">
                             <div class="ad-panel ad-panel--analog">
                                 <svg viewBox="0 0 300 140" preserveAspectRatio="none">
@@ -454,11 +384,6 @@
              ============================================================ -->
         <section id="section-4" class="narrative-section" data-theme="bunker" data-year="1960" data-year-range="1957-1968" data-title="The Closed World of ARPA">
             <div class="bunker-backdrop" aria-hidden="true">
-                <!-- MEDIA NEEDED: /assets/images/sage-radar.jpg -->
-                <div class="media-placeholder media-placeholder--sage">
-                    <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
-                    <span class="placeholder-desc">SAGE radar console / glowing CRT bunker visual</span>
-                </div>
                 <div class="crt-scanlines"></div>
                 <svg class="world-map-overlay" viewBox="0 0 900 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
                     <path class="continent-path" d="M100 200 Q 200 150 300 200 T 500 220 T 700 200 T 850 240" stroke="currentColor" fill="none" stroke-width="1" />
@@ -492,36 +417,39 @@
                         <!-- Interactive ARPA funding map -->
                         <div class="arpa-map" aria-label="ARPA funding map">
                             <svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="ARPA funding flow to centers of excellence">
-                                <!-- US outline, very stylized -->
-                                <path class="us-outline" d="M60 180 Q 100 110 200 100 L 380 90 Q 500 100 540 150 Q 560 220 500 280 L 260 310 Q 120 300 80 250 Z" stroke="currentColor" fill="none" stroke-width="1.5" />
-                                <!-- ARPA hub (DC) -->
-                                <g class="funding-node funding-node--hub" data-label="ARPA / IPTO — Washington D.C." transform="translate(440,180)">
-                                    <circle r="10" />
-                                    <text y="-16" text-anchor="middle">ARPA</text>
-                                </g>
-                                <!-- MIT -->
-                                <g class="funding-node" data-label="MIT — Project MAC" transform="translate(470,145)">
-                                    <circle r="7" />
-                                    <text y="-10" text-anchor="middle">MIT</text>
-                                </g>
-                                <!-- CMU -->
-                                <g class="funding-node" data-label="Carnegie Mellon University" transform="translate(380,165)">
-                                    <circle r="7" />
-                                    <text y="-10" text-anchor="middle">CMU</text>
-                                </g>
-                                <!-- Stanford -->
-                                <g class="funding-node" data-label="Stanford — SAIL" transform="translate(120,200)">
-                                    <circle r="7" />
-                                    <text y="-10" text-anchor="middle">STANFORD</text>
-                                </g>
-                                <!-- Funding lines -->
-                                <g class="funding-lines" stroke="currentColor" fill="none" stroke-width="1" stroke-dasharray="4 4">
-                                    <line x1="440" y1="180" x2="470" y2="145" />
-                                    <line x1="440" y1="180" x2="380" y2="165" />
-                                    <line x1="440" y1="180" x2="120" y2="200" />
-                                </g>
-                            </svg>
-                            <p class="map-caption">Hover the nodes to see the flow of Department of Defense money.</p>
+    <!-- US outline, very stylized -->
+    <path class="us-outline" d="M60 180 Q 100 110 200 100 L 380 90 Q 500 100 540 150 Q 560 220 500 280 L 260 310 Q 120 300 80 250 Z" stroke="currentColor" fill="none" stroke-width="1.5" />
+
+    <!-- Funding lanes. Each group pairs a line with its destination node
+         so hovering anywhere in the group lights up that lane's line. -->
+    <g class="funding-lane" data-lane="mit">
+        <line class="funding-line" x1="440" y1="180" x2="470" y2="145" />
+        <g class="funding-node" data-label="MIT &mdash; Project MAC" transform="translate(470,145)" style="--node-delay: 0.8s;">
+            <circle r="7" />
+            <text y="-10" text-anchor="middle">MIT</text>
+        </g>
+    </g>
+    <g class="funding-lane" data-lane="cmu">
+        <line class="funding-line" x1="440" y1="180" x2="380" y2="165" />
+        <g class="funding-node" data-label="Carnegie Mellon University" transform="translate(380,165)" style="--node-delay: 1.6s;">
+            <circle r="7" />
+            <text y="-10" text-anchor="middle">CMU</text>
+        </g>
+    </g>
+    <g class="funding-lane" data-lane="stanford">
+        <line class="funding-line" x1="440" y1="180" x2="120" y2="200" />
+        <g class="funding-node" data-label="Stanford &mdash; SAIL" transform="translate(120,200)" style="--node-delay: 2.4s;">
+            <circle r="7" />
+            <text y="-10" text-anchor="middle">STANFORD</text>
+        </g>
+    </g>
+
+    <!-- ARPA hub rendered last so it sits on top of the line origins -->
+    <g class="funding-node funding-node--hub" data-label="ARPA / IPTO &mdash; Washington D.C." transform="translate(440,180)" style="--node-delay: 0s;">
+        <circle r="10" />
+        <text y="-16" text-anchor="middle">ARPA</text>
+    </g>
+</svg>
                         </div>
 
                         <p>
@@ -531,7 +459,7 @@
                             Early AI research faced a severe hardware bottleneck, where batch processing (running one program and its data as a &ldquo;batch,&rdquo; one at a time) prevented the interactive experimentation researchers needed.<sup class="cite" data-ref="s4-55" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 256&ndash;257.">55</sup> To solve this, John McCarthy invented <span class="glossary-term" data-term="time-sharing">time-sharing</span>, allowing multiple users to access a CPU simultaneously. This created a &ldquo;subjective environment,&rdquo; where humans could converse with machines.<sup class="cite" data-ref="s4-56" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 258.">56</sup>
                         </p>
                         <p>
-                            J.C.R. Licklider, the first director of IPTO, heavily promoted this as &ldquo;Man-Computer Symbiosis,&rdquo; a coupling of human brains (for goals/heuristics) and computers (for speed/data).<sup class="cite" data-ref="s4-57" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 264.">57</sup> This vision appealed massively to the military because it directly addressed the command and control problem&mdash;a commander could now use a computer to direct a battle in real-time.<sup class="cite" data-ref="s4-58" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 265, 267.">58</sup> ARPA poured massive, long-term funding with little peer review into what became known as &ldquo;centers of excellence&rdquo; (including MIT, Stanford, CMU), effectively locking these labs into supporting the Department of Defense.<sup class="cite" data-ref="s4-59" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 261.">59</sup> While the military wanted command and control systems (like the Semi-Automated Ground Environment, or <span class="glossary-term" data-term="sage">SAGE</span>, the first air defense system in the US) to automate the electronic battlefield, AI researchers piggybacked on these military goals, using the funding to build &ldquo;thinking machines&rdquo; under the guise of complex information processing.<sup class="cite" data-ref="s4-60" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 269, 272&ndash;273.">60</sup>
+                            J.C.R. Licklider, the first director of IPTO, heavily promoted this as &ldquo;Man-Computer Symbiosis,&rdquo; a coupling of human brains (for goals/heuristics) and computers (for speed/data).<sup class="cite" data-ref="s4-57" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 264.">57</sup> This vision appealed massively to the military because it directly addressed the command and control problem&mdash;a commander could now use a computer to direct a battle in real-time.<sup class="cite" data-ref="s4-58" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 265, 267.">58</sup> ARPA poured massive, long-term funding with little peer review into what became known as &ldquo;centers of excellence&rdquo; (including MIT, Stanford, CMU), effectively locking these labs into supporting the Department of Defense.<sup class="cite" data-ref="s4-59" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 261.">59</sup> While the military wanted command and control systems (like the Semi-Automated Ground Environment, or SAGE, the first air defense system in the US) to automate the electronic battlefield, AI researchers piggybacked on these military goals, using the funding to build &ldquo;thinking machines&rdquo; under the guise of complex information processing.<sup class="cite" data-ref="s4-60" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 269, 272&ndash;273.">60</sup>
                         </p>
                     </article>
 
@@ -570,18 +498,12 @@
         <!-- ============================================================
              SECTION 5 &mdash; THE HYPE MACHINE
              ============================================================ -->
-        <section id="section-5" class="narrative-section" data-theme="living-room" data-year="1958" data-year-range="1950-1961" data-title="The Hype Machine">
-            <div class="livingroom-backdrop" aria-hidden="true">
-                <!-- MEDIA NEEDED: /assets/images/mid-century-livingroom.jpg -->
-                <div class="media-placeholder media-placeholder--livingroom">
-                    <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
-                    <span class="placeholder-desc">Mid-century modern living room, coffee table with newspapers &amp; CRT TV</span>
-                </div>
-            </div>
+        <section id="section-5" class="narrative-section" data-theme="living-room" data-year="1958" data-year-range="1950-1965" data-title="The Hype Machine">
+            <div class="livingroom-backdrop" aria-hidden="true"></div>
 
             <div class="section-inner">
                 <header class="section-heading">
-                    <span class="kicker kicker--newspaper">&sect; 05 &middot; Public Perception vs. Reality</span>
+                    <span class="kicker kicker--newspaper">&sect; 05 &middot; Public Perception</span>
                     <h2 class="headline headline--newspaper">
                         The Hype Machine and Selling<br/>
                         the &ldquo;Second Industrial Revolution&rdquo;
@@ -655,16 +577,14 @@
                                     ></iframe>
                                 </div>
                                 <div class="tv-dials">
-                                    <button class="tv-channel" data-channel="1" data-timestamp="0">CH 1 &middot; Checkers</button>
-                                    <button class="tv-channel" data-channel="2" data-timestamp="0">CH 2 &middot; Cannibals</button>
-                                    <button class="tv-channel" data-channel="3" data-timestamp="0">CH 3 &middot; &ldquo;Saga&rdquo;</button>
+                                    <button class="tv-channel" data-channel="1" data-timestamp="843">CH 1 &middot; Checkers</button>
+                                    <button class="tv-channel" data-channel="2" data-timestamp="600">CH 2 &middot; Cannibals</button>
+                                    <button class="tv-channel" data-channel="3" data-timestamp="2095">CH 3 &middot; &ldquo;Saga&rdquo;</button>
                                     <button class="tv-channel tv-off" data-channel="off">OFF</button>
                                 </div>
                                 <div class="tv-brand">CBS &middot; Tomorrow &middot; 1961</div>
                             </div>
-                            <p class="tv-note">
-                                <strong>Note for you:</strong> fill in the YouTube <code>data-timestamp</code> values (in seconds) for each segment once you&rsquo;ve skimmed the broadcast.
-                            </p>
+                            
                         </div>
 
                         <p>
@@ -780,13 +700,8 @@
         <!-- ============================================================
              SECTION 7 &mdash; CONCLUSION & LEGACY
              ============================================================ -->
-        <section id="section-7" class="narrative-section" data-theme="modern-obsidian" data-year="2026" data-year-range="1975-2026" data-title="Conclusion and Legacy">
+        <section id="section-7" class="narrative-section" data-theme="modern-obsidian" data-year="2026" data-year-range="1973-2026" data-title="Conclusion and Legacy">
             <div class="modern-backdrop" aria-hidden="true">
-                <!-- MEDIA NEEDED: /assets/video/modern-gpu-cluster.mp4 -->
-                <div class="media-placeholder media-placeholder--modern">
-                    <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
-                    <span class="placeholder-desc">Modern data-center / GPU cluster / abstract neural-network loop</span>
-                </div>
                 <svg class="modern-network" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
                     <g class="modern-nodes"></g>
                     <g class="modern-edges"></g>
@@ -823,8 +738,8 @@
 
                     <article class="text-box text-box--modern">
                         <h3 class="sub-head sub-head--modern">Unresolved Philosophical Questions</h3>
-
-                        <!-- Split slider: Dreyfus vs. Searle -->
+<!--
+                         Split slider: Dreyfus vs. Searle 
                         <div class="dual-slider" aria-label="Dreyfus versus Searle">
                             <div class="dual-panel dual-panel--left">
                                 <h4>Hubert Dreyfus</h4>
@@ -842,6 +757,7 @@
                                 <span class="dual-tag">&mdash; paraphrased from &ldquo;Minds, Brains, and Programs&rdquo; (1980)</span>
                             </div>
                         </div>
+                    -->
 
                         <p>
                             Yet, despite our progress from vacuum tubes and telephone relays to massive GPU clusters, the foundational philosophical critiques of the 1960s and 70s remain unresolved.
@@ -863,8 +779,8 @@
 
                     <article class="text-box text-box--modern">
                         <h3 class="sub-head sub-head--modern">The New Hype Machine and the Military-Industrial Complex</h3>
-
-                        <!-- Hype cycle slider -->
+<!--
+                         Hype cycle slider 
                         <div class="hype-slider" aria-label="Hype cycle slider: 1958 vs today">
                             <div class="hype-panel hype-panel--old">
                                 <span class="hype-year">1958</span>
@@ -881,6 +797,7 @@
                                 <cite>&mdash; a generic, modern Big Tech placeholder</cite>
                             </div>
                         </div>
+                    -->
 
                         <p>
                             We can further examine the sociological patterns of the 1950s and 60s. Are they repeating? Just as the 1961 CBS documentary and <em>The New York Times</em> promised machines that would be conscious of their own existence within years, today&rsquo;s tech industry constantly promises the imminent arrival of Artificial General Intelligence (AGI).<sup class="cite" data-ref="s7-110" data-citation="United Press International, &ldquo;New Navy Device Learns By Doing&rdquo;; The Thinking Machine, episode of Tomorrow (1961).">110</sup> Furthermore, military and government funding is once again pouring into AI for autonomous warfare, surveillance, and global strategy; perhaps this is a modern version of the Cold War&rsquo;s &ldquo;closed world&rdquo; discourse.
@@ -926,7 +843,6 @@
             </div>
         </div>
         <div class="timeline-readout">
-            <span class="timeline-kicker">TIMELINE</span>
             <span class="timeline-range" id="timeline-range">1940 &rarr; 2026</span>
         </div>
     </footer>

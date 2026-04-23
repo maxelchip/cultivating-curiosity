@@ -484,31 +484,37 @@
 /* ====================================================================
    §5  ARPA funding map (Section 4)
    ==================================================================== */
+/* ====================================================================
+   §5  ARPA funding map (Section 4)
+   ==================================================================== */
 
-#section-4 .funding-node {
-    position: relative;
-}
-#section-4 .funding-node circle {
-    transition: r var(--dur-fast) var(--ease-out),
-                fill var(--dur-fast) var(--ease-out);
-}
-#section-4 .funding-node:hover circle {
-    r: 12;
-}
-#section-4 .funding-lines line {
-    stroke-dashoffset: 0;
-    animation: funding-flow 4s linear infinite;
-}
-@keyframes funding-flow {
-    to { stroke-dashoffset: -200; }
-}
+/* Each .funding-lane wraps a line + its destination node so hovering
+   anywhere inside the group lights up that lane's funding line.
+   Pure-CSS — no SVG attribute animation, no transform hacks. */
+#section-4 .funding-lane { cursor: pointer; }
 
-/* Tooltip-like label revealed on hover via data-label */
-#section-4 .funding-node::after {
-    /* SVG elements can't use pseudo-elements reliably; the JS engine
-       will manage an HTML label overlay. Hooks live here for consistency. */
+#section-4 .funding-line {
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+    opacity: 0.35;
+    transition: opacity .25s var(--ease-out),
+                stroke-width .25s var(--ease-out),
+                stroke .25s var(--ease-out),
+                filter .25s var(--ease-out);
 }
 
+#section-4 .funding-lane:hover .funding-line,
+#section-4 .funding-lane:focus-within .funding-line {
+    opacity: 1;
+    stroke-width: 2;
+    stroke: var(--color-accent-amber);
+    filter: drop-shadow(0 0 4px var(--color-accent-amber));
+}
+#section-4 .funding-lane:hover .funding-node circle,
+#section-4 .funding-lane:focus-within .funding-node circle {
+    filter: drop-shadow(0 0 10px var(--color-accent-amber));
+}
 
 /* ====================================================================
    §6  Means-Ends Logic Tree (Section 4)

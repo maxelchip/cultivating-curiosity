@@ -784,46 +784,54 @@ sup {
 }
 
 .blip-label {
+    /* Hidden visually — its text content is still used by scroll-engine.js
+       to populate the readout below the radar when a blip is hovered. */
     position: absolute;
-    bottom: calc(100% + 6px);
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0.3em 0.6em;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
     white-space: nowrap;
-    color: var(--color-bg);
-    background: var(--color-accent-radar);
-    border-radius: var(--radius-sm);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--dur-fast) var(--ease-out);
-}
-.radar-blip:hover .blip-label,
-.radar-blip:focus-visible .blip-label {
-    opacity: 1;
+    border: 0;
 }
 .radar-blip--archive .blip-label {
-    background: var(--color-accent-amber);
+    /* No visual styling needed; same hidden behavior as above. */
 }
 
 /* Readout below the radar */
 .radar-readout {
     position: absolute;
-    bottom: -32px;
+    /* Placed well below the 220px circle so even the longest
+       section titles don't crowd the ring. Centered horizontally
+       with respect to the radar's center, and allowed to wrap
+       onto multiple lines so long titles like "The Reality Check
+       and the First AI Winter" stay within the radar's footprint. */
+    top: calc(100% + 16px);
+    left: 0;
     right: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: center;
     gap: var(--space-2xs);
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
+    line-height: 1.35;
     text-transform: uppercase;
     color: var(--color-accent-radar);
     pointer-events: none;
+    text-align: center;
+    min-height: 1.4em;
+    overflow: visible;
+}
+.radar-readout #radar-current-section {
+    /* Constrain wrapping width to the radar's horizontal footprint
+       so multi-line titles don't flow past the viewport edge. */
+    max-width: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
 }
 .radar-label {
     color: var(--color-ink-dim);
@@ -1132,11 +1140,12 @@ sup {
     color: var(--color-ink-dim);
     white-space: nowrap;
     text-transform: uppercase;
+    /* Permanently hidden — the text labels overlap each other
+       when years are close together (e.g. 1956/1958/1961 ticks
+       are only 3% apart). The moving marker bubble above the
+       rail already shows the current year as the user scrolls. */
     opacity: 0;
-    transition: opacity var(--dur-fast) var(--ease-out);
-}
-.timeline-rail:hover .tick span {
-    opacity: 1;
+    pointer-events: none;
 }
 
 .timeline-readout {

@@ -147,18 +147,6 @@
             source: 'Mindell, Between Human and Machine, p. 304'
         },
 
-        'sage': {
-            title: 'SAGE (Semi-Automatic Ground Environment)',
-            definition:
-                'A system of large computers and networking equipment that ' +
-                'coordinated data from radar sites to produce a single, ' +
-                'unified image of the airspace over a wide area. SAGE became ' +
-                'the archetypal Cold War command-and-control system and the ' +
-                'proving ground for real-time interactive computing, which AI ' +
-                'researchers piggybacked on to build their &ldquo;thinking machines.&rdquo;',
-            source: null
-        },
-
         'time-sharing': {
             title: 'Time-sharing',
             definition:
