@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Divergence of Early AI &mdash; A Cold War History</title>
+
+    <!-- Typography: distinctive pairing -->
+    <!-- Display: Futura-adjacent (Jost) + typewriter (Special Elite/Courier Prime) + military stencil (Black Ops One) + modern sans (Inter fallback only where explicit) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700;900&family=Courier+Prime:wght@400;700&family=Special+Elite&family=Black+Ops+One&family=VT323&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/themes.css" />
+    <link rel="stylesheet" href="css/interactions.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body data-current-theme="split-screen">
+
+    <!-- =====================================================
+         GLOBAL SHELL
+         These persistent UI elements sit on top of all sections
+         ===================================================== -->
+
+    <!-- Top-right Radar Navigation Menu -->
+    <nav id="radar-menu" aria-label="Section navigation radar">
+        <div class="radar-ring">
+            <div class="radar-sweep" aria-hidden="true"></div>
+            <div class="radar-grid" aria-hidden="true"></div>
+            <!-- Blips: each corresponds to a section. Hovering reveals title.
+                 --distance is a decimal ratio multiplied by --radar-size in CSS.
+                 Values range from ~0.12 (near center) to ~0.42 (near outer edge)
+                 to produce a realistic scattered-targets radar display. -->
+            <button class="radar-blip" data-target="section-1" style="--angle: 18deg; --distance: 0.40;">
+                <span class="blip-label">The Hub</span>
+            </button>
+            <button class="radar-blip" data-target="section-2" style="--angle: 72deg; --distance: 0.26;">
+                <span class="blip-label">What Does It Mean to Think?</span>
+            </button>
+            <button class="radar-blip" data-target="section-3" style="--angle: 128deg; --distance: 0.42;">
+                <span class="blip-label">The Engineering Reality</span>
+            </button>
+            <button class="radar-blip" data-target="section-4" style="--angle: 196deg; --distance: 0.22;">
+                <span class="blip-label">The Closed World of ARPA</span>
+            </button>
+            <button class="radar-blip" data-target="section-5" style="--angle: 242deg; --distance: 0.38;">
+                <span class="blip-label">The Hype Machine</span>
+            </button>
+            <button class="radar-blip" data-target="section-6" style="--angle: 296deg; --distance: 0.30;">
+                <span class="blip-label">The Reality Check &amp; AI Winter</span>
+            </button>
+            <button class="radar-blip" data-target="section-7" style="--angle: 340deg; --distance: 0.40;">
+                <span class="blip-label">Conclusion &amp; Legacy</span>
+            </button>
+            <a class="radar-blip radar-blip--archive" href="bibliography.html" style="--angle: 0deg; --distance: 0.14;">
+                <span class="blip-label">The Archives</span>
+            </a>
+        </div>
+        <div class="radar-readout">
+            <span class="radar-label">NAV</span>
+            <span id="radar-current-section">&mdash;</span>
+        </div>
+    </nav>
+
+    <!-- Glossary pop-out sidebar (hidden by default) -->
+    <aside id="glossary-sidebar" aria-hidden="true">
+        <button id="glossary-close" aria-label="Close glossary">&times;</button>
+        <div class="glossary-header">
+            <span class="glossary-kicker">TERM</span>
+            <h2 id="glossary-term-title">&mdash;</h2>
+        </div>
+        <div id="glossary-term-body" class="glossary-body">
+            <p>Click any highlighted term in the text to open its definition here.</p>
+        </div>
+        <div class="glossary-footer">
+            <span id="glossary-source">&mdash;</span>
+        </div>
+    </aside>
+
+    <!-- Footnote tooltip (shows on hover over superscript citations) -->
+    <div id="footnote-tooltip" role="tooltip" aria-hidden="true"></div>
+
+    <!-- Primary source lightbox overlay -->
+    <div id="source-lightbox" aria-hidden="true">
+        <button id="source-lightbox-close" aria-label="Close">&times;</button>
+        <div class="lightbox-inner">
+            <div id="lightbox-content"></div>
+            <div id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <!-- ====================================================
+         MAIN NARRATIVE
+         ==================================================== -->
+    <main id="scroll-container">
+
+        <!-- ============================================================
+             SECTION 1 &mdash; THE HUB
+             ============================================================ -->
+        <section id="section-1" class="narrative-section" data-theme="split-screen" data-year="1950" data-year-range="1940-1950" data-title="The Hub">
+            <!-- Split-screen background: Cybernetic (left) vs Symbolic (right) -->
+            <div class="split-backdrop" aria-hidden="true">
+                <div class="split-left">
+                    <!-- Placeholder for the looping neural-net GIF/video.
+                         MEDIA NEEDED: /assets/video/neural-net-loop.webm -->
+                    <div class="media-placeholder media-placeholder--left">
+                        <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
+                        <span class="placeholder-desc">Looping abstract neural-network / biological brain visual</span>
+                    </div>
+                    <!-- Procedural fallback network -->
+                    <svg class="proc-network" viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                        <g class="net-nodes"></g>
+                        <g class="net-edges"></g>
+                    </svg>
+                </div>
+                <div class="split-right">
+                    <!-- MEDIA NEEDED: /assets/video/flowcharts-binary-loop.webm -->
+                    <div class="media-placeholder media-placeholder--right">
+                        <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
+                        <span class="placeholder-desc">Looping flowchart / punch-card / binary cascade visual</span>
+                    </div>
+                    <!-- Procedural fallback: cascading binary -->
+                    <div class="binary-rain" aria-hidden="true"></div>
+                </div>
+                <div class="split-diagonal" aria-hidden="true"></div>
+            </div>
+
+            <div class="section-inner">
+                <header class="section-heading">
+                    <span class="kicker">&sect; 01 &middot; Introduction</span>
+                    <h1 class="headline headline--hub">
+                        <span class="headline-line">The Divergence</span>
+                        <span class="headline-line">of Early Artificial Intelligence</span>
+                        <span class="headline-line headline-line--soft">due to Cold War Politics</span>
+                    </h1>
+                </header>
+
+                <div class="text-stack">
+
+                    <article class="text-box text-box--left">
+                        <p>
+                            The field of Artificial Intelligence today is dominated by systems that learn from massive amounts of data in a way that mimics the biological structures of the brain&mdash;specifically, <span class="glossary-term" data-term="neural-networks">neural networks</span>. However, this approach is actually a resurgence of ideas that were marginalized for decades. For the majority of the second half of the 20th century, the dominant paradigm in AI research was <span class="glossary-term" data-term="symbolic-ai">&ldquo;Symbolic AI&rdquo;</span> (often referred to as Good Old-Fashioned AI, or GOFAI). This paradigm completely decoupled intelligence from biology, viewing &ldquo;thinking&rdquo; simply as the manipulation of discrete symbols according to formal, programmatic rules, rather than a biological function of a brain.<sup class="cite" data-ref="s1-1" data-citation="Paul N. Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; in The Closed World: Computers and the Politics of Discourse in Cold War America (Cambridge, MA: MIT Press, 1996), 239.">1</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--right">
+                        <p>
+                            This dominance was not an inevitable scientific progression. In the late 1940s and 1950s, two distinct, competing philosophies regarding machine intelligence emerged. On one side was the <span class="glossary-term" data-term="cybernetics">Cybernetic view</span>, championed by mathematicians like MIT&rsquo;s Norbert Wiener, which modeled the world through continuous feedback loops, statistics and probability, and biological analogies.<sup class="cite" data-ref="s1-2" data-citation="David A. Mindell, Between Human and Machine: Feedback, Control, and Computing before Cybernetics (Baltimore: The Johns Hopkins University Press, 2002), 276; Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 240&ndash;241.">2</sup> On the other side was the symbolic and digital view, which sought to abstract the messy physical world into clean, discrete, and manageable symbolic logic.<sup class="cite" data-ref="s1-3" data-citation="Paul N. Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 240&ndash;241.">3</sup>
+                        </p>
+                        <p>
+                            In 1950, Alan Turing published his seminal essay &ldquo;Computing Machinery and Intelligence.&rdquo; Turing moved the scientific community past the metaphysical question of whether machines possessed a soul or consciousness, and instead proposed a practical, observable test: the &ldquo;Imitation Game.&rdquo;<sup class="cite" data-ref="s1-4" data-citation="Alan Turing, &ldquo;Computing Machinery and Intelligence,&rdquo; Mind 59, no. 236 (October 1950): 433&ndash;60.">4</sup> By asking whether a digital computer could simulate human behavior well enough to deceive an interrogator through typewritten messages, Turing helped establish the philosophical baseline that text-based, symbolic interaction could be the ultimate determinant of intelligence.<sup class="cite" data-ref="s1-5" data-citation="Turing, &ldquo;Computing Machinery and Intelligence,&rdquo; 433&ndash;60; Andrew Hodges, &ldquo;Alan Turing (Stanford Encyclopedia of Philosophy),&rdquo; Stanford Encyclopedia of Philosophy, 2013.">5</sup>
+                        </p>
+                        <p class="rhetorical-question">
+                            But why did the symbolic approach win the funding and focus of the era?
+                        </p>
+                    </article>
+
+                    <!-- Thesis: glowing typewriter-style box -->
+                    <article class="text-box thesis-box" aria-label="Thesis statement">
+                        <span class="thesis-tag">THESIS</span>
+                        <p>
+                            This was not just an academic debate. Starting with World War II fire-control problems, and subsequently shaped by the <span class="glossary-term" data-term="closed-world">&ldquo;Closed World&rdquo;</span> political discourse of the Cold War, a specific engineering reality allowed the symbolic approach to prevail.<sup class="cite" data-ref="s1-6" data-citation="Paul N. Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 272&ndash;273; David A. Mindell, Between Human and Machine, 276.">6</sup> The military-industrial complex&mdash;specifically through the massive, un-peer-reviewed funding of the <span class="glossary-term" data-term="arpa">Advanced Research Projects Agency (ARPA)</span>&mdash;required technology that offered precise <span class="glossary-term" data-term="command-and-control">Command and Control</span> over a chaotic global battlefield.<sup class="cite" data-ref="s1-7" data-citation="Paul N. Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 259, 261.">7</sup> The military needed the certainty and explainability of digital, symbolic logic championed by researchers like Herbert Simon and Allen Newell, favoring it over the messy, probabilistic, and unpredictable nature of early neural networks.<sup class="cite" data-ref="s1-8" data-citation="Paul N. Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 269, 271.">8</sup>
+                        </p>
+                        <p class="thesis-statement">
+                            <strong>The military requirement for command and control systems drove the scientific community to favor symbolic AI over cybernetics between 1950 and 1973, despite the theoretical limitations identified by critics like Hubert Dreyfus and James Lighthill.</strong>
+                        </p>
+                        <p>
+                            This combination of scientific theory and military necessity fueled an era of extreme optimism, and set the stage for a devastating collapse. The AI Winter proved that the military&rsquo;s ideological desire for a controllable closed-world system could not overcome the mathematical reality of the combinatorial explosion in open-ended, real-world environments.
+                        </p>
+                    </article>
+
+                    <div class="scroll-cue">
+                        <span>Scroll to continue</span>
+                        <span class="cue-arrow" aria-hidden="true">&darr;</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             SECTION 2 &mdash; WHAT DOES IT MEAN TO THINK?
+             ============================================================ -->
+        <section id="section-2" class="narrative-section" data-theme="academic" data-year="1950" data-year-range="1950-1956" data-title="What Does It Mean to Think?">
+            <div class="academic-backdrop" aria-hidden="true">
+                <!-- MEDIA NEEDED: /assets/images/vintage-desk.jpg (1950s academic desk) -->
+                <div class="media-placeholder media-placeholder--desk">
+                    <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
+                    <span class="placeholder-desc">1950s academic researcher's desk with vintage typewriter</span>
+                </div>
+                <div class="paper-texture"></div>
+            </div>
+
+            <div class="section-inner">
+                <header class="section-heading">
+                    <span class="kicker kicker--stamp">&sect; 02 &middot; Theoretical Foundations</span>
+                    <h2 class="headline headline--typewriter">
+                        What Does it Mean to Think?
+                        <span class="subheading">The Theoretical Foundation of AI</span>
+                    </h2>
+                </header>
+
+                <div class="text-stack">
+
+                    <article class="text-box text-box--typed">
+                        <h3 class="sub-head">The Turing Test and the Redefinition of Intelligence</h3>
+                        <p>
+                            Before engineers could build a thinking machine, the scientific community had to define what &ldquo;thinking&rdquo; actually was. In 1950, British mathematician Alan Turing published his landmark essay, &ldquo;Computing Machinery and Intelligence,&rdquo; in the journal <em>Mind</em>.<sup class="cite" data-ref="s2-9" data-citation="Turing, &ldquo;Computing Machinery and Intelligence,&rdquo; 433&ndash;60.">9</sup> Turing famously opened with the question, &ldquo;Can machines think?&rdquo; but replaced it with a more practical, less ambiguous challenge: Can a digital computer win the &ldquo;Imitation Game&rdquo;?
+                        </p>
+                        <p>
+                            In Turing&rsquo;s game (dubbed the Turing Test), a man, woman, and interrogator communicate exclusively through typewritten messages. The man attempts to convince the interrogator that he is the woman, while the woman tries to prove her true identity. Turing asked: Could a machine replace the man and successfully deceive the interrogator?<sup class="cite" data-ref="s2-10" data-citation="Turing, &ldquo;Computing Machinery and Intelligence,&rdquo; 433&ndash;60.">10</sup> By framing intelligence through this game, Turing shifted the focus from indefinable internal states or subjective consciousness to observable behavior.<sup class="cite" data-ref="s2-11" data-citation="Turing, &ldquo;Computing Machinery and Intelligence,&rdquo; 433&ndash;60.">11</sup> Turing preemptively refuted multiple objections to machine intelligence, including:
+                        </p>
+                        <ul class="objections-list">
+                            <li>
+                                <span class="obj-label">The Theological Objection:</span>
+                                The belief that thinking requires an immortal soul granted only to humans by God.
+                            </li>
+                            <li>
+                                <span class="obj-label">The &ldquo;Head in the Sand&rdquo; Objection:</span>
+                                The fear-based hope that machines simply cannot think.
+                            </li>
+                            <li>
+                                <span class="obj-label">The Mathematical Objection:</span>
+                                The argument that discrete-state machines have inherent limitations, as demonstrated by Godel&rsquo;s Incompleteness Theorems.<sup class="cite" data-ref="s2-12" data-citation="Turing, &ldquo;Computing Machinery and Intelligence,&rdquo; 433&ndash;60.">12</sup>
+                            </li>
+                        </ul>
+                        <p>
+                            Turing was optimistic, stating that humans could only &ldquo;see a short distance ahead, but we can see plenty there that needs to be done.&rdquo; He predicted that by the year 2000, an average interrogator would have less than a 70% chance of making the correct identification after five minutes of questioning.<sup class="cite" data-ref="s2-13" data-citation="Turing, &ldquo;Computing Machinery and Intelligence,&rdquo; 433&ndash;60.">13</sup> He even speculated on the necessity of &ldquo;learning machines&rdquo; that could modify their own programs rather than execute fixed instructions.<sup class="cite" data-ref="s2-14" data-citation="Turing, &ldquo;Computing Machinery and Intelligence,&rdquo; 433&ndash;60.">14</sup>
+                        </p>
+                        <aside class="inline-annotation" aria-label="Critical dissent">
+                            <span class="annotation-pin" aria-hidden="true">&#9737;</span>
+                            <p>
+                                <strong>Not everyone agreed.</strong> Philosopher J.R. Lucas later critiqued Turing&rsquo;s shallow treatment of consciousness, arguing that because humans can understand unprovable yet true statements (via Godel&rsquo;s theorem), human thinking cannot be purely algorithmic.<sup class="cite" data-ref="s2-15" data-citation="J.R. Lucas, &ldquo;Comment on Turing&rsquo;s Computing Machinery,&rdquo; Jamesrmeyer.com, accessed October 28, 2025.">15</sup>
+                            </p>
+                        </aside>
+                    </article>
+
+                    <!-- Interactive: Turing Typewriter -->
+                    <div class="interactive-block interactive-block--typewriter" aria-label="Turing Test simulator">
+                        <div class="typewriter-frame">
+                            <div class="typewriter-header">
+                                <span class="type-label">THE IMITATION GAME &mdash; TYPE A MESSAGE BELOW</span>
+                            </div>
+                            <div class="typewriter-transcript" id="typewriter-transcript"></div>
+                            <form class="typewriter-input-row" onsubmit="return false;">
+                                <span class="prompt-glyph">&gt;</span>
+                                <input id="typewriter-input" type="text" autocomplete="off" placeholder="Ask the interrogator anything&hellip;" aria-label="Turing test input" />
+                                <button id="typewriter-send" type="button">SEND</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <article class="text-box text-box--typed split-polaroids">
+                        <h3 class="sub-head">&ldquo;Brain Modelers&rdquo; vs. &ldquo;Mind Modelers&rdquo;</h3>
+                        <p>
+                            Turing established that a machine&rsquo;s output could be considered intelligence, but how should that machine be built? Two distinct camps emerged in the 1950s:
+                        </p>
+                        <div class="polaroid-row">
+                            <figure class="polaroid polaroid--left">
+                                <div class="polaroid-image">
+                                    <!-- MEDIA NEEDED: /assets/images/norbert-wiener.jpg -->
+                                    <span class="media-tag">[ Norbert Wiener &mdash; placeholder ]</span>
+                                </div>
+                                <figcaption class="polaroid-caption">
+                                    <h4>The Cybernetic View</h4>
+                                    <p>
+                                        This camp focused on &ldquo;embodied&rdquo; minds and continuous feedback loops.<sup class="cite" data-ref="s2-16" data-citation="Paul N. Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 240&ndash;241.">16</sup> Mathematician Norbert Wiener coined the term &ldquo;<span class="glossary-term" data-term="cybernetics">Cybernetics</span>&rdquo; to describe the science of communication and control. He noted deep structural resemblances between computers and the human brain.<sup class="cite" data-ref="s2-17" data-citation="&ldquo;Science: The Thinking Machine,&rdquo; Time, January 23, 1950.">17</sup> Psychiatrist Dr. Warren McCulloch pushed this biological analogy further, arguing that the brain is essentially a computer where neurons are living electrical relays and synapses are switches that pass or block pulses.<sup class="cite" data-ref="s2-18" data-citation="&ldquo;Science: The Thinking Machine,&rdquo; Time, January 23, 1950.">18</sup>
+                                    </p>
+                                </figcaption>
+                            </figure>
+                            <figure class="polaroid polaroid--right">
+                                <div class="polaroid-image">
+                                    <!-- MEDIA NEEDED: /assets/images/newell-simon.jpg -->
+                                    <span class="media-tag">[ Newell &amp; Simon &mdash; placeholder ]</span>
+                                </div>
+                                <figcaption class="polaroid-caption">
+                                    <h4>The Symbolic View</h4>
+                                    <p>
+                                        Conversely, the opposing camp of researchers separated AI entirely from cognitive psychology, biology, and cybernetics.<sup class="cite" data-ref="s2-19" data-citation="Paul N. Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 239.">19</sup> Led by figures like Allen Newell and Herbert Simon, this camp created the <span class="glossary-term" data-term="physical-symbol-system">Physical Symbol System Hypothesis</span>, which argued that intelligence was simply the manipulation of discrete symbols according to logical rules, regardless of the physical medium.<sup class="cite" data-ref="s2-20" data-citation="Paul N. Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 252.">20</sup> The invention of high-level programming languages like FORTRAN and LISP (developed by John McCarthy) accelerated this view. These languages created a layer of abstraction that hid the physical hardware, creating the illusion of a pure, logical machine.<sup class="cite" data-ref="s2-21" data-citation="Paul N. Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 245&ndash;246, 254.">21</sup>
+                                    </p>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </article>
+
+                    <article class="text-box text-box--bulletin">
+                        <div class="bulletin-header">
+                            <span class="bulletin-stamp">OFFICIAL BULLETIN</span>
+                            <h3 class="sub-head">The 1956 Dartmouth Conference</h3>
+                        </div>
+                        <p>
+                            The theoretical divide was formally addressed in the summer of 1956. John McCarthy, Marvin Minsky, Nathaniel Rochester, and Claude Shannon organized the Dartmouth Summer Research Project on Artificial Intelligence at Dartmouth College in Hanover, New Hampshire.<sup class="cite" data-ref="s2-22" data-citation="Sandra Peter, &ldquo;AI Was Born at a US Summer Camp 68 Years Ago. Here&rsquo;s Why That Event Still Matters Today,&rdquo; Sydney Executive Plus, August 2024; Paul N. Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 253.">22</sup> This gathering is widely considered the founding event of AI as a formal research discipline, giving the field its name, community, and research agenda.<sup class="cite" data-ref="s2-23" data-citation="Grace Solomonoff, &ldquo;The Meeting of the Minds That Launched AI - IEEE Spectrum,&rdquo; spectrum.ieee.org, May 6, 2023; Sandra Peter, &ldquo;AI Was Born at a US Summer Camp 68 Years Ago.&rdquo;">23</sup>
+                        </p>
+                        <p>
+                            The proposal for the conference clearly reflected the Symbolic AI approach:
+                        </p>
+                        <blockquote class="primary-quote">
+                            <p>
+                                &ldquo;The study is to proceed on the basis of the conjecture that every aspect of learning or any other feature of intelligence can in principle be so precisely described that a machine can be made to simulate it.&rdquo;
+                            </p>
+                            <cite>&mdash; Dartmouth Proposal<sup class="cite" data-ref="s2-24" data-citation="John McCarthy et al., &ldquo;A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence, August 31, 1955,&rdquo; AI Magazine 27, no. 4 (2006): 12.">24</sup></cite>
+                        </blockquote>
+                        <p>
+                            At Dartmouth, researchers focused on the algorithmic, symbolic, and structural models of cognition: reasoning, abstraction, problem-solving, and language.<sup class="cite" data-ref="s2-25" data-citation="Sandra Peter, &ldquo;AI Was Born at a US Summer Camp 68 Years Ago.&rdquo;">25</sup> Due to the rapidly advancing computing technology and an ambitious post-war scientific climate, the sentiment surrounding the conference was highly optimistic. As one retrospective article noted, the attendees &ldquo;were convinced they could solve the problem of machine intelligence in a single summer.&rdquo;<sup class="cite" data-ref="s2-26" data-citation="Sandra Peter, &ldquo;AI Was Born at a US Summer Camp 68 Years Ago.&rdquo;">26</sup>
+                        </p>
+
+                        <!-- Primary source zoom -->
+                        <button class="primary-source-thumb" data-source="dartmouth-proposal">
+                            <!-- MEDIA NEEDED: /assets/images/dartmouth-proposal-1955.pdf-thumb.png -->
+                            <div class="thumb-image">
+                                <span class="media-tag">[ 1955 Proposal &mdash; placeholder ]</span>
+                            </div>
+                            <span class="thumb-label">Click to view the 1955 Dartmouth Proposal</span>
+                        </button>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             SECTION 3 &mdash; THE ENGINEERING REALITY (WWII)
+             ============================================================ -->
+        <section id="section-3" class="narrative-section" data-theme="wwii-blueprint" data-year="1942" data-year-range="1940-1945" data-title="The Engineering Reality">
+            <div class="wwii-backdrop" aria-hidden="true">
+                <!-- MEDIA NEEDED: /assets/images/aa-blueprint.jpg -->
+                <div class="media-placeholder media-placeholder--blueprint">
+                    <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
+                    <span class="placeholder-desc">Sepia anti-aircraft artillery blueprint with radar-green grid overlay</span>
+                </div>
+                <div class="radar-grid-overlay"></div>
+            </div>
+
+            <div class="section-inner">
+                <header class="section-heading">
+                    <span class="kicker kicker--stencil">&sect; 03 &middot; WWII Fire Control</span>
+                    <h2 class="headline headline--stencil">
+                        The Engineering Reality
+                    </h2>
+                </header>
+
+                <div class="text-stack">
+
+                    <article class="text-box text-box--drafting">
+                        <h3 class="sub-head sub-head--stencil">The Human as a Servo-Mechanism</h3>
+
+                        <!-- Gunner toggle: human vs cybernetic circuit diagram -->
+                        <div class="gunner-toggle" aria-label="Gunner visualization toggle">
+                            <div class="gunner-frame">
+                                <div class="gunner-view gunner-view--human is-active">
+                                    <!-- MEDIA NEEDED: /assets/images/aa-gunner.jpg -->
+                                    <span class="media-tag">[ AA Gunner &mdash; human view placeholder ]</span>
+                                </div>
+                                <div class="gunner-view gunner-view--cybernetic">
+                                    <svg viewBox="0 0 400 260" aria-hidden="true">
+                                        <g stroke="currentColor" fill="none" stroke-width="2">
+                                            <rect x="30" y="100" width="60" height="60" rx="4" />
+                                            <rect x="310" y="100" width="60" height="60" rx="4" />
+                                            <circle cx="200" cy="130" r="36" />
+                                            <path d="M90 130 L164 130" />
+                                            <path d="M236 130 L310 130" />
+                                            <path d="M90 120 C 140 60, 260 60, 310 120" stroke-dasharray="4 4" />
+                                            <path d="M90 140 C 140 200, 260 200, 310 140" stroke-dasharray="4 4" />
+                                            <text x="60" y="200" font-size="10" fill="currentColor" text-anchor="middle">INPUT</text>
+                                            <text x="200" y="180" font-size="10" fill="currentColor" text-anchor="middle">OPERATOR</text>
+                                            <text x="340" y="200" font-size="10" fill="currentColor" text-anchor="middle">OUTPUT</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                            <button class="gunner-switch" type="button">
+                                <span class="switch-label">TOGGLE: Human &harr; Cybernetic View</span>
+                            </button>
+                        </div>
+
+                        <p>
+                            The philosophical debate between cybernetics and symbolic AI was not born in a vacuum (specifically, not from purely theoretical research); a very real, life-or-death engineering problem during World War II led to the birth of cybernetics&mdash;anti-aircraft fire control. The National Defense Research Committee (NDRC) needed to understand how human operators tracked fast-moving enemy planes. In May 1941, MIT electrical engineer Harold Hazen wrote an important memo titled &ldquo;The human being as a fundamental link in automatic control systems.&rdquo;<sup class="cite" data-ref="s3-27" data-citation="Mindell, Between Human and Machine, 276.">27</sup>
+                        </p>
+                        <p>
+                            Hazen proposed treating human operators not as conscious people, but as devices reacting to input signals. He suggested applying the &ldquo;frequency-response methods of communications engineering&rdquo; to human behavior, viewing the operator as a <span class="glossary-term" data-term="servo-mechanism">servo-mechanism</span>.<sup class="cite" data-ref="s3-28" data-citation="Mindell, Between Human and Machine, 276.">28</sup> The military embraced this behaviorist approach. Psychological studies of human operators intensified: researchers even subjected machine operators to electric shocks and loud noises simply to test their physical stability under stress.<sup class="cite" data-ref="s3-29" data-citation="Mindell, Between Human and Machine, 285.">29</sup> Engineer Enoch Ferrell explicitly equated the human role to a negative feedback amplifier, using Nyquist&rsquo;s mathematical criterion to determine the stability of the human-machine combination.<sup class="cite" data-ref="s3-30" data-citation="Mindell, Between Human and Machine, 285.">30</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--drafting oscilloscope-frame">
+                        <h3 class="sub-head sub-head--stencil">Norbert Wiener&rsquo;s Failure and the Birth of Cybernetics</h3>
+                        <div class="oscilloscope" aria-hidden="true">
+                            <svg viewBox="0 0 600 120" preserveAspectRatio="none">
+                                <path class="osc-wave" d="M0 60 Q 50 20 100 60 T 200 60 T 300 60 T 400 60 T 500 60 T 600 60" stroke="currentColor" fill="none" stroke-width="2" />
+                            </svg>
+                        </div>
+                        <p>
+                            To automate this anti-aircraft tracking, mathematician Norbert Wiener and engineer Julian Bigelow attempted to build an &ldquo;anticipator&rdquo; network that could predict the path of an enemy airplane using continuous voltages (analog computing). However, the apparatus failed. It was hypersensitive to noise and oscillated violently when tracking corners or jerky movements.<sup class="cite" data-ref="s3-31" data-citation="Mindell, Between Human and Machine, 278.">31</sup>
+                        </p>
+                        <p>
+                            Wiener realized the stability problem was fundamental. He shifted from smooth-curve prediction to a statistical approach based on the autocorrelation of the target&rsquo;s past performance, attempting to combine power and communication engineering through statistics.<sup class="cite" data-ref="s3-32" data-citation="Mindell, Between Human and Machine, 278&ndash;279.">32</sup> Yet, despite the theoretical merit of his Root Mean Square (RMS) error minimization, the system still failed in practice. It required a long history of data to predict a path, but real combat tracking only lasted a few seconds. As scientist and mathematician Warren Weaver (notably, a pioneer of machine translation) noted, minimizing RMS error meant the system cared little about &ldquo;near misses,&rdquo; but in anti-aircraft fire, a miss of 10 yards was as useless as a miss of a mile.<sup class="cite" data-ref="s3-33" data-citation="Mindell, Between Human and Machine, 280.">33</sup>
+                        </p>
+                        <p>
+                            Alienated by the military&rsquo;s &ldquo;secret and chummy&rdquo; culture and the failure of his military contracts in 1943, Wiener retreated to the civilian world.<sup class="cite" data-ref="s3-34" data-citation="Mindell, Between Human and Machine, 286&ndash;287.">34</sup> He reframed his military fire-control problems into a biological and physiological philosophy of feedback, coining the term <span class="glossary-term" data-term="cybernetics">Cybernetics</span>.<sup class="cite" data-ref="s3-35" data-citation="Mindell, Between Human and Machine, 286.">35</sup> Notably, Wiener framed this as a brand new scientific discipline, citing historical figures like Leibniz and Maxwell, while failing to cite his actual engineering predecessors in feedback control like Elmer Sperry or Harold Hazen.<sup class="cite" data-ref="s3-36" data-citation="Mindell, Between Human and Machine, 286.">36</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--drafting">
+                        <h3 class="sub-head sub-head--stencil">George Stibitz and the Triumph of the Digital</h3>
+                        <div class="paper-tape" aria-hidden="true"></div>
+                        <p>
+                            While Wiener struggled with the messy, continuous, oscillating world of analog feedback, the NDRC was internally debating how to model the world inside a machine.<sup class="cite" data-ref="s3-37" data-citation="Mindell, Between Human and Machine, 277.">37</sup> Division 7 of the NDRC initially resisted electronic digital computing, trusting the Newtonian physical reliability of mechanical cams and gears over fragile vacuum tubes.<sup class="cite" data-ref="s3-38" data-citation="Mindell, Between Human and Machine, 295.">38</sup> They even rejected funding for the famous ENIAC project, viewing such projects as &ldquo;basic but very long range research&rdquo; that wouldn&rsquo;t help the immediate war effort.<sup class="cite" data-ref="s3-39" data-citation="Mindell, Between Human and Machine, 293, 296.">39</sup>
+                        </p>
+                        <p>
+                            However, George Stibitz at Bell Labs found a solution. Building computers based on standard telephone relays, Stibitz clarified the distinction between continuous analog signals and discrete pulses, officially suggesting the term &ldquo;digital&rdquo; to replace &ldquo;pulse&rdquo; in a 1942 memo.<sup class="cite" data-ref="s3-40" data-citation="Mindell, Between Human and Machine, 295.">40</sup> Stibitz defined his relay machines as <span class="glossary-term" data-term="topological-not-metric">&ldquo;topological, not metric.&rdquo;</span> This meant the function was determined entirely by the wiring connections (the topology), rather than the physical, mechanical precision of the parts (the metric).<sup class="cite" data-ref="s3-41" data-citation="Mindell, Between Human and Machine, 304.">41</sup>
+                        </p>
+                        <p>
+                            Stibitz introduced the &ldquo;Tape Dynamic Tester&rdquo; (1942), which replaced precision-machined mechanical cams with punched paper tape, allowing the military to cheaply duplicate flight profiles for testing gun directors.<sup class="cite" data-ref="s3-42" data-citation="Mindell, Between Human and Machine, 300.">42</sup> Unlike the ENIAC, which had to be physically re-wired with cables for different tasks, Stibitz&rsquo;s Model II used &ldquo;code&rdquo; on a tape to program operations.<sup class="cite" data-ref="s3-43" data-citation="Mindell, Between Human and Machine, 303.">43</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box callout-divergence">
+                        <h3 class="divergence-title">THE DIVERGENCE</h3>
+                        <p>
+                            Stibitz&rsquo;s digital relays succeeded because they leveraged the existing, reliable industrial manufacturing of Western Electric.<sup class="cite" data-ref="s3-44" data-citation="Mindell, Between Human and Machine, 304&ndash;305.">44</sup> More importantly, Stibitz&rsquo;s digital representation achieved something new: it decoupled the structure of the computer from the calculation it was performing.<sup class="cite" data-ref="s3-45" data-citation="Mindell, Between Human and Machine, 305.">45</sup> Inside the machine, information became abstract, represented by switch closures rather than physical motion.<sup class="cite" data-ref="s3-46" data-citation="Mindell, Between Human and Machine, 306.">46</sup>
+                        </p>
+                        <p>
+                            By the end of the war, Division 7 had poured over $500,000 into Stibitz&rsquo;s relay computers.<sup class="cite" data-ref="s3-47" data-citation="Mindell, Between Human and Machine, 300.">47</sup> The military had made its choice. They favored the clean, discrete, and highly reliable abstract logic of the digital/symbolic approach over the unpredictable, oscillating, and biologically-inspired cybernetic approach. This reality paved the way for the dominance of Symbolic AI in the ensuing Cold War.
+                        </p>
+                    </article>
+
+                    <!-- Analog vs Digital slider interactive -->
+                    <div class="interactive-block interactive-block--slider" aria-label="Analog versus Digital slider">
+                        <h4 class="interactive-title">Analog <span class="vs">&harr;</span> Digital</h4>
+                        <p class="interactive-sub">Drag the slider: watch continuous feedback collapse into discrete states.</p>
+                        <div class="ad-slider">
+                            <div class="ad-panel ad-panel--analog">
+                                <svg viewBox="0 0 300 140" preserveAspectRatio="none">
+                                    <path id="analog-wave" d="M0 70 Q 30 30 60 70 T 120 70 T 180 70 T 240 70 T 300 70" stroke="currentColor" fill="none" stroke-width="2" />
+                                </svg>
+                                <span class="ad-label">ANALOG &middot; WIENER</span>
+                            </div>
+                            <div class="ad-panel ad-panel--digital">
+                                <div class="digital-grid">
+                                    <!-- binary cells populated by JS -->
+                                </div>
+                                <span class="ad-label">DIGITAL &middot; STIBITZ</span>
+                            </div>
+                            <input type="range" id="ad-slider-input" min="0" max="100" value="50" aria-label="Analog to digital slider" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             SECTION 4 &mdash; THE CLOSED WORLD OF ARPA
+             ============================================================ -->
+        <section id="section-4" class="narrative-section" data-theme="bunker" data-year="1960" data-year-range="1957-1968" data-title="The Closed World of ARPA">
+            <div class="bunker-backdrop" aria-hidden="true">
+                <!-- MEDIA NEEDED: /assets/images/sage-radar.jpg -->
+                <div class="media-placeholder media-placeholder--sage">
+                    <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
+                    <span class="placeholder-desc">SAGE radar console / glowing CRT bunker visual</span>
+                </div>
+                <div class="crt-scanlines"></div>
+                <svg class="world-map-overlay" viewBox="0 0 900 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                    <path class="continent-path" d="M100 200 Q 200 150 300 200 T 500 220 T 700 200 T 850 240" stroke="currentColor" fill="none" stroke-width="1" />
+                    <path class="continent-path" d="M150 300 Q 250 280 350 310 T 550 320 T 750 300" stroke="currentColor" fill="none" stroke-width="1" />
+                </svg>
+            </div>
+
+            <div class="section-inner">
+                <header class="section-heading">
+                    <span class="kicker kicker--crt">&sect; 04 &middot; Cold War Funding</span>
+                    <h2 class="headline headline--crt">
+                        The &ldquo;Closed World&rdquo; of ARPA<br/>
+                        and the Military-Industrial Complex
+                    </h2>
+                </header>
+
+                <div class="text-stack">
+                    <article class="text-box text-box--crt">
+                        <h3 class="sub-head sub-head--crt">The Politics of Containment and Formal Representation</h3>
+                        <p>
+                            The victory of Symbolic AI cannot be solely attributed to a scientific consensus. Rather, it was a direct consequence of Cold War political ideology. Historian Paul N. Edwards coined the term <span class="glossary-term" data-term="closed-world">&ldquo;Closed World&rdquo;</span> discourse to describe the Cold War strategy of containment. In this worldview, the globe was perceived as a chaotic system that had to be fiercely managed and controlled via technology.<sup class="cite" data-ref="s4-48" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 272.">48</sup>
+                        </p>
+                        <p>
+                            To control this chaotic world, the military required a &ldquo;language of formal representation.&rdquo;<sup class="cite" data-ref="s4-49" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 267.">49</sup> AI and cognitive psychology provided exactly this: a way to reduce the unpredictable physical world into manageable, logical symbols that a machine (and by extension, the military) could process.<sup class="cite" data-ref="s4-50" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 271.">50</sup> Edwards argues that the &ldquo;closed world&rdquo; of the AI laboratory, which is simulated and rule-bound, mirrored the military&rsquo;s desire for a closed world of global politics.<sup class="cite" data-ref="s4-51" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 273.">51</sup> The ultimate subject of this closed world was the cyborg, an integration of human and machine designed specifically to eliminate human error and emotion from military decision-making.<sup class="cite" data-ref="s4-52" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 273.">52</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--crt">
+                        <h3 class="sub-head sub-head--crt">ARPA and IPTO</h3>
+
+                        <!-- Interactive ARPA funding map -->
+                        <div class="arpa-map" aria-label="ARPA funding map">
+                            <svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="ARPA funding flow to centers of excellence">
+                                <!-- US outline, very stylized -->
+                                <path class="us-outline" d="M60 180 Q 100 110 200 100 L 380 90 Q 500 100 540 150 Q 560 220 500 280 L 260 310 Q 120 300 80 250 Z" stroke="currentColor" fill="none" stroke-width="1.5" />
+                                <!-- ARPA hub (DC) -->
+                                <g class="funding-node funding-node--hub" data-label="ARPA / IPTO — Washington D.C." transform="translate(440,180)">
+                                    <circle r="10" />
+                                    <text y="-16" text-anchor="middle">ARPA</text>
+                                </g>
+                                <!-- MIT -->
+                                <g class="funding-node" data-label="MIT — Project MAC" transform="translate(470,145)">
+                                    <circle r="7" />
+                                    <text y="-10" text-anchor="middle">MIT</text>
+                                </g>
+                                <!-- CMU -->
+                                <g class="funding-node" data-label="Carnegie Mellon University" transform="translate(380,165)">
+                                    <circle r="7" />
+                                    <text y="-10" text-anchor="middle">CMU</text>
+                                </g>
+                                <!-- Stanford -->
+                                <g class="funding-node" data-label="Stanford — SAIL" transform="translate(120,200)">
+                                    <circle r="7" />
+                                    <text y="-10" text-anchor="middle">STANFORD</text>
+                                </g>
+                                <!-- Funding lines -->
+                                <g class="funding-lines" stroke="currentColor" fill="none" stroke-width="1" stroke-dasharray="4 4">
+                                    <line x1="440" y1="180" x2="470" y2="145" />
+                                    <line x1="440" y1="180" x2="380" y2="165" />
+                                    <line x1="440" y1="180" x2="120" y2="200" />
+                                </g>
+                            </svg>
+                            <p class="map-caption">Hover the nodes to see the flow of Department of Defense money.</p>
+                        </div>
+
+                        <p>
+                            The military required sophisticated &ldquo;decision support&rdquo; systems to manage the complex, high-speed data of the Cold War. For example, this could include distinguishing incoming Soviet missiles from radar decoys.<sup class="cite" data-ref="s4-53" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 259.">53</sup> To achieve this, the Advanced Research Projects Agency (<span class="glossary-term" data-term="arpa">ARPA</span>) and its Information Processing Techniques Office (IPTO) became the primary financial patrons of AI.<sup class="cite" data-ref="s4-54" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 260.">54</sup>
+                        </p>
+                        <p>
+                            Early AI research faced a severe hardware bottleneck, where batch processing (running one program and its data as a &ldquo;batch,&rdquo; one at a time) prevented the interactive experimentation researchers needed.<sup class="cite" data-ref="s4-55" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 256&ndash;257.">55</sup> To solve this, John McCarthy invented <span class="glossary-term" data-term="time-sharing">time-sharing</span>, allowing multiple users to access a CPU simultaneously. This created a &ldquo;subjective environment,&rdquo; where humans could converse with machines.<sup class="cite" data-ref="s4-56" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 258.">56</sup>
+                        </p>
+                        <p>
+                            J.C.R. Licklider, the first director of IPTO, heavily promoted this as &ldquo;Man-Computer Symbiosis,&rdquo; a coupling of human brains (for goals/heuristics) and computers (for speed/data).<sup class="cite" data-ref="s4-57" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 264.">57</sup> This vision appealed massively to the military because it directly addressed the command and control problem&mdash;a commander could now use a computer to direct a battle in real-time.<sup class="cite" data-ref="s4-58" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 265, 267.">58</sup> ARPA poured massive, long-term funding with little peer review into what became known as &ldquo;centers of excellence&rdquo; (including MIT, Stanford, CMU), effectively locking these labs into supporting the Department of Defense.<sup class="cite" data-ref="s4-59" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 261.">59</sup> While the military wanted command and control systems (like the Semi-Automated Ground Environment, or <span class="glossary-term" data-term="sage">SAGE</span>, the first air defense system in the US) to automate the electronic battlefield, AI researchers piggybacked on these military goals, using the funding to build &ldquo;thinking machines&rdquo; under the guise of complex information processing.<sup class="cite" data-ref="s4-60" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 269, 272&ndash;273.">60</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--crt">
+                        <h3 class="sub-head sub-head--crt">The Logic Theorist and GPS</h3>
+
+                        <!-- Means-Ends Analysis interactive -->
+                        <div class="logic-tree" aria-label="Means-Ends analysis tree">
+                            <div class="tree-state" data-step="0">
+                                <span class="tree-label">PRESENT STATE</span>
+                                <span class="tree-value">A</span>
+                            </div>
+                            <button class="logic-reduce" type="button">Reduce Difference &rarr;</button>
+                            <div class="tree-state" data-step="1">
+                                <span class="tree-label">GOAL STATE</span>
+                                <span class="tree-value">B</span>
+                            </div>
+                            <div class="tree-log" id="tree-log"></div>
+                        </div>
+
+                        <p>
+                            Funded by this military-industrial complex, Symbolic AI flourished. A primary example of this was Allen Newell and Herbert A. Simon&rsquo;s Logic Theory Machine (LT) and the General Problem Solver (GPS) (both funded by the Air Force&mdash;military funding for AI was not solely from ARPA). Introduced at the Dartmouth Conference, the Logic Theorist was the first computer program to simulate human-like problem-solving. It was designed as a &ldquo;Complex Information Processing System&rdquo; (IPS) to discover proofs for theorems in symbolic logic.<sup class="cite" data-ref="s4-61" data-citation="Allen Newell and Herbert A. Simon, &ldquo;The Logic Theory Machine - A Complex Information Processing System,&rdquo; IRE Transactions on Information Theory 2, no. 3 (September 1956): 3, 9.">61</sup> To combat the mathematical complexity of generating every possible proof, LT utilized <span class="glossary-term" data-term="heuristics">heuristic methods</span> rather than systematic algorithms.<sup class="cite" data-ref="s4-62" data-citation="Newell and Simon, &ldquo;The Logic Theory Machine,&rdquo; 5, 29&ndash;30.">62</sup>
+                        </p>
+                        <p>
+                            Simon expanded on this with the General Problem Solver (GPS). GPS was designed to reason in terms of &ldquo;means and ends&rdquo; regardless of the subject matter.<sup class="cite" data-ref="s4-63" data-citation="Herbert A. Simon, The Shape of Automation for Men and Management (New York: Harper &amp; Row, 1965), 83.">63</sup> It functioned by detecting differences between a &ldquo;present situation&rdquo; and a &ldquo;goal,&rdquo; then searching its memory for tools to reduce those differences.<sup class="cite" data-ref="s4-64" data-citation="Simon, The Shape of Automation, 83.">64</sup> Because algorithms (systematic, guaranteed solutions) were too computationally expensive, GPS relied on heuristics&mdash;rules of thumb or selective explorations&mdash;to abstract problems, remove real-world details, solve the simplified version, and use that as a guide.<sup class="cite" data-ref="s4-65" data-citation="Simon, The Shape of Automation, 85&ndash;86.">65</sup>
+                        </p>
+                        <p class="pull-quote">
+                            This can be seen as the ultimate realization of the Cold War command-and-control AI dream: a top-down, logically sound, rule-obeying system. Yet, it only functioned as long as the world it operated in remained closed and tightly defined.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             SECTION 5 &mdash; THE HYPE MACHINE
+             ============================================================ -->
+        <section id="section-5" class="narrative-section" data-theme="living-room" data-year="1958" data-year-range="1950-1961" data-title="The Hype Machine">
+            <div class="livingroom-backdrop" aria-hidden="true">
+                <!-- MEDIA NEEDED: /assets/images/mid-century-livingroom.jpg -->
+                <div class="media-placeholder media-placeholder--livingroom">
+                    <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
+                    <span class="placeholder-desc">Mid-century modern living room, coffee table with newspapers &amp; CRT TV</span>
+                </div>
+            </div>
+
+            <div class="section-inner">
+                <header class="section-heading">
+                    <span class="kicker kicker--newspaper">&sect; 05 &middot; Public Perception vs. Reality</span>
+                    <h2 class="headline headline--newspaper">
+                        The Hype Machine and Selling<br/>
+                        the &ldquo;Second Industrial Revolution&rdquo;
+                    </h2>
+                </header>
+
+                <div class="text-stack">
+
+                    <article class="text-box text-box--newsprint">
+                        <h3 class="sub-head sub-head--newspaper">&ldquo;Mechanical Eve&rdquo;</h3>
+
+                        <!-- Clickable Time magazine cover -->
+                        <button class="primary-source-thumb primary-source-thumb--mag" data-source="time-mag-1950">
+                            <!-- MEDIA NEEDED: /assets/images/time-mag-cover-1950.jpg -->
+                            <div class="thumb-image thumb-image--mag">
+                                <span class="media-tag">[ Time &mdash; Jan 23, 1950 placeholder ]</span>
+                            </div>
+                            <span class="thumb-label">Click to enlarge cover &amp; read quotes</span>
+                        </button>
+
+                        <p>
+                            The public&rsquo;s introduction to AI elicited both awe and anxiety. In 1950, <em>Time</em> magazine published a cover story on the state of computing, framing machines as the dawn of a new era. The magazine described the Harvard Mark I (nicknamed &ldquo;Bessie&rdquo;), describing the 760,000-part machine as a &ldquo;mechanical Eve&rdquo; that proved the viability of large-scale autonomous computing.<sup class="cite" data-ref="s5-66" data-citation="&ldquo;Science: The Thinking Machine,&rdquo; Time, January 23, 1950.">66</sup> To illustrate the speed gap, <em>Time</em> noted that a 290-page book of mathematical tables, which would take a human years to calculate, took the Mark I just twelve days.<sup class="cite" data-ref="s5-67" data-citation="&ldquo;Science: The Thinking Machine,&rdquo; Time, January 23, 1950.">67</sup>
+                        </p>
+                        <p>
+                            The article highlighted the tension between conservative experts like Professor Howard Aiken (the original designer behind the Mark I), who viewed machines simply as tools lacking imagination, and radicals like Norbert Wiener.<sup class="cite" data-ref="s5-68" data-citation="&ldquo;Science: The Thinking Machine,&rdquo; Time, January 23, 1950.">68</sup> Wiener predicted a &ldquo;second industrial revolution&rdquo; where artificial brains would devalue the human mind just as the first industrial revolution devalued the human arm.<sup class="cite" data-ref="s5-69" data-citation="&ldquo;Science: The Thinking Machine,&rdquo; Time, January 23, 1950.">69</sup> Experts predicted these electronic brains could soon solve the flow equation of the US economy across 38 industries to predict depression, act as mechanical stenographers to instantly translate speech, and run entirely automatic factories.<sup class="cite" data-ref="s5-70" data-citation="&ldquo;Science: The Thinking Machine,&rdquo; Time, January 23, 1950.">70</sup>
+                        </p>
+                        <p>
+                            Engineers even began anthropomorphizing the hardware. They observed an IBM computer that &ldquo;hated to wake up&rdquo; in the morning without a warmup, and Claude Shannon recounted a dial exchange suffering a &ldquo;nervous breakdown&rdquo; from overwork during WWII.<sup class="cite" data-ref="s5-71" data-citation="&ldquo;Science: The Thinking Machine,&rdquo; Time, January 23, 1950.">71</sup> Wiener went as far as to suggest that complex machines could suffer &ldquo;psychoses&rdquo; (unruly memories) that were curable by rest, an electric shock (increasing voltage), or a lobotomy (disconnecting parts).<sup class="cite" data-ref="s5-72" data-citation="&ldquo;Science: The Thinking Machine,&rdquo; Time, January 23, 1950.">72</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--newsprint">
+                        <h3 class="sub-head sub-head--newspaper">The Perceptron</h3>
+
+                        <button class="primary-source-thumb primary-source-thumb--newspaper" data-source="nyt-perceptron-1958">
+                            <!-- MEDIA NEEDED: /assets/images/nyt-perceptron-1958.png -->
+                            <div class="thumb-image thumb-image--newspaper">
+                                <span class="media-tag">[ NYT, July 7, 1958 placeholder ]</span>
+                            </div>
+                            <span class="thumb-label">&ldquo;New Navy Device Learns By Doing&rdquo;</span>
+                        </button>
+
+                        <p>
+                            As the decade progressed, specific engineering achievements were spun into sci-fi prophecies. On July 7, 1958, <em>The New York Times</em> reported on the U.S. Navy&rsquo;s unveiling of the &ldquo;<span class="glossary-term" data-term="perceptron">Perceptron</span>,&rdquo; designed by Cornell psychologist Dr. Frank Rosenblatt.<sup class="cite" data-ref="s5-73" data-citation="United Press International, &ldquo;New Navy Device Learns By Doing,&rdquo; The New York Times, July 7, 1958.">73</sup>
+                        </p>
+                        <p>
+                            The actual demonstration was remarkably narrow. Researchers used the Weather Bureau&rsquo;s $2,000,000 &ldquo;704&rdquo; computer to simulate a neural network. After fifty trials of making no distinction, the machine underwent a &ldquo;self-induced change in the wiring diagram&rdquo; and successfully learned to register a &ldquo;Q&rdquo; for squares on the left and an &ldquo;O&rdquo; for squares on the right.<sup class="cite" data-ref="s5-74" data-citation="United Press International, &ldquo;New Navy Device Learns By Doing.&rdquo;">74</sup>
+                        </p>
+                        <p>
+                            However, the promises broadcast to the public were astronomical. The Navy claimed that this was the embryo of the first non-living mechanism capable of recognizing its surroundings without human control.<sup class="cite" data-ref="s5-75" data-citation="United Press International, &ldquo;New Navy Device Learns By Doing.&rdquo;">75</sup> Dr. Rosenblatt claimed that the final $100,000 physical machine would contain 1,000 electronic &ldquo;association cells,&rdquo; and predicted that Perceptrons would eventually walk, talk, instantly translate languages, reproduce themselves on an assembly line, and &ldquo;be conscious of its own existence.&rdquo;<sup class="cite" data-ref="s5-76" data-citation="United Press International, &ldquo;New Navy Device Learns By Doing.&rdquo;">76</sup> He even suggested they would be &ldquo;fired to the planets&rdquo; as mechanical space explorers.<sup class="cite" data-ref="s5-77" data-citation="United Press International, &ldquo;New Navy Device Learns By Doing.&rdquo;">77</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--newsprint">
+                        <h3 class="sub-head sub-head--newspaper">CBS Brings the &ldquo;Thinking Machine&rdquo; into the Living Room</h3>
+
+                        <!-- Interactive vintage TV -->
+                        <div class="vintage-tv" aria-label="Interactive 1961 CBS TV">
+                            <div class="tv-cabinet">
+                                <div class="tv-screen" id="tv-screen">
+                                    <div class="tv-static" id="tv-static"></div>
+                                    <iframe
+                                        id="tv-iframe"
+                                        class="tv-iframe"
+                                        src="about:blank"
+                                        data-base="https://www.youtube.com/embed/cvOTKFXpvKA"
+                                        title="The Thinking Machine (1961 CBS documentary)"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                        hidden
+                                    ></iframe>
+                                </div>
+                                <div class="tv-dials">
+                                    <button class="tv-channel" data-channel="1" data-timestamp="0">CH 1 &middot; Checkers</button>
+                                    <button class="tv-channel" data-channel="2" data-timestamp="0">CH 2 &middot; Cannibals</button>
+                                    <button class="tv-channel" data-channel="3" data-timestamp="0">CH 3 &middot; &ldquo;Saga&rdquo;</button>
+                                    <button class="tv-channel tv-off" data-channel="off">OFF</button>
+                                </div>
+                                <div class="tv-brand">CBS &middot; Tomorrow &middot; 1961</div>
+                            </div>
+                            <p class="tv-note">
+                                <strong>Note for you:</strong> fill in the YouTube <code>data-timestamp</code> values (in seconds) for each segment once you&rsquo;ve skimmed the broadcast.
+                            </p>
+                        </div>
+
+                        <p>
+                            By 1961, AI hype reached the living rooms of millions of Americans via the CBS television documentary <em>The Thinking Machine</em>, hosted by David Wayne.<sup class="cite" data-ref="s5-78" data-citation="The Thinking Machine, episode of Tomorrow, produced by CBS News and Thomas Wolf, featuring David Wayne and Jerome B. Wiesner, 1961, United States broadcast documentary, 53:15.">78</sup> MIT Professor Jerome Wiesner opened the broadcast by declaring the digital computer might be of &ldquo;greater importance than the atomic bomb,&rdquo; and predicted that within five years, scientists would universally agree that machines do, in fact, think.<sup class="cite" data-ref="s5-79" data-citation="The Thinking Machine, episode of Tomorrow (1961).">79</sup>
+                        </p>
+                        <p>The American public was shown demonstrations of early AI successes in closed-system environments:</p>
+                        <ul class="demo-list">
+                            <li>
+                                <span class="demo-label">Game Playing:</span>
+                                Dr. Arthur Samuel of IBM demonstrated a computer playing checkers, which learned from experience by storing successful move combinations on tape.<sup class="cite" data-ref="s5-80" data-citation="The Thinking Machine, episode of Tomorrow (1961).">80</sup>
+                            </li>
+                            <li>
+                                <span class="demo-label">Logic Puzzles:</span>
+                                Nobel laureate Herbert Simon showcased a computer printing out step-by-step solutions to the &ldquo;Cannibals and Missionaries&rdquo; logic puzzle, arguing that complex logic is just a &ldquo;cascade&rdquo; of simple steps.<sup class="cite" data-ref="s5-81" data-citation="The Thinking Machine, episode of Tomorrow (1961).">81</sup>
+                            </li>
+                            <li>
+                                <span class="demo-label">Creative Writing:</span>
+                                To prove machines could be creative, MIT&rsquo;s Doug Ross programmed the TX-0 computer to write an original TV Western script called &ldquo;Saga.&rdquo; Ross included variables like an inebriation factor for the robber; as the variable increased, the robber&rsquo;s behavior in the script became increasingly erratic.<sup class="cite" data-ref="s5-82" data-citation="The Thinking Machine, episode of Tomorrow (1961).">82</sup>
+                            </li>
+                        </ul>
+                    </article>
+
+                    <article class="text-box corporate-memo">
+                        <div class="memo-header">
+                            <span class="memo-kicker">INTEROFFICE MEMORANDUM</span>
+                            <h3 class="sub-head">The Economic Promises of Automation</h3>
+                        </div>
+                        <p>
+                            The researchers themselves fueled this public perception. Herbert Simon predicted in his book <em>The Shape of Automation</em> that the &ldquo;second revolution&rdquo; in management science would see computers automating nonprogrammed (judgement-based) executive decisions within 10 to 20 years.<sup class="cite" data-ref="s5-83" data-citation="Simon, The Shape of Automation, 76.">83</sup> However, Simon attempted to quell public fears of sudden unemployment. He argued that replacing the labor force would take several generations due to capital constraints, and that by <span class="glossary-term" data-term="greshams-law">Gresham&rsquo;s Law of Planning</span> (routine drives out non-programmed activity), automation would actually remove boring work and free up human capacity for creativity and innovation.<sup class="cite" data-ref="s5-84" data-citation="Simon, The Shape of Automation, 95, 97.">84</sup>
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             SECTION 6 &mdash; THE DISSENTERS & THE FIRST AI WINTER
+             ============================================================ -->
+        <section id="section-6" class="narrative-section" data-theme="winter-glitch" data-year="1973" data-year-range="1964-1973" data-title="The Reality Check and the First AI Winter">
+            <div class="winter-backdrop" aria-hidden="true">
+                <div class="static-field"></div>
+                <svg class="explosion-curve" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                    <path d="M0 380 Q 200 380 400 300 T 800 0" stroke="currentColor" fill="none" stroke-width="2" />
+                </svg>
+            </div>
+
+            <div class="section-inner">
+                <header class="section-heading">
+                    <span class="kicker kicker--cold">&sect; 06 &middot; Collapse</span>
+                    <h2 class="headline headline--chiseled">
+                        The Reality Check and<br/>
+                        the First AI Winter
+                    </h2>
+                </header>
+
+                <div class="text-stack">
+
+                    <article class="text-box text-box--memo">
+                        <h3 class="sub-head sub-head--chiseled">The Triple Revolution</h3>
+                        <p>
+                            While AI researchers and the media were fueling hype for AI and its transformation of the future, the reality of society in the 60s was drastically different. In 1964, a group of scientists submitted a memorandum to President Johnson out of a &ldquo;feeling of foreboding&rdquo; regarding the nation&rsquo;s economic and social future.<sup class="cite" data-ref="s6-85" data-citation="Ad Hoc Committee on the Triple Revolution, The Triple Revolution (Santa Barbara, CA: Ad Hoc Committee on the Triple Revolution, 1964), 1.">85</sup> This memorandum, known as <em>The Triple Revolution</em>, warned that the government&rsquo;s newly announced War on Poverty would fall short because it failed to grasp the magnitude of technological change.<sup class="cite" data-ref="s6-86" data-citation="Ad Hoc Committee, The Triple Revolution, 1.">86</sup> Failing to adopt radically new economic strategies would result in unprecedented economic and social disorder in the US.<sup class="cite" data-ref="s6-87" data-citation="Ad Hoc Committee, The Triple Revolution, 1.">87</sup>
+                        </p>
+                        <p>
+                            The authors argued that the world was simultaneously undergoing three mutually reinforcing revolutions: the <span class="glossary-term" data-term="cybernation-revolution">Cybernation Revolution</span>, the Weaponry Revolution, and the Human Rights Revolution.<sup class="cite" data-ref="s6-88" data-citation="Ad Hoc Committee, The Triple Revolution, 2.">88</sup> The Cybernation Revolution was the combination of the computer and the automated, self-regulating machine, which was creating a system of almost unlimited productive capacity that required progressively less human labor, and this transition was happening far faster than the agricultural and industrial revolutions.<sup class="cite" data-ref="s6-89" data-citation="Ad Hoc Committee, The Triple Revolution, 2, 3.">89</sup>
+                        </p>
+                        <p>
+                            Thus, the population living in poverty was growing despite the technological potential to supply the needs of everyone.<sup class="cite" data-ref="s6-90" data-citation="Ad Hoc Committee, The Triple Revolution, 4.">90</sup> The committee argued that conventional economic analysis failed to address this issue because it incorrectly assumed the economy would naturally create enough new jobs to absorb displaced workers.<sup class="cite" data-ref="s6-91" data-citation="Ad Hoc Committee, The Triple Revolution, 4.">91</sup> The cause of this massive unemployment was that the productive capability of machines was rising more rapidly than the capacity of human beings to keep pace.<sup class="cite" data-ref="s6-92" data-citation="Ad Hoc Committee, The Triple Revolution, 4, 5, 6.">92</sup> The authors proposed a radically new economic strategy: the government must legally guarantee an adequate income to every individual and family as a human right, viewing it as the only way to distribute and consume the massive abundance produced by automated machines.<sup class="cite" data-ref="s6-93" data-citation="Ad Hoc Committee, The Triple Revolution, 11, 12.">93</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--memo">
+                        <h3 class="sub-head sub-head--chiseled">Theoretical Critiques</h3>
+
+                        <!-- Combinatorial Explosion Simulator -->
+                        <div class="explosion-sim" aria-label="Combinatorial Explosion Simulator">
+                            <div class="explosion-stage" id="explosion-stage">
+                                <canvas id="explosion-canvas" width="560" height="260"></canvas>
+                                <div class="intractable-overlay" id="intractable-overlay">INTRACTABLE</div>
+                            </div>
+                            <div class="explosion-controls">
+                                <button id="add-variable" type="button">+ ADD VARIABLE</button>
+                                <button id="reset-explosion" type="button">RESET</button>
+                                <span class="variable-count">Variables: <span id="variable-count-num">0</span></span>
+                            </div>
+                        </div>
+
+                        <p>
+                            Critics of Symbolic AI warned of, for years, its internal flaws, which finally caught up to the engineering reality. Philosopher Hubert Dreyfus released his critique <em>Alchemy and Artificial Intelligence</em> in 1965, challenging the assumption that all intelligence activities could be formulated in a program.<sup class="cite" data-ref="s6-94" data-citation="Hubert Dreyfus, Alchemy and Artificial Intelligence (RAND Corporation, 1965), 3.">94</sup> He argued symbolic AI suffered from a <span class="glossary-term" data-term="first-step-fallacy">&ldquo;first step fallacy&rdquo;</span>: the mistaken belief that success in simple, rule-bound domains like checkers or chess would naturally scale to the complex, open-ended real world.<sup class="cite" data-ref="s6-95" data-citation="Dreyfus, Alchemy and Artificial Intelligence, 16.">95</sup> Dreyfus asserted that human intelligence relies on &ldquo;fringe consciousness&rdquo; and &ldquo;ambiguity tolerance&rdquo;: the ability for humans to zero in on relevant information without explicitly checking every possibility. This is something digital computers and their discrete logic fundamentally could not do.<sup class="cite" data-ref="s6-96" data-citation="Dreyfus, Alchemy and Artificial Intelligence, 22, 35.">96</sup> Later, John Searle&rsquo;s &ldquo;Chinese Room&rdquo; thought experiment would further challenge this, demonstrating that a computer program manipulating purely formal symbols has only syntax (rules) but no semantics (genuine understanding), which makes strong, human-emulating AI impossible via formal programs.<sup class="cite" data-ref="s6-97" data-citation="John R. Searle, &ldquo;Minds, Brains, and Programs,&rdquo; Behavioral and Brain Sciences 3, no. 3 (September 1980): 417&ndash;18.">97</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--memo winter-final">
+                        <h3 class="sub-head sub-head--chiseled">The Lighthill Report and the First AI Winter</h3>
+                        <p>
+                            The bubble finally burst in 1973. Commissioned by the British Science Research Council to evaluate the state of the field, Sir James Lighthill released a highly critical report that fundamentally dismantled the optimism of AI.<sup class="cite" data-ref="s6-98" data-citation="James Lighthill, &ldquo;Part I: Artificial Intelligence: A General Survey,&rdquo; in Artificial Intelligence: A Paper Symposium (London: Science Research Council, 1972), 2, 10.">98</sup> Lighthill&rsquo;s report identified the combinatorial explosion problem: as variables in real-world environments increased, the computational power required to process them with symbolic logic grew exponentially, making general-purpose AI completely intractable for the computing power of the era.<sup class="cite" data-ref="s6-99" data-citation="Lighthill, &ldquo;Part I: Artificial Intelligence: A General Survey,&rdquo; 10.">99</sup>
+                        </p>
+                        <p>Lighthill separated AI research into three categories:</p>
+                        <ul class="lighthill-categories">
+                            <li><strong>Category A:</strong> Advanced Automation (which had valid, distinct scientific goals).</li>
+                            <li><strong>Category C:</strong> Computer-based CNS (Central Nervous System) studies (which also had valid neurobiology/psychology merit).</li>
+                            <li><strong>Category B:</strong> The &ldquo;Bridge&rdquo; of general-purpose robots/systems (which Lighthill declared a profound failure).<sup class="cite" data-ref="s6-100" data-citation="Lighthill, &ldquo;Part I: Artificial Intelligence: A General Survey,&rdquo; 2.">100</sup></li>
+                        </ul>
+                        <p>
+                            Lighthill advised funding to be pulled from Category B, dismantling the prior justification for ARPA and government funding of general AI.<sup class="cite" data-ref="s6-101" data-citation="Lighthill, &ldquo;Part I: Artificial Intelligence: A General Survey,&rdquo; 20.">101</sup> The resulting massive reduction in financial support effectively froze AI research, moving the field into what is now historically known as the first AI Winter.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             SECTION 7 &mdash; CONCLUSION & LEGACY
+             ============================================================ -->
+        <section id="section-7" class="narrative-section" data-theme="modern-obsidian" data-year="2026" data-year-range="1975-2026" data-title="Conclusion and Legacy">
+            <div class="modern-backdrop" aria-hidden="true">
+                <!-- MEDIA NEEDED: /assets/video/modern-gpu-cluster.mp4 -->
+                <div class="media-placeholder media-placeholder--modern">
+                    <span class="placeholder-tag">MEDIA PLACEHOLDER</span>
+                    <span class="placeholder-desc">Modern data-center / GPU cluster / abstract neural-network loop</span>
+                </div>
+                <svg class="modern-network" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                    <g class="modern-nodes"></g>
+                    <g class="modern-edges"></g>
+                </svg>
+            </div>
+
+            <div class="section-inner">
+                <header class="section-heading">
+                    <span class="kicker kicker--modern">&sect; 07 &middot; The Cybernetic Renaissance</span>
+                    <h2 class="headline headline--modern">
+                        Conclusion and Legacy:<br/>
+                        Are We Repeating History?
+                    </h2>
+                </header>
+
+                <div class="text-stack">
+
+                    <article class="text-box text-box--modern">
+                        <h3 class="sub-head sub-head--modern">The Legacy of GOFAI</h3>
+                        <p>
+                            The historical trajectory of AI was not an inevitable result of scientific discoveries. For decades, the field was dominated by <span class="glossary-term" data-term="symbolic-ai">Symbolic AI (GOFAI)</span>, an approach that abstracted the world into discrete, manageable logic.<sup class="cite" data-ref="s7-102" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 252.">102</sup> This victory was largely dictated by the &ldquo;closed world&rdquo; political discourse of the Cold War. The U.S. military-industrial complex, facilitated by ARPA&rsquo;s massive funding of &ldquo;centers of excellence&rdquo; (like MIT, CMU, and Stanford), required precise &ldquo;command and control&rdquo; systems to manage the global threat of communism.<sup class="cite" data-ref="s7-103" data-citation="Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 259, 261, 272&ndash;273.">103</sup>
+                        </p>
+                        <p>
+                            They favored the reliable and rule-bound logic championed by researchers like Herbert Simon and Allen Newell, marginalizing the messy, probabilistic, ground-up Cybernetic approach pioneered by researchers like Norbert Wiener and Frank Rosenblatt.<sup class="cite" data-ref="s7-104" data-citation="Mindell, Between Human and Machine, 276; Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; 240&ndash;241.">104</sup> However, the AI Winter proved that the military&rsquo;s ideological desire for a perfectly controllable, closed-world system could not overcome the mathematical reality of the combinatorial explosion in open-ended, real-world environments.<sup class="cite" data-ref="s7-105" data-citation="Lighthill, &ldquo;Part I: Artificial Intelligence: A General Survey,&rdquo; 10.">105</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--modern">
+                        <h3 class="sub-head sub-head--modern">The Resurgence of the Bottom-Up Brain</h3>
+                        <p>
+                            Today, the paradigm has flipped. The modern AI renaissance, driven by Large Language Models (LLMs) and deep learning, is fundamentally a resurrection of the cybernetic, <span class="glossary-term" data-term="neural-networks">neural network</span> approach that was sidelined during the Cold War. Instead of programming a computer with top-down, explicit logical rules (like Simon&rsquo;s General Problem Solver), modern AI mimics the biological structure of the brain, utilizing massive data sets and statistical probabilities to &ldquo;learn,&rdquo; which is exactly the bottom-up approach the Navy demonstrated with Rosenblatt&rsquo;s Perceptron in 1958.<sup class="cite" data-ref="s7-106" data-citation="United Press International, &ldquo;New Navy Device Learns By Doing.&rdquo;">106</sup>
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--modern">
+                        <h3 class="sub-head sub-head--modern">Unresolved Philosophical Questions</h3>
+
+                        <!-- Split slider: Dreyfus vs. Searle -->
+                        <div class="dual-slider" aria-label="Dreyfus versus Searle">
+                            <div class="dual-panel dual-panel--left">
+                                <h4>Hubert Dreyfus</h4>
+                                <blockquote>
+                                    <p>&ldquo;Fringe consciousness, ambiguity tolerance, and lived know-how cannot be reduced to formal rules.&rdquo;</p>
+                                </blockquote>
+                                <span class="dual-tag">&mdash; paraphrased from <em>Alchemy and Artificial Intelligence</em> (1965)</span>
+                            </div>
+                            <div class="dual-divider" aria-hidden="true">VS</div>
+                            <div class="dual-panel dual-panel--right">
+                                <h4>John Searle</h4>
+                                <blockquote>
+                                    <p>&ldquo;Syntax is not sufficient for semantics.&rdquo;</p>
+                                </blockquote>
+                                <span class="dual-tag">&mdash; paraphrased from &ldquo;Minds, Brains, and Programs&rdquo; (1980)</span>
+                            </div>
+                        </div>
+
+                        <p>
+                            Yet, despite our progress from vacuum tubes and telephone relays to massive GPU clusters, the foundational philosophical critiques of the 1960s and 70s remain unresolved.
+                        </p>
+                        <ul class="unresolved-list">
+                            <li>
+                                <strong>The Problem of &ldquo;Know-How&rdquo;:</strong>
+                                Philosopher Hubert Dreyfus warned that digital computers fundamentally lack &ldquo;fringe consciousness,&rdquo; &ldquo;ambiguity tolerance,&rdquo; and the non-formal &ldquo;know-how&rdquo; that comes from lived, biological experience.<sup class="cite" data-ref="s7-107" data-citation="Dreyfus, Alchemy and Artificial Intelligence, 32&ndash;35.">107</sup> Are modern LLMs, which are built entirely on the statistical relationships of formal text, truly acquiring &ldquo;know-how,&rdquo; or are they intrinsically limited by their lack of a lived context?
+                            </li>
+                            <li>
+                                <strong>Syntax vs. Semantics:</strong>
+                                John Searle&rsquo;s 1980 &ldquo;Chinese Room&rdquo; thought experiment argued that a formal program manipulating symbols can never possess <span class="glossary-term" data-term="semantics-vs-syntax">semantics (genuine understanding), only syntax (rules)</span>.<sup class="cite" data-ref="s7-108" data-citation="Searle, &ldquo;Minds, Brains, and Programs,&rdquo; 422&ndash;423.">108</sup> Searle concluded that intentionality is a biological phenomenon.<sup class="cite" data-ref="s7-109" data-citation="Searle, &ldquo;Minds, Brains, and Programs,&rdquo; 417, 424.">109</sup> Do modern neural networks actually understand the words they generate, or are they simply a complex, trillion-parameter version of Searle locked in a room, perfectly matching patterns without any comprehension?
+                            </li>
+                        </ul>
+                        <p>
+                            It remains an open question whether the current resurgence of AI is actually solving these fundamental problems of context and embodiment, or if we are just using exponentially more powerful hardware to mask the same limitations identified by Dreyfus and Lighthill decades ago.
+                        </p>
+                    </article>
+
+                    <article class="text-box text-box--modern">
+                        <h3 class="sub-head sub-head--modern">The New Hype Machine and the Military-Industrial Complex</h3>
+
+                        <!-- Hype cycle slider -->
+                        <div class="hype-slider" aria-label="Hype cycle slider: 1958 vs today">
+                            <div class="hype-panel hype-panel--old">
+                                <span class="hype-year">1958</span>
+                                <p>
+                                    &ldquo;The Navy revealed the embryo of an electronic computer that it expects will eventually be able to walk, talk, see, write, reproduce itself and be conscious.&rdquo;
+                                </p>
+                                <cite>&mdash; The New York Times, July 7, 1958</cite>
+                            </div>
+                            <div class="hype-panel hype-panel--new">
+                                <span class="hype-year">Today</span>
+                                <p>
+                                    &ldquo;AGI is coming in the next 5 years and will be capable of doing any cognitive task a human can.&rdquo;
+                                </p>
+                                <cite>&mdash; a generic, modern Big Tech placeholder</cite>
+                            </div>
+                        </div>
+
+                        <p>
+                            We can further examine the sociological patterns of the 1950s and 60s. Are they repeating? Just as the 1961 CBS documentary and <em>The New York Times</em> promised machines that would be conscious of their own existence within years, today&rsquo;s tech industry constantly promises the imminent arrival of Artificial General Intelligence (AGI).<sup class="cite" data-ref="s7-110" data-citation="United Press International, &ldquo;New Navy Device Learns By Doing&rdquo;; The Thinking Machine, episode of Tomorrow (1961).">110</sup> Furthermore, military and government funding is once again pouring into AI for autonomous warfare, surveillance, and global strategy; perhaps this is a modern version of the Cold War&rsquo;s &ldquo;closed world&rdquo; discourse.
+                        </p>
+                        <p class="closing-charge">
+                            As we live through this new era of AI, we can look to history for a warning: we must carefully distinguish between the simulation of thought and the duplication of thought, and recognize when our engineering realities are being clouded by the hype of our own political and economic ambitions.
+                        </p>
+                    </article>
+
+                    <div class="end-marker">
+                        <a href="bibliography.html" class="to-archive-link">
+                            <span class="to-archive-kicker">&rarr;</span>
+                            Enter The Archives
+                            <span class="to-archive-sub">annotated bibliography &amp; image credits</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =====================================================
+         DYNAMIC TIMELINE (bottom, fixed)
+         ===================================================== -->
+    <footer id="dynamic-timeline" aria-label="Historical timeline">
+        <div class="timeline-rail">
+            <div class="timeline-progress" id="timeline-progress"></div>
+            <div class="timeline-marker" id="timeline-marker">
+                <span class="timeline-year" id="timeline-year">1950</span>
+            </div>
+            <!-- Tick marks for significant years -->
+            <div class="timeline-ticks">
+                <div class="tick" style="--pos: 0%;"    data-year="1940"><span>1940</span></div>
+                <div class="tick" style="--pos: 12%;"   data-year="1950"><span>1950</span></div>
+                <div class="tick" style="--pos: 19%;"   data-year="1956"><span>1956 &middot; Dartmouth</span></div>
+                <div class="tick" style="--pos: 22%;"   data-year="1958"><span>1958 &middot; Perceptron</span></div>
+                <div class="tick" style="--pos: 26%;"   data-year="1961"><span>1961 &middot; CBS Doc</span></div>
+                <div class="tick" style="--pos: 30%;"   data-year="1964"><span>1964 &middot; Triple Revolution</span></div>
+                <div class="tick" style="--pos: 32%;"   data-year="1965"><span>1965 &middot; Dreyfus</span></div>
+                <div class="tick" style="--pos: 40%;"   data-year="1973"><span>1973 &middot; Lighthill Report &amp; AI Winter</span></div>
+                <div class="tick" style="--pos: 100%;"  data-year="2026"><span>2026 &middot; The Cybernetic Renaissance</span></div>
+            </div>
+        </div>
+        <div class="timeline-readout">
+            <span class="timeline-kicker">TIMELINE</span>
+            <span class="timeline-range" id="timeline-range">1940 &rarr; 2026</span>
+        </div>
+    </footer>
+
+    <!-- =====================================================
+         Ambient audio (controlled by scroll-engine.js)
+         ===================================================== -->
+    <!-- MEDIA NEEDED: /assets/audio/typewriter-ambience.mp3, /assets/audio/radar-ping.mp3 -->
+    <audio id="ambient-typewriter" src="assets/audio/typewriter-ambience.mp3" loop preload="none"></audio>
+    <audio id="ambient-radar" src="assets/audio/radar-ping.mp3" loop preload="none"></audio>
+    <audio id="ambient-mainframe" src="assets/audio/mainframe-hum.mp3" loop preload="none"></audio>
+
+    <!-- Audio mute toggle -->
+    <button id="audio-toggle" aria-label="Toggle ambient sound" aria-pressed="false">
+        <span class="audio-icon">&#x1F507;</span>
+        <span class="audio-label">SOUND</span>
+    </button>
+
+    <!-- =====================================================
+         JavaScript
+         ===================================================== -->
+    <script src="js/footnotes.js" defer></script>
+    <script src="js/glossary.js" defer></script>
+    <script src="js/widgets.js" defer></script>
+    <script src="js/scroll-engine.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,1037 @@
+/* =====================================================================
+   interactions.css  —  Interactive widgets & micro-interactions
+   Everything that the user can actually CLICK, DRAG, TYPE, or HOVER.
+   =====================================================================
+     §1  Shared interactive-block primitives
+     §2  Turing Typewriter (§2)
+     §3  Gunner Toggle refinements (§3)
+     §4  Analog↔Digital slider + custom range input (§3)
+     §5  ARPA funding map interactivity (§4)
+     §6  Means-Ends Logic Tree (§4)
+     §7  Vintage TV channel states (§5)
+     §8  Primary-source thumbs & Lightbox content (§2, §5)
+     §9  Combinatorial Explosion Simulator (§6)
+     §10 Dual-slider & Hype slider reveal (§7)
+     §11 Glossary / Footnote hover polish
+     §12 Button micro-interactions (global)
+     §13 Custom cursors
+   ===================================================================== */
+
+
+/* ====================================================================
+   §1  Shared interactive-block primitives
+   ==================================================================== */
+
+.interactive-block {
+    position: relative;
+    margin: var(--space-lg) 0;
+    padding: var(--space-lg);
+    border: 1px dashed var(--color-rule);
+    border-radius: var(--radius-md);
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.01), transparent 40%),
+        rgba(10, 13, 18, 0.4);
+    /* Every interactive block gets a small "I/O" kicker in the corner */
+    isolation: isolate;
+}
+
+.interactive-block::before {
+    content: 'INTERACTIVE';
+    position: absolute;
+    top: -0.6em;
+    left: var(--space-md);
+    padding: 0.2em 0.7em;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-accent-amber);
+    background: var(--color-bg);
+    border: 1px solid var(--color-accent-amber);
+    border-radius: var(--radius-sm);
+}
+
+.interactive-title {
+    margin-bottom: var(--space-2xs);
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    color: var(--color-ink);
+}
+.interactive-title .vs {
+    color: var(--color-accent-amber);
+    margin: 0 0.3em;
+    font-family: var(--font-mono);
+}
+
+.interactive-sub {
+    margin-bottom: var(--space-md);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+}
+
+
+/* ====================================================================
+   §2  Turing Typewriter  —  Section 2
+   ==================================================================== */
+
+.interactive-block--typewriter {
+    background: #e8d9b3;
+    border: 1px solid rgba(42, 35, 24, 0.35);
+    padding: 0;
+    overflow: hidden;
+    box-shadow:
+        0 6px 0 rgba(42, 35, 24, 0.12),
+        0 20px 40px rgba(42, 35, 24, 0.28);
+}
+.interactive-block--typewriter::before {
+    top: -0.6em;
+    left: var(--space-md);
+    background: #e8d9b3;
+    border-color: #8a3b24;
+    color: #8a3b24;
+}
+
+.typewriter-frame {
+    display: flex;
+    flex-direction: column;
+    min-height: 260px;
+}
+
+.typewriter-header {
+    padding: var(--space-xs) var(--space-md);
+    background:
+        linear-gradient(180deg, #2a2318 0%, #1a1610 100%);
+    color: var(--color-accent-paper);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.typewriter-header::before,
+.typewriter-header::after {
+    content: '';
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #5a4a2c, #1a1610);
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.6);
+    flex: 0 0 14px;
+}
+.type-label {
+    flex: 1;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #d9c89a;
+}
+
+.typewriter-transcript {
+    flex: 1;
+    min-height: 160px;
+    padding: var(--space-md) var(--space-lg);
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 28px,
+            rgba(42, 35, 24, 0.08) 28px,
+            rgba(42, 35, 24, 0.08) 29px
+        ),
+        #f2e9d7;
+    color: #1a1610;
+    font-family: var(--font-typewriter);
+    font-size: 1rem;
+    line-height: 2;
+    overflow-y: auto;
+    max-height: 320px;
+}
+.typewriter-transcript:empty::before {
+    content: '[ awaiting input from the interrogator... ]';
+    color: rgba(26, 22, 16, 0.4);
+    font-style: italic;
+}
+
+.typewriter-line {
+    display: block;
+    margin-bottom: var(--space-2xs);
+    white-space: pre-wrap;
+}
+.typewriter-line--user {
+    color: #5a4a2c;
+}
+.typewriter-line--user::before {
+    content: '> ';
+    color: #8a3b24;
+    font-weight: 700;
+}
+.typewriter-line--machine {
+    color: #1a1610;
+    position: relative;
+    padding-left: 1.2em;
+}
+.typewriter-line--machine::before {
+    content: 'C:';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: #8a3b24;
+}
+/* Blinking caret on the last machine line while typing */
+.typewriter-line--typing::after {
+    content: '';
+    display: inline-block;
+    width: 0.6em;
+    height: 1.1em;
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    background: #1a1610;
+    animation: caret-blink 0.8s steps(2) infinite;
+}
+@keyframes caret-blink {
+    50% { opacity: 0; }
+}
+
+.typewriter-input-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    padding: var(--space-xs) var(--space-md);
+    background: #d9c89a;
+    border-top: 1px solid rgba(42, 35, 24, 0.25);
+}
+.prompt-glyph {
+    font-family: var(--font-typewriter);
+    font-weight: 700;
+    color: #8a3b24;
+    font-size: 1.2em;
+}
+#typewriter-input {
+    flex: 1;
+    padding: 0.4em 0.6em;
+    font-family: var(--font-typewriter);
+    font-size: 1rem;
+    color: #1a1610;
+    background: #f2e9d7;
+    border: 1px solid rgba(42, 35, 24, 0.35);
+    border-radius: 2px;
+    outline: none;
+    transition: border-color var(--dur-fast) var(--ease-out),
+                box-shadow   var(--dur-fast) var(--ease-out);
+}
+#typewriter-input::placeholder {
+    color: rgba(26, 22, 16, 0.4);
+    font-style: italic;
+}
+#typewriter-input:focus {
+    border-color: #8a3b24;
+    box-shadow: 0 0 0 3px rgba(138, 59, 36, 0.2);
+}
+#typewriter-send {
+    padding: 0.45em 1em;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #f2e9d7;
+    background: #8a3b24;
+    border: 1px solid #5a2418;
+    border-radius: 2px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 2px 0 rgba(0, 0, 0, 0.3);
+    transition: transform var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out),
+                background var(--dur-fast) var(--ease-out);
+}
+#typewriter-send:hover {
+    background: #a84a2c;
+}
+#typewriter-send:active {
+    transform: translateY(2px);
+    box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 0 rgba(0, 0, 0, 0);
+}
+
+
+/* ====================================================================
+   §3  Gunner Toggle refinements (Section 3)
+   ==================================================================== */
+
+#section-3 .gunner-frame::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px dashed rgba(125, 255, 154, 0.25);
+    pointer-events: none;
+    z-index: 1;
+}
+#section-3 .gunner-frame::after {
+    content: 'AA-TRACKING // NDRC';
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: rgba(125, 255, 154, 0.5);
+    z-index: 2;
+}
+
+#section-3 .gunner-switch {
+    position: relative;
+    cursor: pointer;
+}
+#section-3 .gunner-switch:active {
+    transform: translateY(1px);
+}
+#section-3 .gunner-switch[data-view="cybernetic"]::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -14px;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent-radar);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--color-accent-radar);
+}
+
+
+/* ====================================================================
+   §4  Analog ↔ Digital slider (Section 3)
+   ==================================================================== */
+
+.interactive-block--slider {
+    background: rgba(20, 24, 19, 0.85);
+    border: 1px solid rgba(125, 255, 154, 0.3);
+    padding: var(--space-lg);
+    color: #c9dac0;
+}
+.interactive-block--slider::before {
+    background: #141813;
+    color: var(--color-accent-radar);
+    border-color: var(--color-accent-radar);
+}
+.interactive-block--slider .interactive-title {
+    color: var(--color-accent-radar);
+    font-family: var(--font-stencil);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.interactive-block--slider .interactive-sub {
+    color: rgba(201, 218, 192, 0.75);
+}
+
+.ad-slider {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    min-height: 180px;
+    background: #0a0d08;
+    border: 1px solid rgba(125, 255, 154, 0.4);
+    overflow: hidden;
+    padding-bottom: 56px;  /* space for the range below */
+}
+
+.ad-panel {
+    position: relative;
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: filter var(--dur-med) var(--ease-out),
+                opacity var(--dur-med) var(--ease-out);
+}
+
+.ad-panel--analog {
+    background:
+        radial-gradient(circle at 30% 50%, rgba(255, 91, 58, 0.08), transparent 70%),
+        linear-gradient(135deg, #1a2018 0%, #101410 100%);
+    color: var(--color-accent-hot);
+    /* dim by default; JS will swap to focus */
+}
+.ad-panel--analog svg {
+    width: 100%;
+    height: 80px;
+    filter: drop-shadow(0 0 8px rgba(255, 91, 58, 0.5));
+}
+.ad-panel--analog #analog-wave {
+    stroke: var(--color-accent-hot);
+    stroke-width: 2.5;
+    animation: wave-wobble 3s ease-in-out infinite;
+}
+@keyframes wave-wobble {
+    0%, 100% { transform: translateY(0) scaleY(1); }
+    25%      { transform: translateY(-6px) scaleY(1.4); }
+    50%      { transform: translateY(4px)  scaleY(0.8); }
+    75%      { transform: translateY(-2px) scaleY(1.2); }
+}
+
+.ad-panel--digital {
+    background:
+        radial-gradient(circle at 70% 50%, rgba(125, 255, 154, 0.08), transparent 70%),
+        linear-gradient(135deg, #081810 0%, #051008 100%);
+    color: var(--color-accent-radar);
+}
+.digital-grid {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-auto-rows: 10px;
+    gap: 2px;
+    width: 100%;
+    max-width: 240px;
+    margin-bottom: var(--space-sm);
+}
+.digital-grid .bit {
+    background: rgba(125, 255, 154, 0.08);
+    border-radius: 1px;
+    transition: background var(--dur-fast) var(--ease-out);
+}
+.digital-grid .bit.on {
+    background: var(--color-accent-radar);
+    box-shadow: 0 0 4px var(--color-accent-radar);
+}
+
+.ad-label {
+    display: block;
+    margin-top: var(--space-sm);
+    font-family: var(--font-stencil);
+    font-size: var(--fs-sm);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: currentColor;
+    text-shadow: 0 0 8px currentColor;
+}
+
+/* Dim whichever side is not selected */
+.ad-slider[data-focus="analog"]  .ad-panel--digital { opacity: 0.25; filter: blur(2px) saturate(0.5); }
+.ad-slider[data-focus="digital"] .ad-panel--analog  { opacity: 0.25; filter: blur(2px) saturate(0.5); }
+.ad-slider[data-focus="balanced"] .ad-panel         { opacity: 0.85; filter: none; }
+
+/* Custom range input — spans full width at bottom of the ad-slider */
+#ad-slider-input {
+    position: absolute;
+    left: var(--space-md);
+    right: var(--space-md);
+    bottom: var(--space-md);
+    width: calc(100% - 2 * var(--space-md));
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: linear-gradient(
+        90deg,
+        var(--color-accent-hot) 0%,
+        var(--color-accent-hot) 50%,
+        var(--color-accent-radar) 50%,
+        var(--color-accent-radar) 100%
+    );
+    border-radius: 2px;
+    outline: none;
+    cursor: ew-resize;
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+}
+#ad-slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 36px;
+    background: var(--color-accent-amber);
+    border: 2px solid var(--color-bg);
+    border-radius: 2px;
+    cursor: ew-resize;
+    box-shadow:
+        0 0 0 3px rgba(233, 180, 76, 0.25),
+        0 4px 12px rgba(0, 0, 0, 0.6);
+    transition: transform var(--dur-fast) var(--ease-out);
+}
+#ad-slider-input::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+#ad-slider-input::-moz-range-thumb {
+    width: 20px;
+    height: 36px;
+    background: var(--color-accent-amber);
+    border: 2px solid var(--color-bg);
+    border-radius: 2px;
+    cursor: ew-resize;
+    box-shadow:
+        0 0 0 3px rgba(233, 180, 76, 0.25),
+        0 4px 12px rgba(0, 0, 0, 0.6);
+}
+#ad-slider-input:focus-visible::-webkit-slider-thumb {
+    box-shadow:
+        0 0 0 3px var(--color-accent-amber),
+        0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+
+/* ====================================================================
+   §5  ARPA funding map (Section 4)
+   ==================================================================== */
+
+#section-4 .funding-node {
+    position: relative;
+}
+#section-4 .funding-node circle {
+    transition: r var(--dur-fast) var(--ease-out),
+                fill var(--dur-fast) var(--ease-out);
+}
+#section-4 .funding-node:hover circle {
+    r: 12;
+}
+#section-4 .funding-lines line {
+    stroke-dashoffset: 0;
+    animation: funding-flow 4s linear infinite;
+}
+@keyframes funding-flow {
+    to { stroke-dashoffset: -200; }
+}
+
+/* Tooltip-like label revealed on hover via data-label */
+#section-4 .funding-node::after {
+    /* SVG elements can't use pseudo-elements reliably; the JS engine
+       will manage an HTML label overlay. Hooks live here for consistency. */
+}
+
+
+/* ====================================================================
+   §6  Means-Ends Logic Tree (Section 4)
+   ==================================================================== */
+
+#section-4 .tree-state {
+    position: relative;
+    transition: transform var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out);
+}
+#section-4 .tree-state.is-reducing {
+    animation: tree-pulse 0.6s var(--ease-in-out);
+}
+@keyframes tree-pulse {
+    0%, 100% { transform: scale(1);    box-shadow: 0 0 0 rgba(125, 255, 154, 0); }
+    50%      { transform: scale(1.05); box-shadow: 0 0 24px rgba(125, 255, 154, 0.45); }
+}
+
+#section-4 .logic-reduce {
+    position: relative;
+    overflow: hidden;
+}
+#section-4 .logic-reduce::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(125, 255, 154, 0.3),
+        transparent
+    );
+    transition: left var(--dur-med) var(--ease-out);
+}
+#section-4 .logic-reduce:hover::after {
+    left: 100%;
+}
+
+/* Log entries — each one fades in when added */
+#section-4 .tree-log p {
+    animation: log-fade-in 0.4s var(--ease-out);
+    margin: 0;
+    padding: 0.2em 0;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--color-accent-radar);
+}
+#section-4 .tree-log p::before {
+    content: '> ';
+    color: rgba(125, 255, 154, 0.6);
+}
+@keyframes log-fade-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ====================================================================
+   §7  Vintage TV channel states (Section 5)
+   ==================================================================== */
+
+#section-5 .tv-channel {
+    position: relative;
+    user-select: none;
+}
+#section-5 .tv-channel:active {
+    transform: translateY(1px);
+    box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.5),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+#section-5 .tv-channel.is-active::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ff2020;
+    box-shadow: 0 0 8px #ff4040;
+    animation: tv-led-pulse 1.6s ease-in-out infinite;
+}
+@keyframes tv-led-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px  #ff4040; }
+    50%      { opacity: 0.55; box-shadow: 0 0 14px #ff6060; }
+}
+
+/* TV static — crackles until a channel is selected */
+#section-5 .tv-static {
+    animation: tv-static-jitter 0.15s steps(3) infinite;
+}
+#section-5 .tv-screen.is-playing .tv-static {
+    display: none;
+}
+#section-5 .tv-screen.is-playing #tv-iframe {
+    display: block !important;
+}
+@keyframes tv-static-jitter {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(-1px, 1px); }
+    50%  { transform: translate(1px, -1px); }
+    75%  { transform: translate(-1px, -1px); }
+    100% { transform: translate(1px, 1px); }
+}
+
+
+/* ====================================================================
+   §8  Primary-source thumbs & Lightbox content
+   ==================================================================== */
+
+/* Base hover for any thumb (wherever the theme doesn't override) */
+.primary-source-thumb {
+    position: relative;
+    cursor: zoom-in;
+    transition: transform var(--dur-med) var(--ease-out),
+                box-shadow var(--dur-med) var(--ease-out);
+}
+.primary-source-thumb::after {
+    content: '⤢';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-bg);
+    background: var(--color-accent-amber);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity var(--dur-fast) var(--ease-out),
+                transform var(--dur-fast) var(--ease-snap);
+    pointer-events: none;
+}
+.primary-source-thumb:hover::after,
+.primary-source-thumb:focus-visible::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Lightbox content — rich renderings of what each source is */
+#lightbox-content {
+    position: relative;
+}
+#lightbox-content.lightbox--time {
+    background:
+        radial-gradient(circle at 50% 25%, #c44040 0%, #8b2020 55%, #5a1414 100%);
+    color: #f5eeda;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    min-height: 60vh;
+    font-family: var(--font-serif);
+    text-align: center;
+    padding: var(--space-2xl) var(--space-lg);
+}
+#lightbox-content.lightbox--time .lb-masthead {
+    font-family: var(--font-serif);
+    font-weight: 900;
+    font-size: calc(var(--fs-3xl) * 1.2);
+    color: #f5eeda;
+    letter-spacing: -0.02em;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    line-height: 1;
+}
+#lightbox-content.lightbox--time .lb-date {
+    font-family: var(--font-mono);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-size: var(--fs-sm);
+    color: rgba(245, 238, 218, 0.85);
+}
+#lightbox-content.lightbox--time .lb-quote {
+    margin-top: var(--space-md);
+    max-width: 46ch;
+    font-style: italic;
+    font-size: var(--fs-lg);
+    line-height: 1.5;
+    border-top:    1px solid rgba(245, 238, 218, 0.4);
+    border-bottom: 1px solid rgba(245, 238, 218, 0.4);
+    padding: var(--space-md) 0;
+}
+
+#lightbox-content.lightbox--nyt {
+    background: #e8dcbf;
+    color: #1a1410;
+    font-family: var(--font-serif);
+    padding: var(--space-xl) var(--space-lg);
+    min-height: 60vh;
+    background-image: repeating-linear-gradient(
+        0deg,
+        rgba(42, 32, 24, 0.05) 0 1px,
+        transparent 1px 4px
+    );
+}
+#lightbox-content.lightbox--nyt .lb-masthead {
+    font-family: var(--font-serif);
+    font-weight: 900;
+    font-size: var(--fs-2xl);
+    text-align: center;
+    color: #1a1410;
+    border-bottom: 4px double #1a1410;
+    padding-bottom: var(--space-sm);
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.01em;
+}
+#lightbox-content.lightbox--nyt .lb-headline {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-sm);
+}
+#lightbox-content.lightbox--nyt .lb-byline {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #5a4020;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid rgba(26, 20, 16, 0.3);
+}
+#lightbox-content.lightbox--nyt .lb-body p {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-sm);
+}
+
+#lightbox-content.lightbox--dartmouth {
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0,
+            transparent 1.6em,
+            rgba(42, 35, 24, 0.08) 1.6em,
+            rgba(42, 35, 24, 0.08) 1.61em
+        ),
+        #f2e9d7;
+    font-family: var(--font-typewriter);
+    color: #1a1610;
+    padding: var(--space-xl) var(--space-xl);
+    min-height: 70vh;
+    line-height: 1.8;
+}
+#lightbox-content.lightbox--dartmouth .lb-masthead {
+    text-align: center;
+    font-family: var(--font-typewriter);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-md);
+}
+#lightbox-content.lightbox--dartmouth .lb-body {
+    font-family: var(--font-typewriter);
+    font-size: 1rem;
+}
+
+
+/* ====================================================================
+   §9  Combinatorial Explosion Simulator (Section 6)
+   ==================================================================== */
+
+#section-6 .explosion-stage {
+    cursor: crosshair;
+}
+#section-6 .explosion-stage canvas {
+    display: block;
+    background: transparent;
+    image-rendering: pixelated;
+}
+
+#section-6 #add-variable {
+    position: relative;
+    overflow: hidden;
+}
+#section-6 #add-variable::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 91, 58, 0.3) 50%,
+        transparent 100%
+    );
+    transform: translateX(-100%);
+    transition: transform var(--dur-med) var(--ease-out);
+}
+#section-6 #add-variable:hover::before {
+    transform: translateX(100%);
+}
+#section-6 #add-variable:active {
+    transform: translateY(2px);
+}
+
+/* When close to meltdown, add a shake */
+#section-6 .explosion-stage.is-straining {
+    animation: strain-shake 0.08s linear infinite;
+}
+@keyframes strain-shake {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(-1px, 1px); }
+    50%  { transform: translate(1px, -1px); }
+    75%  { transform: translate(-1px, -1px); }
+    100% { transform: translate(1px, 1px); }
+}
+
+/* INTRACTABLE splash */
+#section-6 .intractable-overlay {
+    text-transform: uppercase;
+}
+#section-6 .intractable-overlay.is-visible {
+    animation: intractable-flash 0.12s steps(2) 4;
+}
+@keyframes intractable-flash {
+    50% { background: rgba(255, 91, 58, 0.3); }
+}
+
+
+/* ====================================================================
+   §10  Dual-slider & Hype slider reveal (Section 7)
+   ==================================================================== */
+
+#section-7 .dual-panel,
+#section-7 .hype-panel {
+    transition: transform var(--dur-med) var(--ease-out),
+                border-color var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out);
+}
+#section-7 .dual-panel:hover,
+#section-7 .hype-panel:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+#section-7 .dual-panel--left:hover  { border-color: var(--color-accent-blue); }
+#section-7 .dual-panel--right:hover { border-color: var(--color-accent-cyber); }
+#section-7 .hype-panel--old:hover   { border-color: var(--color-accent-amber); }
+#section-7 .hype-panel--new:hover   { border-color: var(--color-accent-blue); }
+
+/* Subtle "vs" glow pulse on dual-slider */
+#section-7 .dual-divider {
+    position: relative;
+    animation: vs-pulse 3s ease-in-out infinite;
+}
+@keyframes vs-pulse {
+    0%, 100% { text-shadow: 0 0 4px rgba(255, 91, 58, 0.3); }
+    50%      { text-shadow: 0 0 16px rgba(255, 91, 58, 0.7), 0 0 32px rgba(255, 91, 58, 0.3); }
+}
+
+
+/* ====================================================================
+   §11  Glossary / Footnote hover polish
+   ==================================================================== */
+
+/* Glossary term — subtle arrow glyph on hover */
+.glossary-term {
+    position: relative;
+}
+.glossary-term::after {
+    content: '↗';
+    position: absolute;
+    top: -0.2em;
+    right: -0.9em;
+    font-size: 0.7em;
+    font-family: var(--font-mono);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity var(--dur-fast) var(--ease-out),
+                transform var(--dur-fast) var(--ease-out);
+    pointer-events: none;
+}
+.glossary-term:hover::after,
+.glossary-term:focus-visible::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Footnote tooltip refinements */
+#footnote-tooltip {
+    max-width: 380px;
+    transform-origin: top left;
+}
+#footnote-tooltip[data-position="above"] {
+    transform-origin: bottom left;
+}
+
+/* Cite — subtle bounce on hover */
+.cite {
+    position: relative;
+}
+.cite:hover {
+    animation: cite-bounce 0.4s var(--ease-snap);
+}
+@keyframes cite-bounce {
+    0%   { transform: translateY(-1px); }
+    50%  { transform: translateY(-4px); }
+    100% { transform: translateY(-1px); }
+}
+
+/* Glossary sidebar — while-open polish */
+#glossary-sidebar .glossary-body p {
+    margin-bottom: var(--space-sm);
+}
+#glossary-sidebar .glossary-body p::first-letter {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--color-accent-amber);
+}
+
+
+/* ====================================================================
+   §12  Button micro-interactions (global)
+   ==================================================================== */
+
+/* Radar blip — scale in on appearance, wiggle on hover */
+.radar-blip {
+    transform-origin: center;
+}
+.radar-blip:hover {
+    animation: blip-wiggle 0.35s var(--ease-snap);
+}
+@keyframes blip-wiggle {
+    0%   { transform: rotate(var(--angle, 0deg)) translate(calc(var(--radar-size) * var(--distance, 0.35))) rotate(calc(-1 * var(--angle, 0deg))); }
+    50%  { transform: rotate(var(--angle, 0deg)) translate(calc(var(--radar-size) * var(--distance, 0.35))) rotate(calc(-1 * var(--angle, 0deg))) scale(1.5); }
+    100% { transform: rotate(var(--angle, 0deg)) translate(calc(var(--radar-size) * var(--distance, 0.35))) rotate(calc(-1 * var(--angle, 0deg))) scale(1.25); }
+}
+.radar-blip.is-current {
+    animation: blip-pulse 1.8s ease-in-out infinite;
+}
+@keyframes blip-pulse {
+    0%, 100% { box-shadow: 0 0 16px var(--color-accent-hot), 0 0 28px var(--color-accent-hot); }
+    50%      { box-shadow: 0 0 24px var(--color-accent-hot), 0 0 48px var(--color-accent-hot), 0 0 8px #fff; }
+}
+
+/* Audio toggle — subtle bob when playing */
+#audio-toggle[aria-pressed="true"] .audio-icon {
+    animation: audio-bob 1.4s var(--ease-in-out) infinite;
+}
+@keyframes audio-bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-2px); }
+}
+
+/* Timeline year badge — small bounce when landing on a new tick */
+.timeline-marker.is-snapping {
+    animation: marker-snap 0.45s var(--ease-snap);
+}
+@keyframes marker-snap {
+    0%   { transform: translateY(0)    scale(1); }
+    40%  { transform: translateY(-4px) scale(1.25); }
+    100% { transform: translateY(0)    scale(1); }
+}
+
+/* Glossary close & lightbox close — shared rotate-on-hover pattern is
+   already in main.css; here we add an active press feedback */
+#glossary-close:active,
+#source-lightbox-close:active {
+    transform: rotate(90deg) scale(0.85);
+}
+
+
+/* ====================================================================
+   §13  Custom cursors
+   ==================================================================== */
+
+/* Radar menu — crosshair while hovering over blips */
+#radar-menu .radar-ring {
+    cursor: crosshair;
+}
+
+/* Primary source thumbs — zoom-in cursor */
+.primary-source-thumb { cursor: zoom-in; }
+
+/* Glossary term — a subtle "help" cursor */
+.glossary-term { cursor: help; }
+
+/* Citations — already marked help */
+.cite { cursor: help; }
+
+/* Logic-reduce button — pointer with animation hint */
+#section-4 .logic-reduce { cursor: pointer; }
+
+/* TV channel buttons — pointer */
+#section-5 .tv-channel { cursor: pointer; }
+
+
+/* ====================================================================
+   §14  Mobile refinements for widgets
+   ==================================================================== */
+
+@media (max-width: 720px) {
+    /* Typewriter gets smaller transcript height */
+    .typewriter-transcript { max-height: 200px; min-height: 120px; }
+
+    /* Analog/digital slider gets shorter */
+    .ad-slider { min-height: 140px; padding-bottom: 60px; }
+    .ad-panel--analog svg { height: 60px; }
+
+    /* Logic tree stacks vertically */
+    #section-4 .logic-tree { grid-template-columns: 1fr; }
+
+    /* Gunner frame shrinks */
+    #section-3 .gunner-frame { max-width: 100%; }
+
+    /* TV scales down */
+    #section-5 .vintage-tv { max-width: 100%; }
+}
+
+@media (max-width: 480px) {
+    /* Typewriter header: hide the decorative knobs */
+    .typewriter-header::before,
+    .typewriter-header::after { display: none; }
+
+    /* TV: wrap dials */
+    #section-5 .tv-dials { flex-direction: column; }
+}

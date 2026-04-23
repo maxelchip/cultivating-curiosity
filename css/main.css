@@ -1,0 +1,1276 @@
+/* =====================================================================
+   main.css  —  Global layout, typography, and base shell styling
+   The Divergence of Early AI: A Cold War History
+   =====================================================================
+   Scope of this file:
+     1.  Reset / Normalize
+     2.  Design tokens  (fonts, colors, spacing, easing)
+     3.  Base page + typography
+     4.  Narrative sections (base layout, no theme)
+     5.  Text-box primitives (base)
+     6.  Radar navigation
+     7.  Glossary sidebar
+     8.  Footnote tooltip
+     9.  Primary-source lightbox
+     10. Timeline footer
+     11. Audio toggle
+     12. Utility classes + a11y + reduced motion
+   ===================================================================== */
+
+
+/* ------------------------------------------------------------------ *
+ * 1.  Reset / Normalize
+ * ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg, video, canvas, iframe {
+    display: block;
+    max-width: 100%;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+input, textarea {
+    font: inherit;
+    color: inherit;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+/* Focus-visible ring, honored everywhere unless overridden */
+:focus-visible {
+    outline: 2px solid var(--color-accent-hot);
+    outline-offset: 3px;
+}
+
+
+/* ------------------------------------------------------------------ *
+ * 2.  Design Tokens
+ * ------------------------------------------------------------------ */
+
+:root {
+
+    /* ---- Typography ---- */
+    --font-display:     'Jost', 'Futura', 'Helvetica Neue', sans-serif;   /* Futura-like headers */
+    --font-typewriter:  'Special Elite', 'Courier Prime', 'Courier New', monospace;
+    --font-mono:        'Courier Prime', 'Courier New', ui-monospace, monospace;
+    --font-stencil:     'Black Ops One', 'Impact', sans-serif;
+    --font-crt:         'VT323', 'Courier New', monospace;
+    --font-serif:       'Cormorant Garamond', 'Times New Roman', serif;
+    --font-modern:      'Space Grotesk', 'Jost', system-ui, sans-serif;
+
+    /* Type scale (fluid) */
+    --fs-xs:    clamp(0.75rem, 0.72rem + 0.15vw, 0.85rem);
+    --fs-sm:    clamp(0.85rem, 0.8rem + 0.25vw, 0.98rem);
+    --fs-base:  clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    --fs-md:    clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+    --fs-lg:    clamp(1.25rem, 1.1rem + 0.75vw, 1.6rem);
+    --fs-xl:    clamp(1.6rem, 1.3rem + 1.5vw, 2.4rem);
+    --fs-2xl:   clamp(2.2rem, 1.6rem + 3vw, 4rem);
+    --fs-3xl:   clamp(3rem, 2.2rem + 4vw, 6.5rem);
+
+    /* ---- Default color palette (dark, neutral)
+            Each section's theme will override aggressively in themes.css ---- */
+    --color-bg:             #0a0d12;   /* near-black deep blue */
+    --color-bg-soft:        #12161d;
+    --color-surface:        #161a22;
+    --color-surface-raised: #1c2230;
+
+    --color-ink:            #e8ecf2;   /* primary text on dark */
+    --color-ink-muted:      #9ba4b3;
+    --color-ink-dim:        #5e6676;
+    --color-rule:           rgba(232, 236, 242, 0.12);
+
+    /* Accents used across the site */
+    --color-accent-cyber:   #4fe3c1;   /* bio / neural network teal */
+    --color-accent-radar:   #7dff9a;   /* radar / CRT green */
+    --color-accent-amber:   #e9b44c;   /* typewriter / paper highlight */
+    --color-accent-hot:     #ff5b3a;   /* warning / AI winter red */
+    --color-accent-blue:    #6fa8ff;   /* modern / info */
+    --color-accent-paper:   #f2e9d7;   /* aged paper */
+
+    /* ---- Spacing / Rhythm ---- */
+    --space-3xs: 0.25rem;
+    --space-2xs: 0.5rem;
+    --space-xs:  0.75rem;
+    --space-sm:  1rem;
+    --space-md:  1.5rem;
+    --space-lg:  2.25rem;
+    --space-xl:  3.5rem;
+    --space-2xl: 5rem;
+    --space-3xl: 8rem;
+
+    /* ---- Geometry ---- */
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 10px;
+    --radius-xl: 24px;
+
+    /* ---- Motion ---- */
+    --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --ease-snap:   cubic-bezier(0.17, 0.67, 0.35, 1.2);
+    --dur-fast:    180ms;
+    --dur-med:     380ms;
+    --dur-slow:    720ms;
+
+    /* ---- Fixed-shell dimensions ---- */
+    --radar-size:      min(220px, 22vw);
+    --radar-inset:     1.75rem;
+    --timeline-h:      72px;
+    --sidebar-w:       min(420px, 92vw);
+
+    /* Content gutter & max width */
+    --content-max:     min(1180px, 94vw);
+    --content-gutter:  clamp(1rem, 3vw, 2.5rem);
+
+    /* Z-index scale */
+    --z-content:    1;
+    --z-timeline:   60;
+    --z-radar:      70;
+    --z-sidebar:    80;
+    --z-tooltip:    90;
+    --z-lightbox:   100;
+    --z-audio:      55;
+}
+
+
+/* ------------------------------------------------------------------ *
+ * 3.  Base Page + Typography
+ * ------------------------------------------------------------------ */
+
+body {
+    font-family: var(--font-serif);
+    font-size: var(--fs-base);
+    color: var(--color-ink);
+    background: var(--color-bg);
+    /* Subtle full-page grain that rides above theme backdrops. */
+    background-image:
+        radial-gradient(circle at 20% 0%, rgba(79, 227, 193, 0.04), transparent 40%),
+        radial-gradient(circle at 80% 100%, rgba(125, 255, 154, 0.03), transparent 40%);
+    background-attachment: fixed;
+    transition: background-color var(--dur-slow) var(--ease-in-out),
+                color       var(--dur-slow) var(--ease-in-out);
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+}
+
+h1 { font-size: var(--fs-3xl); }
+h2 { font-size: var(--fs-2xl); }
+h3 { font-size: var(--fs-xl);  letter-spacing: 0; }
+h4 { font-size: var(--fs-lg);  letter-spacing: 0; }
+
+p {
+    font-size: var(--fs-base);
+    line-height: 1.7;
+}
+
+p + p {
+    margin-top: var(--space-sm);
+}
+
+em    { font-style: italic; }
+strong { font-weight: 700; color: var(--color-ink); }
+
+sup {
+    font-size: 0.62em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+/* Citation superscript (footnote hover target).
+   Styled large enough to be easy to hover — visual styling lives here,
+   behavior lives in footnotes.js. */
+.cite {
+    display: inline-block;
+    padding: 0 0.2em;
+    margin-left: 0.1em;
+    font-family: var(--font-mono);
+    font-size: 0.7em;
+    font-weight: 700;
+    color: var(--color-accent-amber);
+    cursor: help;
+    border-bottom: 1px dotted currentColor;
+    transition: color var(--dur-fast) var(--ease-out),
+                transform var(--dur-fast) var(--ease-out);
+}
+.cite:hover,
+.cite:focus-visible {
+    color: var(--color-accent-hot);
+    transform: translateY(-1px);
+}
+.cite::before { content: '['; }
+.cite::after  { content: ']'; }
+
+/* Glossary term inline style — looks like a bold highlighted link. */
+.glossary-term {
+    position: relative;
+    display: inline;
+    font-weight: 700;
+    color: var(--color-ink);
+    cursor: pointer;
+    background: linear-gradient(
+        transparent 65%,
+        rgba(233, 180, 76, 0.28) 65%,
+        rgba(233, 180, 76, 0.28) 92%,
+        transparent 92%
+    );
+    transition: background var(--dur-fast) var(--ease-out),
+                color      var(--dur-fast) var(--ease-out);
+}
+.glossary-term:hover,
+.glossary-term:focus-visible {
+    color: var(--color-bg);
+    background: linear-gradient(
+        transparent 0%,
+        var(--color-accent-amber) 0%,
+        var(--color-accent-amber) 100%,
+        transparent 100%
+    );
+    outline: none;
+}
+
+
+/* ------------------------------------------------------------------ *
+ * 4.  Narrative Sections — base layout (no theme applied)
+ * ------------------------------------------------------------------ */
+
+#scroll-container {
+    position: relative;
+    /* Leave space for the fixed timeline at the bottom */
+    padding-bottom: var(--timeline-h);
+}
+
+.narrative-section {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    /* Extra bottom padding so content clears the timeline */
+    padding: var(--space-3xl) 0 calc(var(--space-3xl) + var(--timeline-h) * 0.35);
+    overflow: hidden;                 /* contain backdrops */
+    isolation: isolate;               /* create stacking context for backdrops */
+}
+
+/* Each section has a backdrop element absolutely positioned to fill it. */
+.narrative-section > [aria-hidden="true"]:first-child,
+.split-backdrop,
+.academic-backdrop,
+.wwii-backdrop,
+.bunker-backdrop,
+.livingroom-backdrop,
+.winter-backdrop,
+.modern-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.section-inner {
+    position: relative;
+    z-index: var(--z-content);
+    width: var(--content-max);
+    margin: 0 auto;
+    padding: 0 var(--content-gutter);
+}
+
+.section-heading {
+    margin-bottom: var(--space-xl);
+    max-width: 62ch;
+}
+
+.kicker {
+    display: inline-block;
+    padding: 0.4em 0.7em;
+    margin-bottom: var(--space-sm);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-sm);
+}
+
+.headline {
+    font-family: var(--font-display);
+    font-weight: 900;
+    color: var(--color-ink);
+    text-wrap: balance;
+}
+
+.headline .headline-line {
+    display: block;
+}
+.headline .headline-line--soft {
+    font-weight: 300;
+    font-style: italic;
+    color: var(--color-ink-muted);
+}
+
+.subheading {
+    display: block;
+    margin-top: var(--space-xs);
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--color-ink-muted);
+    letter-spacing: 0;
+}
+
+.rhetorical-question {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    color: var(--color-ink-muted);
+    text-align: center;
+    padding: var(--space-md) 0;
+    border-top:    1px solid var(--color-rule);
+    border-bottom: 1px solid var(--color-rule);
+}
+
+
+/* ------------------------------------------------------------------ *
+ * 5.  Text-box primitives
+ *     These give every article a consistent base. Themes override.
+ * ------------------------------------------------------------------ */
+
+.text-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    max-width: 72ch;
+}
+
+/* A couple of sections benefit from wider containers */
+#section-3 .text-stack,
+#section-4 .text-stack,
+#section-5 .text-stack,
+#section-7 .text-stack {
+    max-width: 80ch;
+}
+
+.text-box {
+    position: relative;
+    padding: var(--space-lg);
+    background: rgba(22, 26, 34, 0.62);
+    border: 1px solid var(--color-rule);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: var(--radius-md);
+}
+
+.text-box .sub-head {
+    margin-bottom: var(--space-sm);
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    font-weight: 700;
+    color: var(--color-ink);
+}
+
+.text-box p + p,
+.text-box p + ul,
+.text-box p + ol,
+.text-box ul + p,
+.text-box ol + p,
+.text-box p + blockquote {
+    margin-top: var(--space-md);
+}
+
+/* Offset left/right boxes — subtle asymmetry in Section 1 */
+.text-box--left  { align-self: flex-start; }
+.text-box--right { align-self: flex-end;   }
+
+/* Pull quotes */
+.pull-quote {
+    margin: var(--space-lg) 0;
+    padding: var(--space-md) var(--space-lg);
+    font-family: var(--font-serif);
+    font-size: var(--fs-lg);
+    font-style: italic;
+    color: var(--color-ink);
+    border-left: 3px solid var(--color-accent-amber);
+}
+
+/* Primary source quote (Dartmouth etc) */
+.primary-quote {
+    margin: var(--space-lg) 0;
+    padding: var(--space-md) var(--space-lg);
+    background: rgba(242, 233, 215, 0.06);
+    border-left: 3px solid var(--color-accent-amber);
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    font-style: italic;
+    color: var(--color-ink);
+}
+.primary-quote cite {
+    display: block;
+    margin-top: var(--space-sm);
+    font-size: var(--fs-sm);
+    font-style: normal;
+    color: var(--color-ink-muted);
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+}
+
+/* Inline annotations — margin note style */
+.inline-annotation {
+    position: relative;
+    margin: var(--space-lg) 0;
+    padding: var(--space-sm) var(--space-md) var(--space-sm) var(--space-xl);
+    background: rgba(255, 91, 58, 0.06);
+    border: 1px dashed rgba(255, 91, 58, 0.35);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-sm);
+    color: var(--color-ink-muted);
+}
+.annotation-pin {
+    position: absolute;
+    left: var(--space-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-accent-hot);
+    font-size: 1.2em;
+}
+
+/* Design notes — tiny italic helper text */
+.design-note {
+    font-size: var(--fs-xs);
+    font-style: italic;
+    color: var(--color-ink-dim);
+    margin-bottom: var(--space-md);
+    letter-spacing: 0.02em;
+}
+
+/* Objections list (Section 2) */
+.objections-list {
+    margin: var(--space-md) 0;
+    padding-left: 0;
+}
+.objections-list li {
+    position: relative;
+    padding: var(--space-sm) 0 var(--space-sm) var(--space-lg);
+    border-bottom: 1px dashed var(--color-rule);
+}
+.objections-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0.2em;
+    top: var(--space-sm);
+    color: var(--color-accent-amber);
+    font-family: var(--font-mono);
+}
+.objections-list li:last-child { border-bottom: none; }
+.obj-label {
+    display: inline-block;
+    font-weight: 700;
+    color: var(--color-ink);
+    margin-right: 0.3em;
+}
+
+/* Demo list (Section 5) */
+.demo-list {
+    margin: var(--space-md) 0;
+}
+.demo-list li {
+    padding: var(--space-sm) 0;
+    border-bottom: 1px dashed var(--color-rule);
+}
+.demo-list li:last-child { border-bottom: none; }
+.demo-label {
+    display: inline-block;
+    font-weight: 700;
+    color: var(--color-accent-amber);
+    margin-right: 0.3em;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.9em;
+}
+
+/* Unresolved list (Section 7), Lighthill categories (Section 6) */
+.unresolved-list,
+.lighthill-categories {
+    margin: var(--space-md) 0;
+}
+.unresolved-list li,
+.lighthill-categories li {
+    padding: var(--space-sm) 0 var(--space-sm) var(--space-md);
+    border-left: 2px solid var(--color-rule);
+    margin-bottom: var(--space-sm);
+}
+.unresolved-list li strong {
+    display: block;
+    margin-bottom: var(--space-2xs);
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-ink);
+}
+
+/* Closing charge (end of Section 7) */
+.closing-charge {
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
+    font-size: var(--fs-md);
+    font-family: var(--font-serif);
+    font-style: italic;
+    border-top: 1px solid var(--color-rule);
+    border-bottom: 1px solid var(--color-rule);
+}
+
+/* End marker (link to bibliography) */
+.end-marker {
+    margin-top: var(--space-2xl);
+    text-align: center;
+}
+.to-archive-link {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-md) var(--space-xl);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--fs-xl);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-ink);
+    border: 1px solid var(--color-accent-amber);
+    transition: background var(--dur-fast) var(--ease-out),
+                color      var(--dur-fast) var(--ease-out),
+                transform  var(--dur-fast) var(--ease-out);
+}
+.to-archive-link:hover {
+    background: var(--color-accent-amber);
+    color: var(--color-bg);
+    transform: translateY(-3px);
+}
+.to-archive-kicker {
+    display: block;
+    margin-bottom: var(--space-2xs);
+    font-size: 1.5em;
+    line-height: 1;
+}
+.to-archive-sub {
+    display: block;
+    margin-top: var(--space-2xs);
+    font-family: var(--font-mono);
+    font-size: 0.6em;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: var(--color-ink-muted);
+    text-transform: none;
+}
+
+/* Media placeholder — visible, labeled, and clearly intentional */
+.media-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs);
+    padding: var(--space-md);
+    text-align: center;
+    background:
+        repeating-linear-gradient(
+            45deg,
+            rgba(255, 255, 255, 0.02),
+            rgba(255, 255, 255, 0.02) 10px,
+            rgba(255, 255, 255, 0.04) 10px,
+            rgba(255, 255, 255, 0.04) 20px
+        ),
+        rgba(10, 13, 18, 0.45);
+    color: var(--color-ink-dim);
+    font-family: var(--font-mono);
+}
+.placeholder-tag {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.22em;
+    color: var(--color-accent-amber);
+    text-transform: uppercase;
+}
+.placeholder-desc {
+    font-size: var(--fs-sm);
+    max-width: 30ch;
+    line-height: 1.4;
+}
+
+/* Small media tag used inside polaroids, gunner, etc. */
+.media-tag {
+    display: block;
+    padding: var(--space-lg);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--color-ink-dim);
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Scroll cue */
+.scroll-cue {
+    margin-top: var(--space-2xl);
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+}
+.cue-arrow {
+    display: block;
+    margin-top: var(--space-xs);
+    font-size: 1.6em;
+    animation: cue-bob 1.8s var(--ease-in-out) infinite;
+}
+@keyframes cue-bob {
+    0%, 100% { transform: translateY(0);    opacity: 0.6; }
+    50%      { transform: translateY(6px);  opacity: 1;   }
+}
+
+
+/* ------------------------------------------------------------------ *
+ * 6.  Radar Navigation (top right, fixed)
+ * ------------------------------------------------------------------ */
+
+#radar-menu {
+    position: fixed;
+    top: var(--radar-inset);
+    right: var(--radar-inset);
+    width: var(--radar-size);
+    height: var(--radar-size);
+    z-index: var(--z-radar);
+    pointer-events: none;   /* only interactive children receive events */
+}
+
+.radar-ring {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at center, rgba(10, 13, 18, 0.85) 0%, rgba(10, 13, 18, 0.55) 70%, rgba(10, 13, 18, 0.35) 100%);
+    border: 1px solid var(--color-accent-radar);
+    box-shadow:
+        0 0 0 4px rgba(125, 255, 154, 0.08),
+        0 0 40px rgba(125, 255, 154, 0.15) inset,
+        0 8px 24px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    overflow: hidden;
+}
+
+/* Concentric grid */
+.radar-grid {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at center, transparent 28%, rgba(125, 255, 154, 0.12) 28.5%, transparent 29%),
+        radial-gradient(circle at center, transparent 55%, rgba(125, 255, 154, 0.12) 55.5%, transparent 56%),
+        radial-gradient(circle at center, transparent 82%, rgba(125, 255, 154, 0.16) 82.5%, transparent 83%);
+}
+.radar-grid::before,
+.radar-grid::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, transparent 49.7%, rgba(125, 255, 154, 0.14) 49.7%, rgba(125, 255, 154, 0.14) 50.3%, transparent 50.3%),
+        linear-gradient(0deg,  transparent 49.7%, rgba(125, 255, 154, 0.14) 49.7%, rgba(125, 255, 154, 0.14) 50.3%, transparent 50.3%);
+}
+
+/* Sweep — animated in animations.css. Base shape here. */
+.radar-sweep {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        rgba(125, 255, 154, 0.0) 0deg,
+        rgba(125, 255, 154, 0.0) 300deg,
+        rgba(125, 255, 154, 0.35) 355deg,
+        rgba(125, 255, 154, 0.0) 360deg
+    );
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+/* Blips — positioned using polar coordinates via CSS variables.
+   --distance is a decimal ratio (0 = center, ~0.42 = outer edge). It
+   gets multiplied against --radar-size so the layout scales correctly
+   between desktop (220px radar) and mobile (110–140px). */
+.radar-blip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    border-radius: 50%;
+    background: var(--color-accent-radar);
+    box-shadow: 0 0 10px var(--color-accent-radar);
+    cursor: pointer;
+    transform:
+        rotate(var(--angle, 0deg))
+        translate(calc(var(--radar-size) * var(--distance, 0.35)))
+        rotate(calc(-1 * var(--angle, 0deg)));
+    transition: transform var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out);
+    pointer-events: auto;
+}
+.radar-blip:hover,
+.radar-blip:focus-visible {
+    box-shadow: 0 0 20px var(--color-accent-radar), 0 0 30px var(--color-accent-radar);
+    outline: none;
+}
+.radar-blip.is-current {
+    background: var(--color-accent-hot);
+    box-shadow: 0 0 16px var(--color-accent-hot), 0 0 28px var(--color-accent-hot);
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    z-index: 2;
+}
+.radar-blip--archive {
+    background: var(--color-accent-amber);
+    box-shadow: 0 0 10px var(--color-accent-amber);
+}
+
+.blip-label {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.3em 0.6em;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-bg);
+    background: var(--color-accent-radar);
+    border-radius: var(--radius-sm);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-fast) var(--ease-out);
+}
+.radar-blip:hover .blip-label,
+.radar-blip:focus-visible .blip-label {
+    opacity: 1;
+}
+.radar-blip--archive .blip-label {
+    background: var(--color-accent-amber);
+}
+
+/* Readout below the radar */
+.radar-readout {
+    position: absolute;
+    bottom: -32px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent-radar);
+    pointer-events: none;
+}
+.radar-label {
+    color: var(--color-ink-dim);
+}
+
+
+/* ------------------------------------------------------------------ *
+ * 7.  Glossary Sidebar (slides from right)
+ * ------------------------------------------------------------------ */
+
+#glossary-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: var(--sidebar-w);
+    padding: var(--space-xl) var(--space-lg);
+    background: var(--color-surface);
+    color: var(--color-ink);
+    border-left: 1px solid var(--color-accent-amber);
+    box-shadow: -24px 0 48px rgba(0, 0, 0, 0.55);
+    transform: translateX(100%);
+    transition: transform var(--dur-med) var(--ease-out);
+    z-index: var(--z-sidebar);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+#glossary-sidebar.is-open {
+    transform: translateX(0);
+}
+#glossary-sidebar[aria-hidden="false"] {
+    transform: translateX(0);
+}
+
+#glossary-close {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    width: 40px;
+    height: 40px;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--color-ink-muted);
+    border: 1px solid var(--color-rule);
+    border-radius: 50%;
+    transition: all var(--dur-fast) var(--ease-out);
+}
+#glossary-close:hover {
+    color: var(--color-accent-hot);
+    border-color: var(--color-accent-hot);
+    transform: rotate(90deg);
+}
+
+.glossary-header {
+    padding-right: 48px;
+}
+.glossary-kicker {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-accent-amber);
+    margin-bottom: var(--space-2xs);
+}
+#glossary-term-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-2xl);
+    color: var(--color-ink);
+    line-height: 1.05;
+}
+
+.glossary-body {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    line-height: 1.7;
+    color: var(--color-ink);
+}
+
+.glossary-footer {
+    margin-top: auto;
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-rule);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+    color: var(--color-ink-dim);
+    text-transform: uppercase;
+}
+
+
+/* ------------------------------------------------------------------ *
+ * 8.  Footnote Tooltip (hover / focus)
+ * ------------------------------------------------------------------ */
+
+#footnote-tooltip {
+    position: fixed;
+    top: 0;
+    left: 0;
+    max-width: 360px;
+    padding: var(--space-sm) var(--space-md);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    color: var(--color-bg);
+    background: var(--color-accent-amber);
+    border-radius: var(--radius-sm);
+    box-shadow:
+        0 2px 0 rgba(0, 0, 0, 0.25),
+        0 10px 28px rgba(0, 0, 0, 0.55);
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(0, -6px) scale(0.98);
+    transition: opacity var(--dur-fast) var(--ease-out),
+                transform var(--dur-fast) var(--ease-out);
+    z-index: var(--z-tooltip);
+}
+#footnote-tooltip.is-visible {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+}
+#footnote-tooltip::before {
+    content: 'Source';
+    display: block;
+    margin-bottom: 0.3em;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(10, 13, 18, 0.6);
+}
+
+
+/* ------------------------------------------------------------------ *
+ * 9.  Primary Source Lightbox
+ * ------------------------------------------------------------------ */
+
+#source-lightbox {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl);
+    background: rgba(5, 7, 11, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--dur-med) var(--ease-out),
+                visibility var(--dur-med) var(--ease-out);
+    z-index: var(--z-lightbox);
+}
+#source-lightbox.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+#source-lightbox-close {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    width: 48px;
+    height: 48px;
+    font-size: 2rem;
+    color: var(--color-ink);
+    border: 1px solid var(--color-rule);
+    border-radius: 50%;
+    transition: all var(--dur-fast) var(--ease-out);
+}
+#source-lightbox-close:hover {
+    color: var(--color-accent-hot);
+    border-color: var(--color-accent-hot);
+    transform: rotate(90deg);
+}
+
+.lightbox-inner {
+    max-width: min(900px, 90vw);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+#lightbox-content {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    background: var(--color-accent-paper);
+    color: var(--color-bg);
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+}
+#lightbox-content img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 75vh;
+}
+#lightbox-caption {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+}
+
+
+/* ------------------------------------------------------------------ *
+ * 10. Timeline footer (bottom, fixed)
+ * ------------------------------------------------------------------ */
+
+#dynamic-timeline {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--timeline-h);
+    padding: 0 var(--content-gutter);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--space-lg);
+    background: linear-gradient(180deg, rgba(10, 13, 18, 0.3) 0%, rgba(10, 13, 18, 0.92) 50%, var(--color-bg) 100%);
+    border-top: 1px solid var(--color-accent-radar);
+    box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.45);
+    z-index: var(--z-timeline);
+    /* Ensure radar nav doesn't overlap the timeline at shallow scroll */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.timeline-rail {
+    position: relative;
+    height: 2px;
+    background: rgba(125, 255, 154, 0.15);
+    margin: 0 var(--space-md);
+}
+
+.timeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-accent-radar), var(--color-accent-hot));
+    box-shadow: 0 0 12px var(--color-accent-radar);
+    transition: width var(--dur-med) var(--ease-out);
+}
+
+.timeline-marker {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    background: var(--color-accent-radar);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(125, 255, 154, 0.18), 0 0 20px var(--color-accent-radar);
+    transition: left var(--dur-med) var(--ease-out);
+}
+.timeline-year {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.2em 0.6em;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-bg);
+    background: var(--color-accent-radar);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+}
+
+.timeline-ticks {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+.tick {
+    position: absolute;
+    top: -4px;
+    left: var(--pos);
+    width: 1px;
+    height: 10px;
+    background: rgba(125, 255, 154, 0.35);
+    transform: translateX(-50%);
+}
+.tick span {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--color-ink-dim);
+    white-space: nowrap;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-out);
+}
+.timeline-rail:hover .tick span {
+    opacity: 1;
+}
+
+.timeline-readout {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent-radar);
+    white-space: nowrap;
+}
+.timeline-kicker {
+    color: var(--color-ink-dim);
+}
+
+
+/* ------------------------------------------------------------------ *
+ * 11. Audio Toggle
+ * ------------------------------------------------------------------ */
+
+#audio-toggle {
+    position: fixed;
+    bottom: calc(var(--timeline-h) + var(--space-md));
+    right: var(--radar-inset);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    padding: 0.5em 0.9em;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule);
+    border-radius: 999px;
+    transition: all var(--dur-fast) var(--ease-out);
+    z-index: var(--z-audio);
+}
+#audio-toggle:hover {
+    color: var(--color-accent-radar);
+    border-color: var(--color-accent-radar);
+}
+#audio-toggle[aria-pressed="true"] {
+    color: var(--color-accent-radar);
+    border-color: var(--color-accent-radar);
+    box-shadow: 0 0 12px rgba(125, 255, 154, 0.25);
+}
+#audio-toggle[aria-pressed="true"] .audio-icon::before {
+    content: '\1F50A';   /* speaker with sound */
+}
+#audio-toggle[aria-pressed="false"] .audio-icon::before {
+    content: '\1F507';   /* muted */
+}
+#audio-toggle .audio-icon {
+    font-size: 1.1em;
+}
+
+
+/* ------------------------------------------------------------------ *
+ * 12. Utility + a11y + reduced motion
+ * ------------------------------------------------------------------ */
+
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Block scroll when lightbox or sidebar is open */
+body.is-locked {
+    overflow: hidden;
+}
+
+/* ---- Responsive adjustments ---- */
+
+@media (max-width: 900px) {
+    :root {
+        --radar-size: 140px;
+        --radar-inset: 1rem;
+        --timeline-h: 62px;
+    }
+    .radar-readout { display: none; }
+    .blip-label { font-size: 9px; padding: 0.2em 0.5em; }
+    .section-inner { width: 100%; }
+    .narrative-section {
+        padding: var(--space-2xl) 0 calc(var(--space-2xl) + var(--timeline-h) * 0.5);
+    }
+    .text-box--left,
+    .text-box--right {
+        align-self: stretch;
+    }
+    #audio-toggle {
+        bottom: calc(var(--timeline-h) + var(--space-sm));
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --radar-size: 110px;
+        --radar-inset: 0.75rem;
+    }
+    .radar-ring { box-shadow: 0 0 0 2px rgba(125,255,154,0.08), 0 4px 12px rgba(0,0,0,0.5); }
+    .timeline-readout { display: none; }
+    #dynamic-timeline { grid-template-columns: 1fr; }
+}
+
+/* ---- Reduced motion ---- */
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .cue-arrow { animation: none; }
+}
+
+/* Print — we do not style for print (archival context lives in bibliography.html) */
+@media print {
+    #radar-menu,
+    #dynamic-timeline,
+    #audio-toggle,
+    #glossary-sidebar,
+    #footnote-tooltip { display: none !important; }
+}

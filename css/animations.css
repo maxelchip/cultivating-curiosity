@@ -1,0 +1,809 @@
+/* =====================================================================
+   animations.css  —  Motion system
+   Everything that moves by itself, and everything that reveals on entry.
+   =====================================================================
+     §1   @keyframes library     (all motion primitives, grouped by type)
+     §2   Ambient / always-on    (radar sweep, scanlines, noise jitter)
+     §3   §1  Split-screen       (neural-net twinkle, binary rain, seam)
+     §4   §2  Academic desk      (polaroid idle, stamp pulse)
+     §5   §3  WWII blueprint     (grid scan, oscilloscope)
+     §6   §4  Cold War bunker    (CRT flicker, scanline drift, continent glow)
+     §7   §5  Living room        (TV warm-up, newspaper fold)
+     §8   §6  AI Winter          (text glitch, explosion curve, freeze)
+     §9   §7  Modern obsidian    (neural network breath, gradient drift)
+     §10  Section-entry reveal system
+     §11  prefers-reduced-motion safeguard
+   ===================================================================== */
+
+
+/* =====================================================================
+   §1  Keyframes Library
+   ===================================================================== */
+
+/* ---- Motion primitives ---- */
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-up-soft {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-in-left {
+    from { opacity: 0; transform: translateX(-40px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slide-in-right {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes zoom-in {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* ---- Radar sweep (the conic-gradient rotates continuously) ---- */
+
+@keyframes radar-sweep-rotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* ---- CRT flicker (subtle opacity + position jitter) ---- */
+
+@keyframes crt-flicker {
+    0%, 92%  { opacity: 1; }
+    93%      { opacity: 0.85; }
+    94%      { opacity: 1; }
+    96%      { opacity: 0.92; }
+    97%      { opacity: 1; }
+    100%     { opacity: 1; }
+}
+
+@keyframes crt-text-flicker {
+    0%, 100% { text-shadow: 0 0 8px currentColor, 0 0 20px rgba(125, 255, 154, 0.5); }
+    50%      { text-shadow: 0 0 6px currentColor, 0 0 14px rgba(125, 255, 154, 0.3); }
+    51%      { text-shadow: 0 0 12px currentColor, 0 0 28px rgba(125, 255, 154, 0.7); }
+}
+
+@keyframes scanline-drift {
+    from { background-position: 0 0; }
+    to   { background-position: 0 4px; }
+}
+
+/* ---- Binary rain (used on cascading column elements) ---- */
+
+@keyframes binary-fall {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    to {
+        transform: translateY(105%);
+        opacity: 0;
+    }
+}
+
+/* ---- Neural network node twinkle ---- */
+
+@keyframes node-twinkle {
+    0%, 100% {
+        opacity: 0.3;
+        filter: drop-shadow(0 0 2px currentColor);
+    }
+    50% {
+        opacity: 1;
+        filter: drop-shadow(0 0 10px currentColor) drop-shadow(0 0 20px currentColor);
+    }
+}
+
+@keyframes edge-pulse {
+    0%, 100% { stroke-opacity: 0.1; }
+    50%      { stroke-opacity: 0.45; }
+}
+
+/* ---- Noise field flicker (winter / static) ---- */
+
+@keyframes noise-flicker {
+    0%, 100% { opacity: 0.25; transform: translate(0, 0); }
+    10%      { opacity: 0.32; transform: translate(-1px, 1px); }
+    20%      { opacity: 0.22; transform: translate(1px, -1px); }
+    30%      { opacity: 0.28; transform: translate(-2px, 0); }
+    40%      { opacity: 0.35; transform: translate(1px, 1px); }
+    50%      { opacity: 0.2;  transform: translate(-1px, -2px); }
+    60%      { opacity: 0.3;  transform: translate(2px, 1px); }
+    70%      { opacity: 0.28; transform: translate(0, -1px); }
+    80%      { opacity: 0.33; transform: translate(-1px, 2px); }
+    90%      { opacity: 0.22; transform: translate(1px, 0); }
+}
+
+/* ---- Winter glitch on text ---- */
+
+@keyframes winter-glitch {
+    0%, 100% {
+        transform: translate(0, 0);
+        text-shadow: 0 0 0 transparent;
+        opacity: 1;
+    }
+    2% {
+        transform: translate(-2px, 0);
+        text-shadow: 2px 0 0 var(--color-accent-hot), -2px 0 0 rgba(111, 168, 255, 0.7);
+    }
+    3% {
+        transform: translate(2px, 0);
+    }
+    4% {
+        transform: translate(0, 0);
+        text-shadow: 0 0 0 transparent;
+    }
+    98% {
+        transform: translate(1px, 0);
+        text-shadow: 1px 0 0 var(--color-accent-hot);
+        opacity: 0.92;
+    }
+    99% {
+        opacity: 1;
+        text-shadow: 0 0 0 transparent;
+    }
+}
+
+@keyframes winter-freeze-in {
+    0% {
+        filter: blur(6px) saturate(1.2);
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    100% {
+        filter: blur(0) saturate(1);
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---- Explosion curve (draw-on) ---- */
+
+@keyframes draw-stroke {
+    from { stroke-dashoffset: 2000; }
+    to   { stroke-dashoffset: 0; }
+}
+
+/* ---- Ink stamp entry (§2 headline) ---- */
+
+@keyframes stamp-in {
+    0% {
+        opacity: 0;
+        transform: rotate(-4deg) scale(1.4) translateY(-12px);
+        filter: blur(4px);
+    }
+    60% {
+        opacity: 0.6;
+        transform: rotate(-1deg) scale(1.02) translateY(0);
+        filter: blur(1px);
+    }
+    80% {
+        opacity: 0.95;
+        transform: rotate(-0.8deg) scale(0.98) translateY(0);
+        filter: blur(0);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(-0.5deg) scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* ---- Seam shimmer (§1 diagonal) ---- */
+
+@keyframes seam-shimmer {
+    0%, 100% {
+        box-shadow: 0 0 16px rgba(233, 180, 76, 0.5);
+        opacity: 0.85;
+    }
+    50% {
+        box-shadow: 0 0 28px rgba(233, 180, 76, 0.85), 0 0 60px rgba(233, 180, 76, 0.3);
+        opacity: 1;
+    }
+}
+
+/* ---- Thesis box breathing glow ---- */
+
+@keyframes thesis-breathe {
+    0%, 100% {
+        box-shadow:
+            0 0 0 6px rgba(10, 13, 18, 0.5),
+            0 0 40px rgba(233, 180, 76, 0.25),
+            inset 0 0 60px rgba(233, 180, 76, 0.06);
+    }
+    50% {
+        box-shadow:
+            0 0 0 6px rgba(10, 13, 18, 0.5),
+            0 0 60px rgba(233, 180, 76, 0.4),
+            inset 0 0 80px rgba(233, 180, 76, 0.12);
+    }
+}
+
+/* ---- Oscilloscope grid scan ---- */
+
+@keyframes oscilloscope-scan {
+    from { background-position: 0 0; }
+    to   { background-position: 40px 0; }
+}
+
+/* ---- Radar grid sweep (Section 3) ---- */
+
+@keyframes grid-pulse {
+    0%, 100% { opacity: 0.35; }
+    50%      { opacity: 0.65; }
+}
+
+/* ---- Continent pulse (Section 4 map) ---- */
+
+@keyframes continent-glow {
+    0%, 100% { opacity: 0.18; }
+    50%      { opacity: 0.32; }
+}
+
+/* ---- ARPA funding line flow ---- */
+
+@keyframes funding-flow {
+    to { stroke-dashoffset: -200; }
+}
+
+/* ---- Modern obsidian gradient drift (§7 headline) ---- */
+
+@keyframes gradient-drift {
+    0%   { background-position: 0%   50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0%   50%; }
+}
+
+/* ---- Network breathe (§7 modern network) ---- */
+
+@keyframes network-breathe {
+    0%, 100% { opacity: 0.45; }
+    50%      { opacity: 0.75; }
+}
+
+/* ---- Polaroid idle sway (§2) ---- */
+
+@keyframes polaroid-idle-left {
+    0%, 100% { transform: rotate(-1.8deg); }
+    50%      { transform: rotate(-2.2deg); }
+}
+@keyframes polaroid-idle-right {
+    0%, 100% { transform: rotate(1.8deg); }
+    50%      { transform: rotate(2.2deg); }
+}
+
+/* ---- Bulletin stamp pulse (Dartmouth) ---- */
+
+@keyframes stamp-pulse {
+    0%, 100% { transform: rotate(-2deg) scale(1); }
+    50%      { transform: rotate(-2deg) scale(1.04); }
+}
+
+/* ---- Classified tag typing (§4 ::before) ---- */
+
+@keyframes terminal-cursor {
+    0%, 50%  { opacity: 1; }
+    51%, 100%{ opacity: 0.2; }
+}
+
+/* ---- Stencil headline subtle sheen ---- */
+
+@keyframes stencil-sheen {
+    0%, 100% { text-shadow: 2px 2px 0 rgba(0,0,0,0.5), 0 0 20px rgba(125, 255, 154, 0.25); }
+    50%      { text-shadow: 2px 2px 0 rgba(0,0,0,0.5), 0 0 30px rgba(125, 255, 154, 0.45); }
+}
+
+/* ---- TV warm-up (§5) when channel changes ---- */
+
+@keyframes tv-warmup {
+    0% {
+        transform: scaleY(0.02);
+        opacity: 0;
+        filter: brightness(3) contrast(2);
+    }
+    50% {
+        transform: scaleY(1);
+        opacity: 0.6;
+        filter: brightness(2) contrast(1.6);
+    }
+    100% {
+        transform: scaleY(1);
+        opacity: 1;
+        filter: brightness(1) contrast(1);
+    }
+}
+
+/* ---- Red LED heartbeat (§5) ---- */
+
+@keyframes led-heartbeat {
+    0%, 70%, 100% { transform: translateX(-50%) scale(1);   opacity: 1; }
+    10%           { transform: translateX(-50%) scale(1.3); opacity: 1; }
+    20%           { transform: translateX(-50%) scale(1);   opacity: 0.8; }
+    30%           { transform: translateX(-50%) scale(1.2); opacity: 1; }
+    40%           { transform: translateX(-50%) scale(1);   opacity: 0.85; }
+}
+
+
+/* =====================================================================
+   §2  Ambient / Always-on animations
+   ===================================================================== */
+
+/* Radar sweep rotation */
+#radar-menu .radar-sweep {
+    animation: radar-sweep-rotate 4s linear infinite;
+    transform-origin: center;
+}
+
+/* Radar outer ring subtle glow pulse */
+#radar-menu .radar-ring {
+    animation: radar-ring-pulse 6s var(--ease-in-out) infinite;
+}
+@keyframes radar-ring-pulse {
+    0%, 100% {
+        box-shadow:
+            0 0 0 4px rgba(125, 255, 154, 0.08),
+            0 0 40px rgba(125, 255, 154, 0.15) inset,
+            0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+    50% {
+        box-shadow:
+            0 0 0 6px rgba(125, 255, 154, 0.14),
+            0 0 60px rgba(125, 255, 154, 0.25) inset,
+            0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* Timeline progress — subtle glow pulse at the leading edge */
+.timeline-marker {
+    animation: marker-pulse 2.4s ease-in-out infinite;
+}
+@keyframes marker-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 4px rgba(125, 255, 154, 0.18), 0 0 20px var(--color-accent-radar);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(125, 255, 154, 0.25), 0 0 32px var(--color-accent-radar);
+    }
+}
+
+
+/* =====================================================================
+   §3  Section 1  —  Split-screen (neural net, binary rain)
+   ===================================================================== */
+
+/* Neural net procedural network — nodes populated by widgets.js
+   get the class .net-node so the keyframe can latch on. */
+#section-1 .proc-network .net-node {
+    fill: var(--color-accent-cyber);
+    color: var(--color-accent-cyber);
+    animation: node-twinkle 3s ease-in-out infinite;
+    animation-delay: var(--twinkle-delay, 0s);
+}
+#section-1 .proc-network .net-edge {
+    stroke: var(--color-accent-cyber);
+    stroke-width: 0.6;
+    animation: edge-pulse 4s ease-in-out infinite;
+    animation-delay: var(--edge-delay, 0s);
+}
+
+/* Binary rain — widgets.js creates .binary-column spans with inline
+   custom properties for position, duration, delay. */
+#section-1 .binary-rain {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+#section-1 .binary-column {
+    position: absolute;
+    top: 0;
+    left: var(--col-left, 0%);
+    width: 14px;
+    white-space: pre;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.1;
+    color: var(--color-accent-radar);
+    text-shadow: 0 0 6px rgba(125, 255, 154, 0.4);
+    animation: binary-fall var(--col-duration, 9s) linear var(--col-delay, 0s) infinite;
+}
+#section-1 .binary-column:nth-child(3n)   { opacity: 0.45; }
+#section-1 .binary-column:nth-child(3n+1) { opacity: 0.7; }
+#section-1 .binary-column:nth-child(3n+2) { opacity: 0.55; }
+
+/* The amber diagonal seam shimmers */
+#section-1 .split-diagonal {
+    animation: seam-shimmer 4s ease-in-out infinite;
+}
+
+/* Thesis box breathes */
+#section-1 .thesis-box {
+    animation: thesis-breathe 5s ease-in-out infinite;
+}
+
+
+/* =====================================================================
+   §4  Section 2  —  Academic desk
+   ===================================================================== */
+
+/* Headline stamps in once, when section enters view */
+#section-2.is-in-view .headline--typewriter {
+    animation: stamp-in 0.9s var(--ease-out) both;
+}
+
+/* Polaroids sway subtly — idle animation at different rates */
+#section-2 .polaroid--left  { animation: polaroid-idle-left  7s ease-in-out infinite; }
+#section-2 .polaroid--right { animation: polaroid-idle-right 8s ease-in-out infinite; }
+/* Disable the idle when hovering so hover lift is clean */
+#section-2 .polaroid:hover  { animation: none; }
+
+/* Bulletin stamp gently pulses */
+#section-2 .bulletin-stamp {
+    animation: stamp-pulse 3.5s ease-in-out infinite;
+}
+
+
+/* =====================================================================
+   §5  Section 3  —  WWII blueprint
+   ===================================================================== */
+
+/* Stencil headline subtle glow pulse */
+#section-3 .headline--stencil {
+    animation: stencil-sheen 4s ease-in-out infinite;
+}
+
+/* Radar grid overlay breathes */
+#section-3 .radar-grid-overlay {
+    animation: grid-pulse 5s ease-in-out infinite;
+}
+
+/* Oscilloscope grid lines drift (atop the wave which already wobbles) */
+#section-3 .oscilloscope::before {
+    animation: oscilloscope-scan 3s linear infinite;
+}
+
+/* Divergence callout subtle breathing */
+#section-3 .callout-divergence {
+    animation: thesis-breathe 6s ease-in-out infinite;
+}
+
+
+/* =====================================================================
+   §6  Section 4  —  Cold War bunker (CRT flicker)
+   ===================================================================== */
+
+/* Scanlines drift downward */
+#section-4 .crt-scanlines {
+    animation: scanline-drift 0.12s linear infinite;
+}
+
+/* Subtle CRT flicker on the whole backdrop */
+#section-4 .bunker-backdrop {
+    animation: crt-flicker 5s steps(20) infinite;
+}
+
+/* CRT headline text-shadow flickers */
+#section-4 .headline--crt {
+    animation: crt-text-flicker 4s ease-in-out infinite;
+}
+
+/* The CLASSIFIED tag on every dossier shows a terminal cursor glyph */
+#section-4 .text-box--crt::before {
+    animation: none;  /* kept explicit; no flicker on tag so it reads cleanly */
+}
+
+/* Continent outlines pulse faintly */
+#section-4 .continent-path {
+    animation: continent-glow 8s ease-in-out infinite;
+}
+
+/* ARPA funding lines — dashed flow toward centers */
+#section-4 .funding-lines line {
+    stroke-dasharray: 4 4;
+    animation: funding-flow 4s linear infinite;
+}
+
+/* Funding node circles twinkle */
+#section-4 .funding-node circle {
+    animation: node-twinkle 3s ease-in-out infinite;
+    animation-delay: var(--node-delay, 0s);
+}
+#section-4 .funding-node:nth-of-type(1) { --node-delay: 0s;   }
+#section-4 .funding-node:nth-of-type(2) { --node-delay: 0.8s; }
+#section-4 .funding-node:nth-of-type(3) { --node-delay: 1.6s; }
+#section-4 .funding-node:nth-of-type(4) { --node-delay: 2.4s; }
+
+/* Tree-state card "has-goal" glows */
+#section-4 .tree-state[data-step="1"] .tree-value {
+    animation: node-twinkle 2.5s ease-in-out infinite;
+}
+
+
+/* =====================================================================
+   §7  Section 5  —  Living room (TV warm-up, LED heartbeat)
+   ===================================================================== */
+
+/* Active channel LED heartbeats */
+#section-5 .tv-channel.is-active::before {
+    animation: led-heartbeat 1.4s ease-in-out infinite;
+}
+
+/* TV warm-up when switching to a live channel */
+#section-5 .tv-screen.is-playing .tv-iframe {
+    animation: tv-warmup 0.6s var(--ease-out) both;
+    transform-origin: center;
+}
+
+/* Newspaper masthead — subtle shadow breathing (optional atmosphere) */
+#section-5 .text-box--newsprint {
+    animation: newsprint-breathe 10s ease-in-out infinite;
+}
+@keyframes newsprint-breathe {
+    0%, 100% { box-shadow: 0 6px 20px rgba(42, 32, 24, 0.3); }
+    50%      { box-shadow: 0 10px 28px rgba(42, 32, 24, 0.4); }
+}
+
+
+/* =====================================================================
+   §8  Section 6  —  AI Winter (glitch, freeze, explosion)
+   ===================================================================== */
+
+/* Static field crackles constantly */
+#section-6 .static-field {
+    animation: noise-flicker 0.35s steps(6) infinite;
+}
+
+/* Explosion curve draws on when section enters view.
+   Curve is visible by default (stroke-dashoffset:0). When .is-in-view
+   hits, we rerun the draw-stroke animation from 2000 → 0. If JS fails,
+   the curve is fully drawn without animation. */
+#section-6.is-in-view .explosion-curve path {
+    stroke-dasharray: 2000;
+    animation: draw-stroke 3s var(--ease-out) 0.2s both;
+}
+
+/* Winter memos get a freeze-in flourish when section enters view.
+   Default state is fully visible; animation only plays on reveal. */
+#section-6.is-in-view .text-box--memo {
+    animation: winter-freeze-in 0.9s var(--ease-out) both;
+}
+#section-6.is-in-view .text-box--memo:nth-of-type(2) { animation-delay: 0.15s; }
+#section-6.is-in-view .text-box--memo:nth-of-type(3) { animation-delay: 0.3s; }
+
+/* Chiseled headline has an occasional chromatic glitch */
+#section-6 .headline--chiseled {
+    animation: winter-glitch 7s steps(100) infinite;
+}
+
+/* Winter-final callout has a pulsing red halo */
+#section-6 .winter-final {
+    animation: winter-final-pulse 3s ease-in-out infinite;
+}
+@keyframes winter-final-pulse {
+    0%, 100% {
+        box-shadow:
+            0 0 0 6px rgba(255, 91, 58, 0.12),
+            0 30px 60px rgba(0, 0, 0, 0.6);
+    }
+    50% {
+        box-shadow:
+            0 0 0 10px rgba(255, 91, 58, 0.2),
+            0 0 40px rgba(255, 91, 58, 0.35),
+            0 30px 60px rgba(0, 0, 0, 0.6);
+    }
+}
+
+
+/* =====================================================================
+   §9  Section 7  —  Modern obsidian (neural breath, gradient drift)
+   ===================================================================== */
+
+/* Gradient-clipped headline drifts its gradient continuously */
+#section-7 .headline--modern {
+    background-size: 200% 200%;
+    animation: gradient-drift 8s ease-in-out infinite;
+}
+
+/* Modern network SVG nodes twinkle (populated by widgets.js) */
+#section-7 .modern-network .modern-node {
+    fill: var(--color-accent-blue);
+    color: var(--color-accent-blue);
+    animation: node-twinkle 3.5s ease-in-out infinite;
+    animation-delay: var(--node-delay, 0s);
+}
+#section-7 .modern-network .modern-edge {
+    stroke: var(--color-accent-blue);
+    stroke-width: 0.6;
+    animation: edge-pulse 5s ease-in-out infinite;
+    animation-delay: var(--edge-delay, 0s);
+}
+/* Whole network breathes in intensity */
+#section-7 .modern-network {
+    animation: network-breathe 6s ease-in-out infinite;
+}
+
+/* Dual panel text boxes fade-up on entry */
+#section-7.is-in-view .dual-panel--left  { animation: slide-in-left  0.8s var(--ease-out) both; }
+#section-7.is-in-view .dual-panel--right { animation: slide-in-right 0.8s var(--ease-out) both; }
+#section-7.is-in-view .dual-divider      { animation: zoom-in        0.6s var(--ease-snap) 0.3s both; }
+
+
+/* =====================================================================
+   §10  Section-entry reveal system
+        The scroll engine adds .is-in-view to the active <section>.
+
+        DESIGN CHOICE: content is VISIBLE by default. Reveal animations
+        play via keyframes only once .is-in-view is added. If JS fails
+        entirely, content shows immediately with no animation — the
+        site degrades gracefully rather than catastrophically. This is
+        the opposite of the fragile "opacity:0 default" pattern.
+   ===================================================================== */
+
+/* Default fade-up reveal for the main narrative blocks, keyed to a
+   per-child stagger via --reveal-delay. */
+.narrative-section.is-in-view .section-heading {
+    animation: fade-up 0.7s var(--ease-out) 0.05s both;
+}
+.narrative-section.is-in-view .text-box {
+    animation: fade-up 0.7s var(--ease-out) var(--reveal-delay, 0s) both;
+}
+.narrative-section.is-in-view .interactive-block {
+    animation: fade-up 0.7s var(--ease-out) var(--reveal-delay, 0s) both;
+}
+
+/* Stagger via nth-child — each child of text-stack gets a later delay */
+.narrative-section.is-in-view .text-stack > *:nth-child(1) { --reveal-delay: 0.10s; }
+.narrative-section.is-in-view .text-stack > *:nth-child(2) { --reveal-delay: 0.20s; }
+.narrative-section.is-in-view .text-stack > *:nth-child(3) { --reveal-delay: 0.30s; }
+.narrative-section.is-in-view .text-stack > *:nth-child(4) { --reveal-delay: 0.40s; }
+.narrative-section.is-in-view .text-stack > *:nth-child(5) { --reveal-delay: 0.50s; }
+.narrative-section.is-in-view .text-stack > *:nth-child(6) { --reveal-delay: 0.55s; }
+.narrative-section.is-in-view .text-stack > *:nth-child(7) { --reveal-delay: 0.60s; }
+.narrative-section.is-in-view .text-stack > *:nth-child(n+8) { --reveal-delay: 0.65s; }
+
+/* Scroll cue fades in late */
+.narrative-section.is-in-view .scroll-cue {
+    animation: fade-in 1s var(--ease-out) 1.2s both;
+}
+
+/* Section 2: polaroids drop in with their idle rotation preserved */
+@keyframes polaroid-drop-left {
+    from { opacity: 0; transform: translateY(40px) rotate(0deg); }
+    to   { opacity: 1; transform: translateY(0)    rotate(-1.8deg); }
+}
+@keyframes polaroid-drop-right {
+    from { opacity: 0; transform: translateY(40px) rotate(0deg); }
+    to   { opacity: 1; transform: translateY(0)    rotate(1.8deg); }
+}
+#section-2.is-in-view .polaroid--left {
+    animation: polaroid-drop-left 0.9s var(--ease-out) 0.3s both;
+}
+#section-2.is-in-view .polaroid--right {
+    animation: polaroid-drop-right 0.9s var(--ease-out) 0.45s both;
+}
+
+/* Section 3: gunner frame scan-in via clip-path animation */
+@keyframes gunner-scan-in {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0 0 0); }
+}
+#section-3.is-in-view .gunner-frame {
+    animation: gunner-scan-in 1.2s var(--ease-out) 0.2s both;
+}
+
+/* Section 4: CRT dossiers slide in from left */
+@keyframes dossier-slide-in {
+    from { opacity: 0; transform: translateX(-12px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+#section-4.is-in-view .text-box--crt {
+    animation: dossier-slide-in 0.7s var(--ease-out) var(--reveal-delay, 0s) both;
+}
+
+/* Section 5: TV screen warm-up on section entry */
+#section-5.is-in-view .tv-screen {
+    animation: tv-warmup 1s var(--ease-out) 0.4s both;
+}
+
+/* Section 7: end-marker scales in last */
+@keyframes end-marker-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+}
+#section-7.is-in-view .end-marker {
+    animation: end-marker-in 0.8s var(--ease-snap) 0.8s both;
+}
+
+
+/* =====================================================================
+   §11  Reduced-motion safeguard
+        Honors OS-level pref; also honored via .no-motion on <html> if
+        the scroll engine exposes a user toggle.
+   ===================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    /* Disable ambient infinite animations */
+    #radar-menu .radar-sweep,
+    #radar-menu .radar-ring,
+    .timeline-marker,
+    #section-1 .proc-network .net-node,
+    #section-1 .proc-network .net-edge,
+    #section-1 .binary-column,
+    #section-1 .split-diagonal,
+    #section-1 .thesis-box,
+    #section-2 .polaroid--left,
+    #section-2 .polaroid--right,
+    #section-2 .bulletin-stamp,
+    #section-3 .headline--stencil,
+    #section-3 .radar-grid-overlay,
+    #section-3 .oscilloscope::before,
+    #section-3 .callout-divergence,
+    #section-4 .crt-scanlines,
+    #section-4 .bunker-backdrop,
+    #section-4 .headline--crt,
+    #section-4 .continent-path,
+    #section-4 .funding-lines line,
+    #section-4 .funding-node circle,
+    #section-4 .tree-state[data-step="1"] .tree-value,
+    #section-5 .tv-channel.is-active::before,
+    #section-5 .text-box--newsprint,
+    #section-6 .static-field,
+    #section-6 .headline--chiseled,
+    #section-6 .winter-final,
+    #section-7 .headline--modern,
+    #section-7 .modern-network,
+    #section-7 .modern-network .modern-node,
+    #section-7 .modern-network .modern-edge {
+        animation: none !important;
+    }
+
+    /* Reveal-on-scroll: still reveal, but instantly */
+    .narrative-section .text-box,
+    .narrative-section .section-heading,
+    .narrative-section .interactive-block,
+    #section-2 .polaroid,
+    #section-4 .text-box--crt,
+    #section-7 .end-marker {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    #section-3 .gunner-frame {
+        clip-path: none !important;
+    }
+
+    /* Draw-on explosion: show the full curve immediately */
+    #section-6 .explosion-curve path {
+        stroke-dashoffset: 0 !important;
+        animation: none !important;
+    }
+}
+
+/* Optional: if <html> has .no-motion (user setting via JS), mirror the above */
+html.no-motion *,
+html.no-motion *::before,
+html.no-motion *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+}
+html.no-motion .narrative-section .text-box,
+html.no-motion .narrative-section .section-heading,
+html.no-motion .narrative-section .interactive-block {
+    opacity: 1 !important;
+    transform: none !important;
+}
