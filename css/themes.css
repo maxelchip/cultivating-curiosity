@@ -675,7 +675,7 @@
     position: relative;
 }
 #section-3 .callout-divergence::before {
-    content: '◣';
+    content: '';
     position: absolute;
     top: -12px;
     left: 50%;
