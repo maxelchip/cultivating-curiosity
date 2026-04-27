@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Divergence of Early AI &mdash; A Cold War History</title>
 
-    <!-- Typography: distinctive pairing -->
-    <!-- Display: Futura-adjacent (Jost) + typewriter (Special Elite/Courier Prime) + military stencil (Black Ops One) + modern sans (Inter fallback only where explicit) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700;900&family=Courier+Prime:wght@400;700&family=Special+Elite&family=Black+Ops+One&family=VT323&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet" />
@@ -18,20 +16,12 @@
 </head>
 <body data-current-theme="split-screen">
 
-    <!-- =====================================================
-         GLOBAL SHELL
-         These persistent UI elements sit on top of all sections
-         ===================================================== -->
-
-    <!-- Top-right Radar Navigation Menu -->
+   
     <nav id="radar-menu" aria-label="Section navigation radar">
         <div class="radar-ring">
             <div class="radar-sweep" aria-hidden="true"></div>
             <div class="radar-grid" aria-hidden="true"></div>
-            <!-- Blips: each corresponds to a section. Hovering reveals title.
-                 --distance is a decimal ratio multiplied by --radar-size in CSS.
-                 Values range from ~0.12 (near center) to ~0.42 (near outer edge)
-                 to produce a realistic scattered-targets radar display. -->
+           
             <button class="radar-blip" data-target="section-1" style="--angle: 18deg; --distance: 0.40;">
                 <span class="blip-label">The Hub</span>
             </button>
@@ -62,7 +52,6 @@
         </div>
     </nav>
 
-    <!-- Glossary pop-out sidebar (hidden by default) -->
     <aside id="glossary-sidebar" aria-hidden="true">
         <button id="glossary-close" aria-label="Close glossary">&times;</button>
         <div class="glossary-header">
@@ -77,10 +66,8 @@
         </div>
     </aside>
 
-    <!-- Footnote tooltip (shows on hover over superscript citations) -->
     <div id="footnote-tooltip" role="tooltip" aria-hidden="true"></div>
 
-    <!-- Primary source lightbox overlay -->
     <div id="source-lightbox" aria-hidden="true">
         <button id="source-lightbox-close" aria-label="Close">&times;</button>
         <div class="lightbox-inner">
@@ -89,26 +76,19 @@
         </div>
     </div>
 
-    <!-- ====================================================
-         MAIN NARRATIVE
-         ==================================================== -->
+   
     <main id="scroll-container">
 
-        <!-- ============================================================
-             SECTION 1 &mdash; THE HUB
-             ============================================================ -->
+    
         <section id="section-1" class="narrative-section" data-theme="split-screen" data-year="1950" data-year-range="1940-1950" data-title="The Hub">
-            <!-- Split-screen background: Cybernetic (left) vs Symbolic (right) -->
             <div class="split-backdrop" aria-hidden="true">
                 <div class="split-left">
-                    <!-- Procedural fallback network -->
                     <svg class="proc-network" viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
                         <g class="net-nodes"></g>
                         <g class="net-edges"></g>
                     </svg>
                 </div>
                 <div class="split-right">
-                    <!-- Procedural fallback: cascading binary -->
                     <div class="binary-rain" aria-hidden="true"></div>
                 </div>
                 <div class="split-diagonal" aria-hidden="true"></div>
@@ -144,7 +124,6 @@
                         </p>
                     </article>
 
-                    <!-- Thesis: glowing typewriter-style box -->
                     <article class="text-box thesis-box" aria-label="Thesis statement">
                         <span class="thesis-tag">THESIS</span>
                         <p>
@@ -167,9 +146,7 @@
         </section>
 
 
-        <!-- ============================================================
-             SECTION 2 &mdash; WHAT DOES IT MEAN TO THINK?
-             ============================================================ -->
+    
         <section id="section-2" class="narrative-section" data-theme="academic" data-year="1950" data-year-range="1950-1956" data-title="What Does It Mean to Think?">
             <div class="academic-backdrop" aria-hidden="true">
                 <div class="paper-texture"></div>
@@ -274,7 +251,6 @@
                             <figcaption>Attendees of the Dartmouth AI conference, including Nathaniel Rochester, Ray Solomonoff, Marvin Minsky, John McCarthy, and Claude Shannon. Source: IEEE Spectrum.</figcaption>
                         </figure>
 
-                        <!-- Primary source zoom -->
                         <button class="primary-source-thumb" data-source="dartmouth-proposal">
                             <span class="thumb-label">Click to view the 1955 Dartmouth Proposal</span>
                         </button>
@@ -284,9 +260,7 @@
         </section>
 
 
-        <!-- ============================================================
-             SECTION 3 &mdash; THE ENGINEERING REALITY (WWII)
-             ============================================================ -->
+       
         <section id="section-3" class="narrative-section" data-theme="wwii-blueprint" data-year="1942" data-year-range="1940-1945" data-title="The Engineering Reality">
             <div class="wwii-backdrop" aria-hidden="true">
                 <div class="radar-grid-overlay"></div>
@@ -355,7 +329,6 @@
                         </p>
                     </article>
 
-                    <!-- Analog vs Digital slider interactive -->
                     <div class="interactive-block interactive-block--slider" aria-label="Analog versus Digital slider">
                         <div class="ad-slider">
                             <div class="ad-panel ad-panel--analog">
@@ -366,7 +339,6 @@
                             </div>
                             <div class="ad-panel ad-panel--digital">
                                 <div class="digital-grid">
-                                    <!-- binary cells populated by JS -->
                                 </div>
                                 <span class="ad-label">DIGITAL &middot; STIBITZ</span>
                             </div>
@@ -378,9 +350,6 @@
         </section>
 
 
-        <!-- ============================================================
-             SECTION 4 &mdash; THE CLOSED WORLD OF ARPA
-             ============================================================ -->
         <section id="section-4" class="narrative-section" data-theme="bunker" data-year="1960" data-year-range="1957-1968" data-title="The Closed World of ARPA">
             <div class="bunker-backdrop" aria-hidden="true">
                 <div class="crt-scanlines"></div>
@@ -413,14 +382,10 @@
                     <article class="text-box text-box--crt">
                         <h3 class="sub-head sub-head--crt">ARPA and IPTO</h3>
 
-                        <!-- Interactive ARPA funding map -->
                         <div class="arpa-map" aria-label="ARPA funding map">
                             <svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="ARPA funding flow to centers of excellence">
-    <!-- US outline, very stylized -->
     <path class="us-outline" d="M60 180 Q 100 110 200 100 L 380 90 Q 500 100 540 150 Q 560 220 500 280 L 260 310 Q 120 300 80 250 Z" stroke="currentColor" fill="none" stroke-width="1.5" />
 
-    <!-- Funding lanes. Each group pairs a line with its destination node
-         so hovering anywhere in the group lights up that lane's line. -->
     <g class="funding-lane" data-lane="mit">
         <line class="funding-line" x1="440" y1="180" x2="470" y2="145" />
         <g class="funding-node" data-label="MIT &mdash; Project MAC" transform="translate(470,145)" style="--node-delay: 0.8s;">
@@ -443,7 +408,6 @@
         </g>
     </g>
 
-    <!-- ARPA hub rendered last so it sits on top of the line origins -->
     <g class="funding-node funding-node--hub" data-label="ARPA / IPTO &mdash; Washington D.C." transform="translate(440,180)" style="--node-delay: 0s;">
         <circle r="10" />
         <text y="-16" text-anchor="middle">ARPA</text>
@@ -465,7 +429,6 @@
                     <article class="text-box text-box--crt">
                         <h3 class="sub-head sub-head--crt">The Logic Theorist and GPS</h3>
 
-                        <!-- Means-Ends Analysis interactive -->
                         <div class="logic-tree" aria-label="Means-Ends analysis tree">
                             <div class="tree-state" data-step="0">
                                 <span class="tree-label">PRESENT STATE</span>
@@ -494,9 +457,6 @@
         </section>
 
 
-        <!-- ============================================================
-             SECTION 5 &mdash; THE HYPE MACHINE
-             ============================================================ -->
         <section id="section-5" class="narrative-section" data-theme="living-room" data-year="1958" data-year-range="1950-1965" data-title="The Hype Machine">
             <div class="livingroom-backdrop" aria-hidden="true"></div>
 
@@ -550,7 +510,6 @@
                     <article class="text-box text-box--newsprint">
                         <h3 class="sub-head sub-head--newspaper">CBS Brings the &ldquo;Thinking Machine&rdquo; into the Living Room</h3>
 
-                        <!-- Interactive vintage TV -->
                         <div class="vintage-tv" aria-label="Interactive 1961 CBS TV">
                             <div class="tv-cabinet">
                                 <div class="tv-screen" id="tv-screen">
@@ -611,9 +570,6 @@
         </section>
 
 
-        <!-- ============================================================
-             SECTION 6 &mdash; THE DISSENTERS & THE FIRST AI WINTER
-             ============================================================ -->
         <section id="section-6" class="narrative-section" data-theme="winter-glitch" data-year="1973" data-year-range="1964-1973" data-title="The Reality Check and the First AI Winter">
             <div class="winter-backdrop" aria-hidden="true">
                 <div class="static-field"></div>
@@ -654,7 +610,6 @@
                                 <figcaption>Hubert Dreyfus. Source: UC Berkeley News.</figcaption>
                             </figure>
 
-                            <!-- Combinatorial Explosion Simulator -->
                             <div class="explosion-sim" aria-label="Combinatorial Explosion Simulator">
                                 <div class="explosion-stage" id="explosion-stage">
                                     <canvas id="explosion-canvas" width="560" height="260"></canvas>
@@ -688,18 +643,12 @@
                             <li><strong>Category C:</strong> Computer-based CNS (Central Nervous System) studies (which also had valid neurobiology/psychology merit).</li>
                             <li><strong>Category B:</strong> The &ldquo;Bridge&rdquo; of general-purpose robots/systems (which Lighthill declared a profound failure).<sup class="cite" data-ref="s6-100" data-citation="Lighthill, &ldquo;Part I: Artificial Intelligence: A General Survey,&rdquo; 2.">100</sup></li>
                         </ul>
-                        <p>
-                            Lighthill advised funding to be pulled from Category B, dismantling the prior justification for ARPA and government funding of general AI.<sup class="cite" data-ref="s6-101" data-citation="Lighthill, &ldquo;Part I: Artificial Intelligence: A General Survey,&rdquo; 20.">101</sup> The resulting massive reduction in financial support (the Lighthill Report was one of several major factors) effectively froze AI research, moving the field into what is now historically known as the first AI Winter.
-                        </p>
+                        <p>Lighthill advised funding to be pulled from Category B, effectively dismantling the British funding rationale for general AI research.<sup class="cite" data-ref="s6-101" data-citation="Lighthill, &ldquo;Part I: Artificial Intelligence: A General Survey,&rdquo; 20.">101</sup> Combined with the disillusionment from a decade of unmet promises, this initiated what is now historically known as the first AI Winter.</p>
                     </article>
                 </div>
             </div>
         </section>
 
-
-        <!-- ============================================================
-             SECTION 7 &mdash; CONCLUSION & LEGACY
-             ============================================================ -->
         <section id="section-7" class="narrative-section" data-theme="modern-obsidian" data-year="2026" data-year-range="1973-2026" data-title="Conclusion and Legacy">
             <div class="modern-backdrop" aria-hidden="true">
                 <svg class="modern-network" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -798,16 +747,13 @@
 
     </main>
 
-    <!-- =====================================================
-         DYNAMIC TIMELINE (bottom, fixed)
-         ===================================================== -->
     <footer id="dynamic-timeline" aria-label="Historical timeline">
         <div class="timeline-rail">
             <div class="timeline-progress" id="timeline-progress"></div>
             <div class="timeline-marker" id="timeline-marker">
                 <span class="timeline-year" id="timeline-year">1950</span>
             </div>
-            <!-- Tick marks for significant years -->
+            
             <div class="timeline-ticks">
                 <div class="tick" style="--pos: 0%;"    data-year="1940"><span>1940</span></div>
                 <div class="tick" style="--pos: 12%;"   data-year="1950"><span>1950</span></div>
@@ -825,23 +771,17 @@
         </div>
     </footer>
 
-    <!-- =====================================================
-         Ambient audio (controlled by scroll-engine.js)
-         ===================================================== -->
-    <!-- MEDIA NEEDED: /assets/audio/ambient-typewriter.mp3, /assets/audio/ambient-radar.mp3, /assets/audio/ambient-mainframe.mp3 -->
+    
     <audio id="ambient-typewriter" src="assets/audio/ambient-typewriter.mp3" loop preload="none"></audio>
     <audio id="ambient-radar" src="assets/audio/ambient-radar.mp3" loop preload="none"></audio>
     <audio id="ambient-mainframe" src="assets/audio/ambient-mainframe.mp3" loop preload="none"></audio>
 
-    <!-- Audio mute toggle -->
+    
     <button id="audio-toggle" aria-label="Toggle ambient sound" aria-pressed="false">
         <span class="audio-icon"></span>
         <span class="audio-label">SOUND</span>
     </button>
 
-    <!-- =====================================================
-         JavaScript
-         ===================================================== -->
     <script src="js/footnotes.js" defer></script>
     <script src="js/glossary.js" defer></script>
     <script src="js/widgets.js" defer></script>
