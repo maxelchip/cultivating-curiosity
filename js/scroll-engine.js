@@ -51,7 +51,7 @@
     };
 
     // Master volume each ambient track ramps up to (kept low — ambient, not foreground).
-    const AMBIENT_TARGET_VOLUME = 0.22;
+    const AMBIENT_TARGET_VOLUME = 1;
     const AUDIO_FADE_MS = 800;
 
 
@@ -233,26 +233,6 @@
              play() rejects — we simply ignore that and move on.
        ----------------------------------------------------------------- */
 
-    function fadeAudio(audioEl, fromVol, toVol, durationMs, onDone) {
-        if (!audioEl) return;
-        const startAt = performance.now();
-        const step = () => {
-            const t = Math.min(1, (performance.now() - startAt) / durationMs);
-            audioEl.volume = fromVol + (toVol - fromVol) * t;
-            if (t < 1) {
-                state.audioFadeTimers.set(audioEl, requestAnimationFrame(step));
-            } else {
-                state.audioFadeTimers.delete(audioEl);
-                if (onDone) onDone();
-            }
-        };
-        // Cancel any prior fade on this element
-        if (state.audioFadeTimers.has(audioEl)) {
-            cancelAnimationFrame(state.audioFadeTimers.get(audioEl));
-        }
-        state.audioFadeTimers.set(audioEl, requestAnimationFrame(step));
-    }
-
     function crossfadeAudio(targetKey) {
         if (!state.audioEnabled) {
             // Audio is muted; just track what would be playing and return.
@@ -261,27 +241,23 @@
         }
         if (targetKey === state.currentAudioKey) return;
 
-        // Fade out the currently playing one (if any)
+        // Stop the currently playing track immediately.
         if (state.currentAudioKey) {
             const prev = dom.audioElements[state.currentAudioKey];
             if (prev) {
-                fadeAudio(prev, prev.volume, 0, AUDIO_FADE_MS, () => {
-                    try { prev.pause(); } catch (e) { /* ignore */ }
-                });
+                try { prev.pause(); } catch (e) { /* ignore */ }
             }
         }
 
-        // Fade in the new one (if any)
+        // Start the new track immediately at full volume.
         if (targetKey) {
             const next = dom.audioElements[targetKey];
             if (next) {
-                next.volume = 0;
-                // play() returns a promise; reject silently on missing file.
+                next.volume = AMBIENT_TARGET_VOLUME;
                 const playPromise = next.play();
                 if (playPromise && typeof playPromise.catch === 'function') {
                     playPromise.catch(() => { /* file missing or autoplay blocked */ });
                 }
-                fadeAudio(next, 0, AMBIENT_TARGET_VOLUME, AUDIO_FADE_MS);
             }
         }
 
@@ -299,15 +275,13 @@
                 // Turn on the current theme's ambient track.
                 const theme = state.currentSection?.dataset.theme;
                 const key = theme ? THEME_AUDIO[theme] : null;
-                state.currentAudioKey = null;   // force a crossfade
+                state.currentAudioKey = null;   // force a track change
                 crossfadeAudio(key);
             } else {
-                // Fade everything out and pause.
+                // Pause everything immediately.
                 Object.values(dom.audioElements).forEach(el => {
                     if (!el) return;
-                    fadeAudio(el, el.volume, 0, AUDIO_FADE_MS, () => {
-                        try { el.pause(); } catch (e) { /* ignore */ }
-                    });
+                    try { el.pause(); } catch (e) { /* ignore */ }
                 });
             }
         });

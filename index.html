@@ -738,26 +738,7 @@
 
                     <article class="text-box text-box--modern">
                         <h3 class="sub-head sub-head--modern">Unresolved Philosophical Questions</h3>
-<!--
-                         Split slider: Dreyfus vs. Searle 
-                        <div class="dual-slider" aria-label="Dreyfus versus Searle">
-                            <div class="dual-panel dual-panel--left">
-                                <h4>Hubert Dreyfus</h4>
-                                <blockquote>
-                                    <p>&ldquo;Fringe consciousness, ambiguity tolerance, and lived know-how cannot be reduced to formal rules.&rdquo;</p>
-                                </blockquote>
-                                <span class="dual-tag">&mdash; paraphrased from <em>Alchemy and Artificial Intelligence</em> (1965)</span>
-                            </div>
-                            <div class="dual-divider" aria-hidden="true">VS</div>
-                            <div class="dual-panel dual-panel--right">
-                                <h4>John Searle</h4>
-                                <blockquote>
-                                    <p>&ldquo;Syntax is not sufficient for semantics.&rdquo;</p>
-                                </blockquote>
-                                <span class="dual-tag">&mdash; paraphrased from &ldquo;Minds, Brains, and Programs&rdquo; (1980)</span>
-                            </div>
-                        </div>
-                    -->
+
 
                         <p>
                             Yet, despite our progress from vacuum tubes and telephone relays to massive GPU clusters, the foundational philosophical critiques of the 1960s and 70s remain unresolved.
@@ -773,31 +754,28 @@
                             </li>
                         </ul>
                         <p>
-                            It remains an open question whether the current resurgence of AI is actually solving these fundamental problems of context and embodiment, or if we are just using exponentially more powerful hardware to mask the same limitations identified by Dreyfus and Lighthill decades ago.
+                            It remains an open question whether the current resurgence of AI is actually solving these fundamental problems of context and embodiment, or if we are just using exponentially more powerful hardware to mask the same limitations identified by Dreyfus, Searle, and Lighthill decades ago.
                         </p>
                     </article>
 
                     <article class="text-box text-box--modern">
                         <h3 class="sub-head sub-head--modern">The New Hype Machine and the Military-Industrial Complex</h3>
-<!--
-                         Hype cycle slider 
-                        <div class="hype-slider" aria-label="Hype cycle slider: 1958 vs today">
-                            <div class="hype-panel hype-panel--old">
-                                <span class="hype-year">1958</span>
-                                <p>
-                                    &ldquo;The Navy revealed the embryo of an electronic computer that it expects will eventually be able to walk, talk, see, write, reproduce itself and be conscious.&rdquo;
-                                </p>
-                                <cite>&mdash; The New York Times, July 7, 1958</cite>
-                            </div>
-                            <div class="hype-panel hype-panel--new">
-                                <span class="hype-year">Today</span>
-                                <p>
-                                    &ldquo;AGI is coming in the next 5 years and will be capable of doing any cognitive task a human can.&rdquo;
-                                </p>
-                                <cite>&mdash; a generic, modern Big Tech placeholder</cite>
-                            </div>
-                        </div>
-                    -->
+                    <div class="hype-slider" aria-label="Hype cycle slider: 1958 vs 2025">
+    <div class="hype-panel hype-panel--old">
+        <span class="hype-year">1958</span>
+        <p>
+            &ldquo;The Navy revealed the embryo of an electronic computer today that it expects will be able to walk, talk, see, write, reproduce itself and be conscious of its existence.&rdquo;<sup class="cite" data-ref="s7-111" data-citation="United Press International, &ldquo;New Navy Device Learns By Doing,&rdquo; The New York Times, July 7, 1958.">111</sup>
+        </p>
+        <cite>&mdash; United Press International, The New York Times, July 7, 1958</cite>
+    </div>
+    <div class="hype-panel hype-panel--new">
+        <span class="hype-year">2025</span>
+        <p>
+            &ldquo;We are now confident we know how to build AGI as we have traditionally understood it.&rdquo;<sup class="cite" data-ref="s7-112" data-citation="Sam Altman, &ldquo;Reflections,&rdquo; Sam Altman&rsquo;s Blog, January 5, 2025, https://blog.samaltman.com/reflections.">112</sup>
+        </p>
+        <cite>&mdash; Sam Altman, OpenAI CEO, January 5, 2025</cite>
+    </div>
+</div>     
 
                         <p>
                             We can further examine the sociological patterns of the 1950s and 60s. Are they repeating? Just as the 1961 CBS documentary and <em>The New York Times</em> promised machines that would be conscious of their own existence within years, today&rsquo;s tech industry constantly promises the imminent arrival of Artificial General Intelligence (AGI).<sup class="cite" data-ref="s7-110" data-citation="United Press International, &ldquo;New Navy Device Learns By Doing&rdquo;; The Thinking Machine, episode of Tomorrow (1961).">110</sup> Furthermore, military and government funding is once again pouring into AI for autonomous warfare, surveillance, and global strategy; perhaps this is a modern version of the Cold War&rsquo;s &ldquo;closed world&rdquo; discourse.
@@ -850,14 +828,14 @@
     <!-- =====================================================
          Ambient audio (controlled by scroll-engine.js)
          ===================================================== -->
-    <!-- MEDIA NEEDED: /assets/audio/typewriter-ambience.mp3, /assets/audio/radar-ping.mp3 -->
-    <audio id="ambient-typewriter" src="assets/audio/typewriter-ambience.mp3" loop preload="none"></audio>
-    <audio id="ambient-radar" src="assets/audio/radar-ping.mp3" loop preload="none"></audio>
-    <audio id="ambient-mainframe" src="assets/audio/mainframe-hum.mp3" loop preload="none"></audio>
+    <!-- MEDIA NEEDED: /assets/audio/ambient-typewriter.mp3, /assets/audio/ambient-radar.mp3, /assets/audio/ambient-mainframe.mp3 -->
+    <audio id="ambient-typewriter" src="assets/audio/ambient-typewriter.mp3" loop preload="none"></audio>
+    <audio id="ambient-radar" src="assets/audio/ambient-radar.mp3" loop preload="none"></audio>
+    <audio id="ambient-mainframe" src="assets/audio/ambient-mainframe.mp3" loop preload="none"></audio>
 
     <!-- Audio mute toggle -->
     <button id="audio-toggle" aria-label="Toggle ambient sound" aria-pressed="false">
-        <span class="audio-icon">&#x1F507;</span>
+        <span class="audio-icon"></span>
         <span class="audio-label">SOUND</span>
     </button>
 
