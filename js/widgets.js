@@ -511,10 +511,16 @@
             if (!baseUrl) return;
 
             const timestamp = parseInt(btn.dataset.timestamp, 10) || 0;
-            // YouTube embed params:  autoplay=1, start=<sec>, rel=0 (no related videos),
-            // modestbranding=1 (less YouTube branding), playsinline=1 (don't steal fullscreen).
-            const params = 'autoplay=1&start=' + timestamp +
-                           '&rel=0&modestbranding=1&playsinline=1';
+            const origin = (window.location.protocol === 'http:' || window.location.protocol === 'https:')
+                ? window.location.origin
+                : '';
+            // YouTube embed params: autoplay=1 after user click, start=<sec>, rel=0 (no related videos),
+            // modestbranding=1 (less YouTube branding), playsinline=1 (keep fullscreen available).
+            let params = 'autoplay=1&start=' + timestamp +
+                         '&rel=0&modestbranding=1&playsinline=1';
+            if (origin) {
+                params += '&origin=' + encodeURIComponent(origin);
+            }
             iframe.src = baseUrl + '?' + params;
             iframe.removeAttribute('hidden');
             screen.classList.add('is-playing');
@@ -700,7 +706,7 @@
 
         'dartmouth-proposal': {
             themeClass: 'lightbox--dartmouth',
-            
+            url: 'dartmouth_proposal.pdf'
         }
     };
 
@@ -726,8 +732,16 @@
 
             content.className = '';   // drop any prior theme class
             if (data.themeClass) content.classList.add(data.themeClass);
-            content.innerHTML = data.html;
-            if (caption) caption.innerHTML = data.caption || '';
+
+            if (data.url) {
+                content.innerHTML = '<iframe src="' + data.url + '" title="Dartmouth Proposal preview" loading="lazy"></iframe>';
+                if (caption) {
+                    caption.innerHTML = data.caption || '<p><a href="' + data.url + '" target="_blank" rel="noreferrer noopener">Open the Dartmouth Proposal in a new tab</a></p>';
+                }
+            } else {
+                content.innerHTML = data.html;
+                if (caption) caption.innerHTML = data.caption || '';
+            }
 
             lightbox.classList.add('is-open');
             lightbox.setAttribute('aria-hidden', 'false');

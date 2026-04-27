@@ -43,7 +43,7 @@
        Configuration
        ----------------------------------------------------------------- */
 
-    const CITE_SELECTOR    = '.cite';
+    const CITE_SELECTOR    = '.cite, .image-cite';
     const TOOLTIP_ID       = 'footnote-tooltip';
     const CITATIONS_URL    = 'assets/citations.json';
     const TOOLTIP_OFFSET   = 10;   // px gap between cite and tooltip

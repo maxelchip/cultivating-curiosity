@@ -245,6 +245,13 @@ sup {
 }
 .cite::before { content: '['; }
 .cite::after  { content: ']'; }
+.image-cite {
+    cursor: help;
+}
+.image-cite:focus-visible {
+    outline: 2px solid var(--color-accent-hot);
+    outline-offset: 4px;
+}
 
 /* Glossary term inline style — looks like a bold highlighted link. */
 .glossary-term {

@@ -777,6 +777,13 @@
     letter-spacing: 0.05em;
     margin-bottom: var(--space-md);
 }
+#lightbox-content.lightbox--dartmouth iframe {
+    width: 100%;
+    min-height: 65vh;
+    border: 1px solid rgba(26, 20, 16, 0.2);
+    border-radius: 8px;
+    background: #fff;
+}
 #lightbox-content.lightbox--dartmouth .lb-body {
     font-family: var(--font-typewriter);
     font-size: 1rem;
