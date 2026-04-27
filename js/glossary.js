@@ -17,24 +17,11 @@
      • If a term click can't be resolved (missing from the data
        object), it logs a warning but otherwise no-ops.
 
-   The glossary data lives inline as a single GLOSSARY object below.
-   Editing this file is the single authoritative place to change any
-   term's wording.
-
-   Runs as an IIFE — no globals leaked.
    ===================================================================== */
 
 (function () {
     'use strict';
 
-    /* -----------------------------------------------------------------
-       GLOSSARY DATA  (single source of truth for in-line terms)
-       Keys match the `data-term` attributes used throughout index.html.
-       Each entry may supply:
-         • title      — heading shown in the sidebar
-         • definition — body text (plain prose; may contain <em>)
-         • source     — attribution line shown in the footer (optional)
-       ----------------------------------------------------------------- */
 
     const GLOSSARY = {
 
@@ -54,8 +41,7 @@
             definition:
                 'An approach that treats intelligence as software running on a ' +
                 'machine, manipulating discrete symbols according to rules, ' +
-                'regardless of the physical medium — whether a neuron or a ' +
-                'transistor. &ldquo;GOFAI&rdquo; stands for &ldquo;Good Old-Fashioned ' +
+                'regardless of the physical medium. &ldquo;GOFAI&rdquo; stands for &ldquo;Good Old-Fashioned ' +
                 'AI,&rdquo; a retronym coined once neural approaches returned to ' +
                 'prominence.',
             source: 'Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; pp. 239, 252'
@@ -67,9 +53,7 @@
                 'The science of communication and control, which focuses on ' +
                 'hardware, continuous feedback loops, and &ldquo;embodied&rdquo; minds, ' +
                 'drawing structural resemblances between computers and the ' +
-                'human brain. Coined by Norbert Wiener, who reframed the ' +
-                'failures of his WWII anti-aircraft predictors into an entire ' +
-                'new scientific discipline.',
+                'human brain. Coined by Norbert Wiener.',
             source:
                 '&ldquo;Science: The Thinking Machine,&rdquo; Time, January 23, 1950; ' +
                 'Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; pp. 240–241'
@@ -82,7 +66,7 @@
                 'the globe is viewed as a chaotic system that must be managed ' +
                 'and controlled via technology. Paul N. Edwards argues that ' +
                 'the &ldquo;closed world&rdquo; of the AI laboratory — simulated, ' +
-                'rule-bound environments — perfectly mirrored the military&rsquo;s ' +
+                'rule-bound environments — mirrored the military&rsquo;s ' +
                 'desire for a closed world of global politics.',
             source: 'Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; pp. 271–272'
         },
@@ -91,7 +75,7 @@
             title: 'ARPA (Advanced Research Projects Agency)',
             definition:
                 'A U.S. Department of Defense agency whose Information ' +
-                'Processing Techniques Office (IPTO) became the primary ' +
+                'Processing Techniques Office (IPTO) became a significant ' +
                 'financial patron of Artificial Intelligence during the Cold ' +
                 'War. ARPA poured massive, long-term funding with minimal ' +
                 'peer review into &ldquo;centers of excellence&rdquo; at MIT, Stanford, ' +
@@ -105,9 +89,7 @@
             definition:
                 'Military decision-support systems required to manage the ' +
                 'complex, high-speed data of the Cold War, such as ' +
-                'distinguishing incoming missiles from radar decoys. The ' +
-                'entire trajectory of Symbolic AI can be read as a long ' +
-                'campaign to make command and control tractable.',
+                'distinguishing incoming missiles from radar decoys.',
             source: 'Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; p. 259'
         },
 
@@ -118,7 +100,7 @@
                 'according to rules possesses the necessary and sufficient ' +
                 'means for general intelligent action. Formulated by Allen ' +
                 'Newell and Herbert A. Simon, it is the philosophical ' +
-                'keystone of Symbolic AI — and precisely what Dreyfus and ' +
+                'basis of Symbolic AI, and is what Dreyfus and ' +
                 'Searle would later attack.',
             source: 'Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; p. 252'
         },
@@ -128,35 +110,9 @@
             definition:
                 'An automatic device that uses error-sensing negative ' +
                 'feedback to correct the action of a mechanism. In May 1941, ' +
-                'MIT&rsquo;s Harold Hazen controversially proposed treating a human ' +
-                'operator as a servo-mechanism — a move that made the ' +
-                'behaviorist framing of cybernetic thinking possible.',
+                'MIT&rsquo;s Harold Hazen proposed treating a human ' +
+                'operator as a servo-mechanism.',
             source: 'Mindell, Between Human and Machine, p. 276'
-        },
-
-        'topological-not-metric': {
-            title: 'Topological, not Metric',
-            definition:
-                'The principle that a machine&rsquo;s function is determined by ' +
-                'its logical wiring connections (topology) rather than the ' +
-                'physical precision or continuous measurement of its parts ' +
-                '(metric). Articulated by George Stibitz at Bell Labs, this ' +
-                'insight decoupled the structure of a computer from the ' +
-                'calculations it performed — paving the way for general-' +
-                'purpose digital machines.',
-            source: 'Mindell, Between Human and Machine, p. 304'
-        },
-
-        'time-sharing': {
-            title: 'Time-sharing',
-            definition:
-                'A computing technique developed by John McCarthy where ' +
-                'multiple users utilize a single CPU simultaneously, ' +
-                'transforming the computer from a batch-processing ' +
-                'number-cruncher into an interactive communication medium. ' +
-                'Time-sharing is what made the &ldquo;subjective environment&rdquo; of ' +
-                'Man-Computer Symbiosis possible.',
-            source: 'Edwards, &ldquo;Constructing Artificial Intelligence,&rdquo; pp. 256–258'
         },
 
         'heuristics': {
@@ -180,9 +136,9 @@
                 'psychologist Frank Rosenblatt to simulate the learning ' +
                 'processes of the human brain through bottom-up pattern ' +
                 'recognition, rather than top-down symbolic logic. Publicly ' +
-                'unveiled in 1958 with extravagant claims that it would one ' +
-                'day walk, talk, reproduce itself, and &ldquo;be conscious of its ' +
-                'own existence.&rdquo;',
+                'unveiled in 1958 with claims that it would one ' +
+                'day walk, talk, reproduce itself, and be conscious of its ' +
+                'own existence.',
             source:
                 'United Press International, &ldquo;New Navy Device Learns By Doing,&rdquo; ' +
                 'The New York Times, July 7, 1958'
