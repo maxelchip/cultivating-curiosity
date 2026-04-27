@@ -165,7 +165,7 @@
                 'Rules of thumb or selective explorations used in ' +
                 'problem-solving, contrasting with systematic algorithms. ' +
                 'They sacrifice guaranteed solutions for computational ' +
-                'efficiency — a trade-off at the very heart of Symbolic AI. ' +
+                'efficiency. ' +
                 'Newell and Simon&rsquo;s Logic Theorist and General Problem ' +
                 'Solver were both heuristic engines.',
             source:
